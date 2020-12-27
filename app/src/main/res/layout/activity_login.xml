@@ -1,53 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="35dp"
+    android:background="@drawable/background"
+    android:gravity="center"
+    android:fitsSystemWindows="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="30dp"
+        android:background="@color/white"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         tools:context=".LoginActivity"
         android:orientation="vertical">
 
         <TextView
+            style="@style/RegularMono"
+            android:layout_width="288dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/dakota_artha"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Portfolio App"
+            android:textColor="@color/magenta"
+            android:textSize="65dp" />
+
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="EmailId :" />
+            android:gravity="left"
+            android:padding="5dp"
+            android:textSize="15dp"
+            style="@style/RegularMono"
+            android:textColor="@color/black"
+            android:text = "WELCOME BACK!\nLOGIN TO CONTINUE," />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text= "EMAIL:"
+            style="@style/RegularMono"
+            android:textSize="@dimen/font_size_small"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:padding="5dp"
+            android:layout_marginRight="0dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:inputType="textEmailAddress"
             android:id="@+id/emailid"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Password:"
-            android:layout_margin="10dp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/font_size_small"
+            style="@style/RegularMono"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:text="PASSWORD:"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:password="true"
+            android:inputType="textPassword"
             android:id="@+id/password" />
 
         <Button
-            android:id="@+id/login"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Login!" />
-
+            android:layout_gravity="center"
+            android:background="@drawable/btn_customs"
+            style="@style/Regular"
+            android:text="Login"
+            android:id="@+id/login"/>
         <TextView
-            android:id="@+id/Signup"
-            android:layout_width="67dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Signup" />
+            android:layout_marginBottom="24dp"
+            android:text = "No Account yet? Sign Up"
+            style="@style/Regular"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:id="@+id/Signup"
+            android:textSize = "16dip"/>
 
     </LinearLayout>
-</ScrollView>
+
+
+</RelativeLayout>

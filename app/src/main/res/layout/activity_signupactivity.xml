@@ -1,71 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="35dp"
+    android:background="@drawable/background"
+    android:gravity="center"
+    android:fitsSystemWindows="true">
     <LinearLayout
 
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="30dp"
+        android:background="@color/white"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         tools:context=".LoginActivity"
         android:orientation="vertical">
 
         <TextView
+            style="@style/RegularMono"
+            android:layout_width="288dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/dakota_artha"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Portfolio App"
+            android:textColor="@color/magenta"
+            android:textSize="65dp" />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter your name"
-            android:layout_marginBottom="10dp"/>
+            android:text= "ENTER YOUR NAME:"
+            style="@style/RegularMono"
+            android:textSize="@dimen/font_size_small"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:padding="5dp"
+            android:layout_marginRight="0dp"
+            android:textColor="@color/black"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/name"
-            android:layout_margin="10dp"/>
+            android:id="@+id/name" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="EmailId:"
-            android:layout_margin="10dp"/>
+            android:text= "EMAIL:"
+            style="@style/RegularMono"
+            android:textSize="@dimen/font_size_small"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:padding="5dp"
+            android:layout_marginRight="0dp"
+            android:textColor="@color/black"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:id="@+id/emailid"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Password:"
-            android:layout_margin="10dp" />
+            android:text= "PASSWORD:"
+            style="@style/RegularMono"
+            android:textSize="@dimen/font_size_small"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:padding="5dp"
+            android:layout_marginRight="0dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:password="true"
             android:id="@+id/password" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Confirm Password"
-            android:layout_margin="10dp"/>
+            android:text= "CONFIRM PASSWORD:"
+            style="@style/RegularMono"
+            android:textSize="@dimen/font_size_small"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:padding="5dp"
+            android:layout_marginRight="0dp"
+            android:textColor="@color/black"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/cpassword"
-            android:password="true"
-            android:layout_margin="10dp"/>
+            android:password="true" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Signup!"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_customs"
+            style="@style/Regular"
+            android:text="SIGNUP"
             android:id="@+id/signup"/>
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text = "Already have an Account? Login"
+            style="@style/Regular"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize = "16dip"/>
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>
