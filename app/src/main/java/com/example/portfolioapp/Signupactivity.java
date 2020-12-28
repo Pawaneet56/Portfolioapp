@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     private EditText cpassword;
     private FirebaseAuth auth;
     private EditText name;
+    private TextView login;
 
 
 
@@ -36,6 +38,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         cpassword=findViewById(R.id.cpassword);
         name=findViewById(R.id.name);
+        login=findViewById(R.id.login);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +61,12 @@ public class Signupactivity<Updated> extends AppCompatActivity {
 
             }
         });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Signupactivity.this,LoginActivity.class));
+            }
+        });
     }
     private void registeruser(String emailid,String password,String Name){
 auth.createUserWithEmailAndPassword(emailid,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -66,7 +75,8 @@ auth.createUserWithEmailAndPassword(emailid,password).addOnCompleteListener(new 
         if(task.isSuccessful()){
             Toast.makeText(Signupactivity.this,"Thank you "+Name+", you are  succesfully registered",Toast.LENGTH_SHORT).show();
             Toast.makeText(Signupactivity.this,"User succesfully registered",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+            finish();
         }
         else{
             Toast.makeText(Signupactivity.this,"sorry "+Name+", try again",Toast.LENGTH_SHORT).show();

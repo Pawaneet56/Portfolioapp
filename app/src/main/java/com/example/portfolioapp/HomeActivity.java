@@ -24,7 +24,7 @@ private Button logout;
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this,Startactivity.class));
-                finish();
+
             }
         });
     }

@@ -23,7 +23,7 @@ private Button login;
             @Override
             public void onClick(View v){
                 startActivity(new Intent(Startactivity.this,Signupactivity.class));
-                finish();
+
             }
 
 
@@ -32,7 +32,6 @@ private Button login;
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Startactivity.this,LoginActivity.class));
-                finish();
             }
         });
     }

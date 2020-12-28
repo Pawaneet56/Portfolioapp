@@ -117,16 +117,31 @@
             style="@style/Regular"
             android:text="SIGNUP"
             android:id="@+id/signup"/>
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text = "Already have an Account? Login"
+            android:text = "Already have an Account?"
             style="@style/Regular"
             android:textColor="@color/black"
             android:gravity="center"
-            android:textSize = "16dip"/>
+            android:textSize = "14dip"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:text = "Login"
+        android:id="@+id/login"
+        style="@style/Regular"
+        android:textColor="@color/purple_700"
+        android:gravity="center"
+        android:textSize = "14dip"/>
+</LinearLayout>
     </LinearLayout>
 
     </ScrollView>

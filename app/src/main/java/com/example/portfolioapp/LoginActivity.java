@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
 private EditText emailid;
 private EditText password;
-private TextView Signup;
+private TextView Signup1;
 private Button login;
 private FirebaseAuth fAuth;
 
@@ -33,7 +33,7 @@ private FirebaseAuth fAuth;
         password=findViewById(R.id.password);
         fAuth=FirebaseAuth.getInstance();
         login=findViewById(R.id.login);
-        Signup = findViewById(R.id.Signup);
+        Signup1 = findViewById(R.id.Signup1);
 
 
 
@@ -45,33 +45,41 @@ private FirebaseAuth fAuth;
 
                 String txt_password=password.getText().toString();
 
+
                 if(TextUtils.isEmpty(txt_emailid) || TextUtils.isEmpty(txt_password)) {
                     Toast.makeText(LoginActivity.this, "Empty credentials", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    loginuser(txt_emailid,txt_password);
+                }
 
-                fAuth.signInWithEmailAndPassword(txt_emailid,txt_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this,"Logged in Succesfully",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-                        }
-                        else{
-                            Toast.makeText(LoginActivity.this,"Wrong password or username",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
 
             }
         });
 
-        Signup.setOnClickListener(new View.OnClickListener() {
+
+        Signup1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Signupactivity.class));
+                startActivity(new Intent(LoginActivity.this,Signupactivity.class));
+                finish();
             }
         });
     }
+    private void loginuser(String txt_emailid,String txt_password) {
+        fAuth.signInWithEmailAndPassword(txt_emailid, txt_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(LoginActivity.this, "Logged in Succesfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Wrong password or username", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
+    }
 }
