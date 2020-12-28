@@ -9,8 +9,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.graphics.Typeface;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +35,7 @@ private FirebaseAuth fAuth;
         login=findViewById(R.id.login);
         Signup = findViewById(R.id.Signup);
 
-        Typeface typeface = Typeface.createFromAsset(getAssets(),"font/dakota_artha.ttf");
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
