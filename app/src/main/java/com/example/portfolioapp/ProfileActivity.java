@@ -1,6 +1,7 @@
 package com.example.portfolioapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
@@ -8,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,23 +25,38 @@ public class ProfileActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer);
     }
 
-        public void ClickMenu(View view){
-            HomeActivity.openDrawer(drawerLayout);
-        }
+    public void ClickMenu(View view){
+        openDrawer(drawerLayout);
+    }
+    static void openDrawer(DrawerLayout drawerLayout) {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
 
-        public void ClickLogo(View view){
-            HomeActivity.closeDrawer(drawerLayout);
-        }
 
-        public void ClickHome(View view){
-            Toast.makeText(ProfileActivity.this, "Home",Toast.LENGTH_SHORT).show();
-            HomeActivity.redirectActivity(this,HomeActivity.class);
+    public void ClickLogo(View view){
+        closeDrawer(drawerLayout);
+    }
+    static void closeDrawer(DrawerLayout drawerLayout) {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
         }
+    }
 
-        public void ClickProfile(View view){
-            Toast.makeText(ProfileActivity.this, "Your Profile",Toast.LENGTH_SHORT).show();
-            recreate();
-        }
+
+    public void ClickHome(View view) {
+        Toast.makeText(ProfileActivity.this, "Home",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(ProfileActivity.this,HomeActivity.class));
+        recreate();
+    }
+
+
+
+    public void ClickProfile(View view){
+        Toast.makeText(ProfileActivity.this, "Your Profile",Toast.LENGTH_SHORT).show();
+        recreate();
+    }
+
+
 
     public  void ClickLogout(View view){
         logout(this);
@@ -71,6 +88,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        HomeActivity.closeDrawer(drawerLayout);
+        closeDrawer(drawerLayout);
     }
 }

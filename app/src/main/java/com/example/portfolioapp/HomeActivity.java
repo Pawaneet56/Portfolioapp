@@ -57,10 +57,13 @@ private DrawerLayout drawerLayout;
     }
 
 
+
     public void ClickProfile(View view){
         Toast.makeText(HomeActivity.this, "Your Profile",Toast.LENGTH_SHORT).show();
-        redirectActivity(this,ProfileActivity.class);
+        startActivity(new Intent(HomeActivity.this,ProfileActivity.class));
+        finish();
     }
+
 
 
     public  void ClickLogout(View view){
@@ -88,12 +91,6 @@ private DrawerLayout drawerLayout;
         });
 
         builder.show();
-    }
-
-    static void redirectActivity(Activity activity, Class aclass) {
-        Intent intent=new Intent(activity,aclass);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activity.startActivity(intent) ;
     }
 
     @Override
