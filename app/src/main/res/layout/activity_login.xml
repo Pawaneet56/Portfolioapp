@@ -34,7 +34,7 @@
             android:fontFamily="@font/dakota_artha"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Portfolio \nApp"
+            android:text="OrangeApple"
             android:textColor="@color/magenta"
             android:textSize="65dp" />
 
