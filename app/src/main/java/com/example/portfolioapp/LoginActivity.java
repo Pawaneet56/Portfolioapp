@@ -73,7 +73,6 @@ private FirebaseAuth fAuth;
                 if (task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Logged in Succesfully", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                    finish();
                 } else {
                     Toast.makeText(LoginActivity.this, "Wrong password or username", Toast.LENGTH_SHORT).show();
                 }
