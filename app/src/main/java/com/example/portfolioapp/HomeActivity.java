@@ -67,7 +67,7 @@ private DrawerLayout drawerLayout;
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), Startactivity.class));
+                        startActivity(new Intent(HomeActivity.this,Startactivity.class));
                         finish();
                     }
                 });
