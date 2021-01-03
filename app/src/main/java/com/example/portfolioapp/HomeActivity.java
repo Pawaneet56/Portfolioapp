@@ -64,12 +64,15 @@ private FirebaseAuth f;
 
             case R.id.logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("LOGOUT");
                 builder.setMessage("Are you sure you want to logout ?");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+<<<<<<< HEAD
                         f.signOut();
+=======
+                        FirebaseAuth.getInstance().signOut();
+>>>>>>> 9971639200d89e2463707b9e54ba8e23a86ca36d
                         Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(HomeActivity.this,Startactivity.class));
                         finish();
