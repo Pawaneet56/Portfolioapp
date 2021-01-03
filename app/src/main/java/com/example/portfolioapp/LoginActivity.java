@@ -84,7 +84,7 @@ private CheckBox rememberme;
                     SharedPreferences preferences = getSharedPreferences("checkbox",MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("remember me","false");
-                    editor.apply();;
+                    editor.apply();
                     Toast.makeText(LoginActivity.this,"Unchecked",Toast.LENGTH_SHORT).show();
                 }
             }
