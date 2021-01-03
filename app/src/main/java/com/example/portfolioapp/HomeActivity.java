@@ -61,11 +61,11 @@ private DrawerLayout drawerLayout;
 
             case R.id.logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("LOGOUT");
                 builder.setMessage("Are you sure you want to logout ?");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        FirebaseAuth.getInstance().signOut();
                         Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(HomeActivity.this,Startactivity.class));
                         finish();
