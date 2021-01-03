@@ -42,7 +42,7 @@ private CheckBox rememberme;
         rememberme = findViewById(R.id.rememberme);
 
         SharedPreferences preferences = getSharedPreferences("checkbox",MODE_PRIVATE);
-        String checkbox = preferences.getString("rememberme","");
+        String checkbox = preferences.getString("remember me","");
         if(checkbox.equals("true")){
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -77,13 +77,13 @@ private CheckBox rememberme;
                 if(compoundButton.isChecked()){
                     SharedPreferences preferences = getSharedPreferences("checkbox",MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("rememberme","true");
+                    editor.putString("remember me","true");
                     editor.apply();;
                     Toast.makeText(LoginActivity.this,"checked",Toast.LENGTH_SHORT).show();
                 }else if(!compoundButton.isChecked()){
                     SharedPreferences preferences = getSharedPreferences("checkbox",MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("rememberme","false");
+                    editor.putString("remember me","false");
                     editor.apply();;
                     Toast.makeText(LoginActivity.this,"Unchecked",Toast.LENGTH_SHORT).show();
                 }
