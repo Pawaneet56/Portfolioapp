@@ -69,7 +69,6 @@ private FirebaseAuth f;
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        f.signOut();
 
                         FirebaseAuth.getInstance().signOut();
                         Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
