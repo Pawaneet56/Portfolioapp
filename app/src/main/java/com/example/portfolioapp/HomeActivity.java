@@ -73,8 +73,7 @@ private FirebaseAuth f;
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("remember me","false");
                         editor.apply();
-
-
+                        
                         FirebaseAuth.getInstance().signOut();
                         Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(HomeActivity.this,Startactivity.class));
