@@ -69,13 +69,7 @@ private FirebaseAuth f;
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences preferences = getSharedPreferences("checkbox",MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("remember me","false");
-                        editor.apply();
-
-
-                        FirebaseAuth.getInstance().signOut();
+                        f.signOut();
                         Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(HomeActivity.this,Startactivity.class));
                         finish();
