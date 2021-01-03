@@ -106,7 +106,7 @@ private CheckBox rememberme;
                     Toast.makeText(LoginActivity.this, "Logged in Succesfully", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 } else {
-                    Toast.makeText(LoginActivity.this, "Wrong password or username", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Wrong password or Email Id", Toast.LENGTH_SHORT).show();
                 }
             }
         });
