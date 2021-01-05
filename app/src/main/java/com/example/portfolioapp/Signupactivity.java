@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +28,8 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     private FirebaseAuth auth;
     private EditText name;
     private TextView login;
-
+ImageView Show;
+ImageView Hide;
 
 
     @Override
@@ -39,6 +43,39 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         cpassword=findViewById(R.id.cpassword);
         name=findViewById(R.id.name);
         login=findViewById(R.id.login);
+        Show=findViewById(R.id.show);
+        Hide=findViewById(R.id.hide);
+        Show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    Show.setImageResource(R.drawable.hideeye);
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    password.setSelection(password.getText().length());
+                } else {
+                    Show.setImageResource(R.drawable.showeye);
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    password.setSelection(password.getText().length());
+                }
+
+            }
+        });
+        Hide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cpassword.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    Hide.setImageResource(R.drawable.hideeye);
+                    cpassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    cpassword.setSelection(cpassword.getText().length());
+                } else {
+                    Hide.setImageResource(R.drawable.showeye);
+                    cpassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    cpassword.setSelection(cpassword.getText().length());
+                }
+            }
+        });
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

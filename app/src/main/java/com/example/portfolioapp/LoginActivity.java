@@ -10,9 +10,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ private TextView Signup1;
 private Button login;
 private FirebaseAuth fAuth;
 private TextView forgotTextLink;
+ImageView Show;
 
     
     @Override
@@ -43,6 +47,24 @@ private TextView forgotTextLink;
         login=findViewById(R.id.login);
         Signup1 = findViewById(R.id.Signup1);
         forgotTextLink = findViewById(R.id.forgotpassword);
+        Show=findViewById(R.id.show);
+        Show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    Show.setImageResource(R.drawable.hideeye);
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    password.setSelection(password.getText().length());
+                } else {
+                    Show.setImageResource(R.drawable.showeye);
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    password.setSelection(password.getText().length());
+                }
+
+            }
+        });
 
 
         login.setOnClickListener(new View.OnClickListener() {

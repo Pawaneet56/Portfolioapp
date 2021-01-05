@@ -84,13 +84,29 @@
             android:padding="5dp"
             android:layout_marginRight="0dp"
             android:textColor="@color/black" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"
+        android:hint="Enter password here"
+        android:id="@+id/password" />
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="20dp"
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:password="true"
-            android:id="@+id/password"
-            android:textColor="@color/black"/>
+        android:id="@+id/show"
+
+        android:src="@drawable/showeye"/>
+
+
+</LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,11 +118,29 @@
             android:padding="5dp"
             android:layout_marginRight="0dp"
             android:textColor="@color/black"/>
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cpassword"
-            android:password="true" />
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cpassword"
+                android:hint="Enter password again"
+                android:inputType="textPassword"
+                android:layout_margin="10dp"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:layout_marginTop="20dp"
+
+                android:id="@+id/hide"
+
+                android:src="@drawable/showeye"/>
+
+
+        </LinearLayout>
 
         <Button
             android:layout_width="200dp"
