@@ -66,6 +66,7 @@ private FirebaseAuth f;
             case R.id.logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you sure you want to logout ?");
+                builder.setCancelable(false);
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

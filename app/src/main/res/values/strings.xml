@@ -5,4 +5,10 @@
     <string name="close">Close navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="spinner_for_number_code">
+        <item>+91</item>
+        <item>+81</item>
+    </string-array>
 </resources>
