@@ -30,6 +30,11 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     private TextView login;
 ImageView Show;
 ImageView Hide;
+    int score = 0;
+    boolean upper = false;
+    boolean lower = false;
+    boolean digit = false;
+    boolean specialChar = false;
 
 
     @Override
@@ -79,21 +84,56 @@ ImageView Hide;
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txt_emailid=emailid.getText().toString();
-                String txt_password=password.getText().toString();
-                String Name=name.getText().toString();
-                String txt_cpassword=cpassword.getText().toString();
-                if(TextUtils.isEmpty(txt_emailid) || TextUtils.isEmpty(txt_password)){
-                    Toast.makeText(Signupactivity.this,"Empty credentials",Toast.LENGTH_SHORT).show();
+                String txt_emailid = emailid.getText().toString();
+                String txt_password = password.getText().toString();
+                String Name = name.getText().toString();
+                String txt_cpassword = cpassword.getText().toString();
+                for (int i = 0; i < txt_password.length(); i++) {
+                    char c = txt_password.charAt(i);
+
+                    if (!specialChar && !Character.isLetterOrDigit(c)) {
+                        score++;
+                        specialChar = true;
+                    } else {
+                        if (!digit && Character.isDigit(c)) {
+                            score++;
+                            digit = true;
+                        } else {
+                            if (!upper || !lower) {
+                                if (Character.isUpperCase(c)) {
+                                    upper = true;
+                                } else {
+                                    lower = true;
+                                }
+
+                                if (upper && lower) {
+                                    score++;
+                                }
+                            }
+                        }
+                    }
                 }
-                else if(txt_password.length()<6){
-                    Toast.makeText(Signupactivity.this,"password too short",Toast.LENGTH_SHORT).show();
-                }
-                else if(!txt_password.equals(txt_cpassword)){
-                    Toast.makeText(Signupactivity.this,"Passwords do not match",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    registeruser(txt_emailid,txt_password,Name);
+
+                if (TextUtils.isEmpty(txt_emailid) || TextUtils.isEmpty(txt_password)) {
+                    Toast.makeText(Signupactivity.this, "Empty credentials", Toast.LENGTH_SHORT).show();
+                } else if (txt_password.length() < 6) {
+                    Toast.makeText(Signupactivity.this, "password too short", Toast.LENGTH_SHORT).show();
+                } else if (!txt_password.equals(txt_cpassword)) {
+                    Toast.makeText(Signupactivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                } else if (score <= 1 && txt_password.length() > 6) {
+                    Toast.makeText(getApplicationContext(), "password is weak try another,add uppercase or special character", Toast.LENGTH_SHORT).show();
+                } else if(txt_password.equals(txt_cpassword)){
+                    if (score == 2) {
+                        Toast.makeText(getApplicationContext(), "Medium password", Toast.LENGTH_SHORT).show();
+                        registeruser(txt_emailid, txt_password, Name);
+                    } else if (score == 3) {
+                        Toast.makeText(getApplicationContext(), "Strong password", Toast.LENGTH_SHORT).show();
+                        registeruser(txt_emailid, txt_password, Name);
+                    }
+                    else if(score==4){
+                        Toast.makeText(getApplicationContext(), "Very Strong password", Toast.LENGTH_SHORT).show();
+                        registeruser(txt_emailid, txt_password, Name);
+                    }
                 }
 
             }
