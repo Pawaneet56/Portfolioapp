@@ -40,6 +40,8 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     private FirebaseFirestore fstore;
     private String userID;
     private CountryCodePicker sccp;
+    private ImageView Show;
+    private ImageView Hide;
 
 
     @Override
@@ -56,6 +58,41 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         snumber=findViewById(R.id.snumber);
         fstore=FirebaseFirestore.getInstance();
         sccp=findViewById(R.id.sccp);
+        Show=findViewById(R.id.show);
+        Hide=findViewById(R.id.hide);
+
+
+        Show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    Show.setImageResource(R.drawable.hideeye);
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    password.setSelection(password.getText().length());
+                } else {
+                    Show.setImageResource(R.drawable.showeye);
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    password.setSelection(password.getText().length());
+                }
+
+            }
+        });
+        Hide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cpassword.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    Hide.setImageResource(R.drawable.hideeye);
+                    cpassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    cpassword.setSelection(cpassword.getText().length());
+                } else {
+                    Hide.setImageResource(R.drawable.showeye);
+                    cpassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    cpassword.setSelection(cpassword.getText().length());
+                }
+            }
+        });
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
