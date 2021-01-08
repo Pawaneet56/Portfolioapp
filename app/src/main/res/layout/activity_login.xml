@@ -116,6 +116,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
+            android:textColor="@color/black"
             android:hint="Enter password here"
             android:inputType="textPassword"
             android:id="@+id/password" />

@@ -131,6 +131,8 @@
         android:hint="Enter password here"
         android:id="@+id/password"
         android:textColor="@color/black"/>
+
+
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -163,9 +165,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cpassword"
                 android:hint="Enter password again"
+                android:textColor="@color/black"
                 android:inputType="textPassword"
-                android:layout_margin="10dp"
-                android:textColor="@color/black"/>
+                android:layout_margin="10dp" />
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
