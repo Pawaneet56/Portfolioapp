@@ -7,29 +7,24 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 private DrawerLayout drawerLayout;
 private FirebaseAuth f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_main);
 
         f = FirebaseAuth.getInstance();
 
@@ -45,6 +40,10 @@ private FirebaseAuth f;
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
+                    new HomeFragment()).commit();// change to whichever id should be default
+        }
 
     }
 
@@ -53,8 +52,8 @@ private FirebaseAuth f;
 
         switch(item.getItemId()){
             case R.id.home:
-                Toast.makeText(this, "HOME", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
+                        new HomeFragment()).commit();
                 break;
 
             case R.id.profile:
@@ -71,8 +70,8 @@ private FirebaseAuth f;
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         f.signOut();
-                        Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(HomeActivity.this,Startactivity.class));
+                        Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this,Startactivity.class));
                         finish();
                     }
                 });
@@ -85,6 +84,7 @@ private FirebaseAuth f;
                 builder.show();
                 break;
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

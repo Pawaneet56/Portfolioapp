@@ -44,7 +44,7 @@ private Button login;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if(user!=null){
-            startActivity(new Intent(Startactivity.this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            startActivity(new Intent(Startactivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
 }

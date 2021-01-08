@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -44,15 +42,6 @@ private TextView Signup1;
 private Button login;
 private FirebaseAuth fAuth;
 private TextView forgotTextLink;
-private Button otp;
-private EditText number,codeEnter;
-private ProgressBar progressBar;
-private TextView state;
-private CountryCodePicker ccp;
-private String Verificationid;
-private PhoneAuthProvider.ForceResendingToken Token;
-private Boolean flag = false;
-private FirebaseFirestore fstore;
 private ImageView Show;
 
 
@@ -67,13 +56,6 @@ private ImageView Show;
         login=findViewById(R.id.login);
         Signup1 = findViewById(R.id.Signup1);
         forgotTextLink = findViewById(R.id.forgotpassword);
-        otp = findViewById(R.id.otp);
-        number = findViewById(R.id.number);
-        ccp = findViewById(R.id.ccp);
-        codeEnter = findViewById(R.id.codeEnter);
-        progressBar = findViewById(R.id.progressBar);
-        state = findViewById(R.id.state);
-        fstore = FirebaseFirestore.getInstance();
         Show=findViewById(R.id.show);
         Show.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,104 +149,6 @@ private ImageView Show;
         });
 
 
-//mobile verification
-        otp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!flag){
-                    if(!number.getText().toString().isEmpty() && number.getText().toString().length() == 10){
-                        String Number = "+"+ccp.getSelectedCountryCode()+number.getText().toString();
-                        progressBar.setVisibility(View.VISIBLE);
-                        state.setText("Sending OTP ...");
-                        state.setVisibility(View.VISIBLE);
-                        requestOTP(Number);
-                    }
-                    else if(number.getText().toString().isEmpty()){
-                        number.setError("Enter Phone Number");
-                    }else{
-                        number.setError("Enter valid Phone Number");
-                    }
-                }else{
-                    String UserOTP = codeEnter.getText().toString();
-                    if(!UserOTP.isEmpty() && UserOTP.length() == 6){
-                        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(Verificationid,UserOTP);
-                        verifyAuth(credential);
-                    }else{
-                        codeEnter.setError("Enter Valid OTP.");
-                    }
-                }
-
-            }
-        });
-    }
-
-
-
-
-
-    private void verifyAuth(PhoneAuthCredential credential) {
-        fAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    checkUserExist();
-
-                }else{
-                    Toast.makeText(LoginActivity.this,"Authentication is Failed",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-        });
-    }
-
-    private void checkUserExist() {
-        DocumentReference documentReference = fstore.collection("users").document(fAuth.getCurrentUser().getUid());
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()){
-                    Toast.makeText(LoginActivity.this,"Authentication is Successful, You have been successfully logged in",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-                }else{
-                    Toast.makeText(LoginActivity.this,"User does not exist create account",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this,Signupactivity.class));
-                }
-                finish();
-            }
-        });
-    }
-
-    private void requestOTP(String number) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(number, 60L, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-            @Override
-            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                super.onCodeSent(s, forceResendingToken);
-                progressBar.setVisibility(View.GONE);
-                state.setVisibility(View.GONE);
-                codeEnter.setVisibility(View.VISIBLE);
-                Verificationid = s;
-                Token = forceResendingToken;
-                otp.setText("Verify");
-                otp.setEnabled(false);
-                flag = true;
-            }
-
-            @Override
-            public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
-                super.onCodeAutoRetrievalTimeOut(s);
-                Toast.makeText(LoginActivity.this,"OTP expired, Rerequest the OTP.",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                verifyAuth(phoneAuthCredential);
-            }
-
-            @Override
-            public void onVerificationFailed(@NonNull FirebaseException e) {
-                Toast.makeText(LoginActivity.this,"Cannot Verify"+e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 
@@ -277,7 +161,8 @@ private ImageView Show;
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, " You are Logged in Succesfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
                 } else {
                     Toast.makeText(LoginActivity.this, "Wrong password or Email Id", Toast.LENGTH_SHORT).show();
                 }

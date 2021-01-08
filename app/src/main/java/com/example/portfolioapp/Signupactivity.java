@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,10 +37,6 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     private FirebaseAuth auth;
     private EditText name;
     private TextView login;
-    private EditText snumber;
-    private FirebaseFirestore fstore;
-    private String userID;
-    private CountryCodePicker sccp;
     private ImageView Show;
     private ImageView Hide;
     int score = 0;
@@ -47,6 +44,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     boolean lower = false;
     boolean digit = false;
     boolean specialChar = false;
+    private FirebaseFirestore fstore;
 
 
 
@@ -61,11 +59,9 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         cpassword=findViewById(R.id.cpassword);
         name=findViewById(R.id.name);
         login=findViewById(R.id.login);
-        snumber=findViewById(R.id.snumber);
-        fstore=FirebaseFirestore.getInstance();
-        sccp=findViewById(R.id.sccp);
         Show=findViewById(R.id.show);
         Hide=findViewById(R.id.hide);
+        fstore=FirebaseFirestore.getInstance();
 
 
         Show.setOnClickListener(new View.OnClickListener() {
@@ -104,24 +100,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String txt_emailid=emailid.getText().toString();
-                String txt_password=password.getText().toString();
-                String Name=name.getText().toString();
-                String txt_cpassword=cpassword.getText().toString();
-                String txt_snumber="+"+sccp.getSelectedCountryCode()+snumber.getText().toString();
-
-                if(TextUtils.isEmpty(txt_emailid) || TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(Name) || TextUtils.isEmpty(txt_snumber)){
-                    Toast.makeText(Signupactivity.this,"Empty credentials",Toast.LENGTH_SHORT).show();
-                }
-                else if(txt_password.length()<6){
-                    Toast.makeText(Signupactivity.this,"Password is too Short",Toast.LENGTH_SHORT).show();
-                }
-                else if(txt_snumber.length()<10){
-                    Toast.makeText(Signupactivity.this,"Enter Valid Phone Number",Toast.LENGTH_SHORT).show();
-                }
-                else if(!txt_password.equals(txt_cpassword)){
-                    Toast.makeText(Signupactivity.this,"Passwords do not match",Toast.LENGTH_SHORT).show();
-                String txt_emailid = emailid.getText().toString();
+                 String txt_emailid = emailid.getText().toString();
                 String txt_password = password.getText().toString();
                 String Name = name.getText().toString();
                 String txt_cpassword = cpassword.getText().toString();
@@ -188,25 +167,38 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     public void onComplete(@NonNull Task<AuthResult> task) {
         if(task.isSuccessful()){
             Toast.makeText(Signupactivity.this,"Thank you "+Name+", you are  succesfully registered",Toast.LENGTH_SHORT).show();
-
-            userID = auth.getCurrentUser().getUid();
-            DocumentReference documentReference = fstore.collection("users").document(userID);
-
-            Map<String,Object> user = new HashMap<>();
-            user.put("Full Name",name);
-            user.put("Email",emailid);
-            user.put("Phone Number",snumber);
-
-            documentReference.set(user);
-
-            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-            finish();
-        }
+            adduser(Name,emailid);
+            }
         else{
             Toast.makeText(Signupactivity.this,"sorry "+Name+", try again",Toast.LENGTH_SHORT).show();
         }
     }
 });
+    }
+
+    private void adduser(String name, String emailid) {
+        String id = auth.getCurrentUser().getUid().toString();
+
+        Map<String,Object> doc = new HashMap<>();
+        doc.put("ID",id);
+        doc.put("Full Name",name);
+        doc.put("Email",emailid);
+        fstore.collection("users").document(id).set(doc)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Signupactivity.this,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+
+                    }
+                });
+
     }
 
 
