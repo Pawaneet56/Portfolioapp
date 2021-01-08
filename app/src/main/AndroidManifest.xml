@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PortfolioApp">
         <activity
-            android:name=".HomeActivity"
+            android:name=".MainActivity"
             android:label="Homepage" />
         <activity
             android:name=".Signupactivity"

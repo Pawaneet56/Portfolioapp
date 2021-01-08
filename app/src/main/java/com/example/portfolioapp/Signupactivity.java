@@ -152,7 +152,7 @@ auth.createUserWithEmailAndPassword(emailid,password).addOnCompleteListener(new 
         if(task.isSuccessful()){
             Toast.makeText(Signupactivity.this,"Thank you "+Name+", you are  succesfully registered",Toast.LENGTH_SHORT).show();
             Toast.makeText(Signupactivity.this,"User succesfully registered",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
         else{
