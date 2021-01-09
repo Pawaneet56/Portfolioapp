@@ -85,8 +85,11 @@ private ImageView Show;
                 String txt_password=password.getText().toString();
 
 
-                if(TextUtils.isEmpty(txt_emailid) || TextUtils.isEmpty(txt_password)) {
-                    Toast.makeText(LoginActivity.this, "Empty credentials", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(txt_emailid)){
+                    emailid.setError("Enter Email Id");
+                }
+                if(TextUtils.isEmpty(txt_password)) {
+                    password.setError("Enter Password");
                 }
                 else{
                     loginuser(txt_emailid,txt_password);
@@ -164,7 +167,7 @@ private ImageView Show;
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                 } else {
-                    Toast.makeText(LoginActivity.this, "Wrong password or Email Id", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"Error "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -61,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
+                android:hint="Enter Full Name"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -79,6 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/emailid"
+                android:hint="Enter Email ID"
                 android:textColor="@color/black"/>
 
 
@@ -102,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:inputType="textPassword"
-                    android:hint="Enter password here"
+                    android:hint="Enter password"
                     android:id="@+id/password"
                     android:textColor="@color/black"/>
 

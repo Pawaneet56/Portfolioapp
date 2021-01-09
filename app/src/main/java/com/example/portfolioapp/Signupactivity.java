@@ -100,10 +100,12 @@ public class Signupactivity<Updated> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                 String txt_emailid = emailid.getText().toString();
+                String txt_emailid = emailid.getText().toString();
                 String txt_password = password.getText().toString();
                 String Name = name.getText().toString();
                 String txt_cpassword = cpassword.getText().toString();
+
+
                 for (int i = 0; i < txt_password.length(); i++) {
                     char c = txt_password.charAt(i);
 
@@ -130,15 +132,28 @@ public class Signupactivity<Updated> extends AppCompatActivity {
                     }
                 }
 
-                if (TextUtils.isEmpty(txt_emailid) || TextUtils.isEmpty(txt_password)) {
-                    Toast.makeText(Signupactivity.this, "Empty credentials", Toast.LENGTH_SHORT).show();
-                } else if (txt_password.length() < 6) {
-                    Toast.makeText(Signupactivity.this, "password too short", Toast.LENGTH_SHORT).show();
-                } else if (!txt_password.equals(txt_cpassword)) {
-                    Toast.makeText(Signupactivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                } else if (score <= 1 && txt_password.length() > 6) {
-                    Toast.makeText(getApplicationContext(), "password is weak try another,add uppercase or special character", Toast.LENGTH_SHORT).show();
-                } else if(txt_password.equals(txt_cpassword)){
+                if(name.getText().toString().isEmpty()){
+                    name.setError("Enter Name");
+                }
+                if (TextUtils.isEmpty(txt_emailid)){
+                    emailid.setError("Enter Email Id");
+                }
+                if(TextUtils.isEmpty(txt_password)) {
+                    password.setError("Enter Password");
+                }
+                if(TextUtils.isEmpty(txt_cpassword)){
+                    cpassword.setError("Enter Confirm Password");
+                }
+                else if (txt_password.length() < 6) {
+                    password.setError("Password is short");
+                }
+                else if (!txt_password.equals(txt_cpassword)) {
+                    cpassword.setError("Passwords do not match");
+                }
+                else if (score <= 1 && txt_password.length() > 6) {
+                    password.setError("Password is weak try another,add uppercase or special character");
+                }
+                else if(txt_password.equals(txt_cpassword)){
                     if (score == 2) {
                         Toast.makeText(getApplicationContext(), "Medium password", Toast.LENGTH_SHORT).show();
                         registeruser(txt_emailid, txt_password, Name);
@@ -154,6 +169,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
 
             }
         });
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +177,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
             }
         });
     }
+
     private void registeruser(String emailid,String password,String Name){
     auth.createUserWithEmailAndPassword(emailid,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
     @Override
@@ -170,10 +187,10 @@ public class Signupactivity<Updated> extends AppCompatActivity {
             adduser(Name,emailid);
             }
         else{
-            Toast.makeText(Signupactivity.this,"sorry "+Name+", try again",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Signupactivity.this,"Error "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
-});
+    });
     }
 
     private void adduser(String name, String emailid) {

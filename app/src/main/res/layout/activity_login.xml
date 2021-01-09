@@ -95,6 +95,7 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:textColor="@color/black"
+            android:hint="Enter Email ID"
             android:id="@+id/emailid"/>
 
         <TextView
@@ -121,7 +122,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/black"
-            android:hint="Enter password here"
+            android:hint="Enter password"
             android:inputType="textPassword"
             android:id="@+id/password" />
 
