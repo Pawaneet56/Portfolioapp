@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="40dp"
     android:layout_marginBottom="40dp"
-    android:background="@color/colorAccent">
-    <RelativeLayout
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp"
+    app:contentPadding="5dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="3dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/r1">
@@ -14,52 +23,50 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/avatar"
-            android:id="@+id/pic1"
+            android:id="@+id/luserpic"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ABCD"
-            android:layout_toRightOf="@+id/pic1"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
-            android:id="@+id/uname"
+            android:id="@+id/luname"
             android:textSize="@dimen/font_size_medium"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <TextView
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/r1"
         android:text="Project"
         android:textColor="@color/black"
         android:layout_marginTop="15dp"
         android:gravity="center"
-        android:id="@+id/t1"
+        android:id="@+id/lproject_name"
         android:textSize="@dimen/font_size_medium"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/t1"
-        android:id="@+id/pic2"
-        android:src="@drawable/pic2"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="5dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lprojectpic"
+            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="5dp"/>
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description"
-        android:layout_below="@+id/pic2"
+        android:text="Details"
         android:layout_marginTop="20dp"
-        android:id="@+id/t2" />
+        android:id="@+id/ldeatils" />
 
 
+    </LinearLayout>
 
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -8,6 +8,7 @@
     android:padding="35dp"
     android:background="@drawable/background"
     android:gravity="center"
+    tools:context=".LoginActivity"
     android:fitsSystemWindows="true">
 
     <ScrollView

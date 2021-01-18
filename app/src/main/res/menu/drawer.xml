@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_account_circle"
             android:title="Profile"/>
 
+        <item android:id="@+id/addpost"
+            android:icon="@drawable/ic_add_post"
+            android:title="Add Project"/>
+
         <item android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="Logout"/>

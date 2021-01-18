@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,8 +27,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +54,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     boolean digit = false;
     boolean specialChar = false;
     private FirebaseFirestore fstore;
+    private FirebaseStorage fstorage;
 
 
 
@@ -62,6 +72,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         Show=findViewById(R.id.show);
         Hide=findViewById(R.id.hide);
         fstore=FirebaseFirestore.getInstance();
+        fstorage=FirebaseStorage.getInstance();
 
 
         Show.setOnClickListener(new View.OnClickListener() {
@@ -200,11 +211,13 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         doc.put("ID",id);
         doc.put("Full Name",name);
         doc.put("Email",emailid);
+        doc.put("Image",null);
+
         fstore.collection("users").document(id).set(doc)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Signupactivity.this,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Signupactivity.this, "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -215,8 +228,11 @@ public class Signupactivity<Updated> extends AppCompatActivity {
 
                     }
                 });
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+    }
 }

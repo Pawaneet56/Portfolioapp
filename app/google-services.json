@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "432499803585",
+    "firebase_url": "https://portfolio-app-6f30e-default-rtdb.firebaseio.com",
     "project_id": "portfolio-app-6f30e",
     "storage_bucket": "portfolio-app-6f30e.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "432499803585-kcikpp6pmptokit42nk36nuo7uo73j7s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.portfolioapp",
+            "certificate_hash": "ba80849c80df570bdf8eb8b5586137ff468d9f60"
+          }
+        },
         {
           "client_id": "432499803585-b4ktf5nhc2k3g2ooculp94pu2c844iu8.apps.googleusercontent.com",
           "client_type": 3
