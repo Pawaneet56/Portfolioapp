@@ -24,7 +24,7 @@
             android:background="@color/white"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            tools:context=".Fragments.ProfileFragment"
+            tools:context=".ProfileFragment"
             android:orientation="vertical">
 
 
@@ -38,53 +38,68 @@
                 android:gravity="center_horizontal"
                 android:layout_margin="10dp"/>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                app:cardPreventCornerOverlap="false"
-                app:cardCornerRadius="75dp"
-                android:layout_marginBottom="30dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/iv_cp"
-                    android:clickable="true"
-                    android:background="@drawable/ic_baseline_person_outline_24"
-                    android:scaleType="fitCenter"/>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardCornerRadius="75dp"
+                    android:layout_marginBottom="30dp">
 
-            </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/iv_cp"
+                        android:clickable="true"
+                        android:background="@drawable/ic_baseline_person_outline_24"
+                        android:scaleType="fitCenter"/>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:icon="@drawable/ic_baseline_border_color_24"
+                    app:iconSize="24dp"
+                    app:iconPadding="24dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+                    android:layout_alignParentRight="true" />
+
+                <TextView
+                    style="@style/RegularMono"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@id/btn"
+                    android:layout_alignRight="@+id/btn"
+                    android:layout_marginBottom="-34dp"
+                    android:padding="5dp"
+                    android:text="EditProfile"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_small" />
+
+
+            </RelativeLayout>
+
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
+                android:hint="Full Name"
                 android:id="@+id/et_name_cp"
                 android:drawableLeft="@drawable/ic_baseline_person_24"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
-                android:layout_margin="4dp"
-                android:textColor="@android:color/black"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Year"
-                android:id="@+id/et_year_cp"
-                android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
-                android:drawablePadding="7dp"
-                android:paddingLeft="10dp"
-                android:layout_margin="4dp"
-                android:textColor="@android:color/black"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Bio"
-                android:drawableLeft="@drawable/ic_baseline_people_24"
-                android:drawablePadding="7dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/et_bio_cp"
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"/>
 
@@ -102,22 +117,30 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Skills"
-                android:drawableLeft="@drawable/ic_baseline_format_list_bulleted_24"
+                android:hint="Year"
+                android:id="@+id/et_year_cp"
+                android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
-                android:id="@+id/et_skills_cp"
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"/>
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner1"
+                android:layout_margin="10dp" />
+
+
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Linkedin Id"
-                android:drawableLeft="@drawable/ic_baseline_send_24"
+                android:hint="Bio"
+                android:drawableLeft="@drawable/ic_baseline_people_24"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
-                android:id="@+id/et_ID_cp"
+                android:id="@+id/et_bio_cp"
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"/>
 
@@ -130,14 +153,16 @@
                 android:layout_marginTop="20sp"
                 android:id="@+id/btn_cp"/>
 
-            <ProgressBar
-                android:id="@+id/progressbar_cp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp" />
+                <ProgressBar
+                    android:id="@+id/progressbar_cp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp" />
+
+
+
 
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
-
