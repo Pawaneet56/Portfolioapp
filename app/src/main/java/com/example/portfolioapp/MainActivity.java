@@ -81,6 +81,7 @@ private FirebaseFirestore fstore;
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch(item.getItemId()){
+
             case R.id.home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
                         new HomeFragment()).commit();

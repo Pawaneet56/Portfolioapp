@@ -24,7 +24,7 @@ import com.example.portfolioapp.R;
 import java.util.Collections;
 import java.util.List;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     Spinner spinner;
     private View MultiSpinner;
     private Context mContext;
@@ -41,42 +41,31 @@ public class ProfileFragment extends Fragment {
         spinner = view.findViewById(R.id.spinner1);
 
 
-        ArrayList<String> numberList = new ArrayList<>();
-        numberList.add("Select your college");
-        numberList.add("Indian Institute of Technology,Bombay");
-        numberList.add("Indian Institute of Technology,Delhi");
-        numberList.add("Indian Institute of Technology,Kharagpur");
-        numberList.add("Indian Institute of Technology,Kanpur");
-        numberList.add("Indian Institute of Technology,Roorkee");
-        numberList.add("Indian Institute of Technology,Guwahati");
-        numberList.add("Indian Institute of Technology,Gandhinagr");
-        numberList.add("Indian Institute of Technology,Indore");
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.colleges,android.R.layout.simple_spinner_item);
 
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner.setAdapter(new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_dropdown_item,numberList));
-
-
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    Toast.makeText(getContext(),"Please Select your College",Toast.LENGTH_SHORT).show();
-
-                }else{
-                    String sNumber = parent.getItemAtPosition(position).toString();
-
-
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(position == 0){
+            Toast.makeText(getContext(),"Please Select your College",Toast.LENGTH_SHORT).show();
+
+        }else{
+            String sNumber = parent.getItemAtPosition(position).toString();
+
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

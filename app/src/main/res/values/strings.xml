@@ -8,5 +8,34 @@
 
     <string name="Error">Error</string>
     <string name="error">ERROR</string>
+    <string name="spinner_title"></string>
+    <string-array name="colleges">
+        <item>Select your college</item>
+        <item>Indian Institute of Technology,Bombay</item>
+        <item>Indian Institute of Technology,Delhi</item>
+        <item>Indian Institute of Technology,Gandhinagar</item>
+        <item>Indian Institute of Technology,Guwahati</item>
+        <item>Indian Institute of Technology,Kanpur</item>
+        <item>Indian Institute of Technology,Roorkee</item>
+        <item>Indian Institute of Technology,kharagpur</item>
+        <item>Indian Institute of Technology,BHU</item>
+        <item>Indian Institute of Technology,Bhilai</item>
+        <item>Indian Institute of Technology,Jammu</item>
+        <item>Indian Institute of Technology,Mandi</item>
+        <item>Indian Institute of Technology,Ropar</item>
+        <item>Indian Institute of Technology,Goa</item>
+        <item>Indian Institute of Technology,Madras</item>
+        <item>Indian Institute of Technology,Hyderabad</item>
+        <item>Indian Institute of Technology,Palakkad</item>
+        <item>Indian Institute of Technology,Indore</item>
+        <item>Indian Institute of Technology,Dhanbad</item>
+        <item>Indian Institute of Technology,Bhubanesvar</item>
+        <item>Indian Institute of Technology,Patna</item>
+        <item>Indian Institute of Technology,Dharwad</item>
+        <item>Indian Institute of Technology,Jodhpur</item>
+        <item>Indian Institute of Technology,Tirupati</item>
+
+
+    </string-array>
 
 </resources>
