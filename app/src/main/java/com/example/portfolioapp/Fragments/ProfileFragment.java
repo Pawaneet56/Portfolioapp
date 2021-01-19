@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,10 @@ import androidx.fragment.app.Fragment;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import com.example.portfolioapp.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.util.Collections;
@@ -28,6 +33,11 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     Spinner spinner;
     private View MultiSpinner;
     private Context mContext;
+    private FirebaseAuth f;
+    private FirebaseFirestore fstore;
+    private EditText fname;
+    private EditText femail;
+
 
 
 
@@ -48,6 +58,23 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+        fname=view.findViewById(R.id.et_name_cp);
+        femail=view.findViewById(R.id.et_Email_cp);
+        fstore=FirebaseFirestore.getInstance();
+        f=FirebaseAuth.getInstance();
+        fstore.collection("users").document(f.getCurrentUser().getUid().toString()).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists())
+                        {
+                            fname.setText(documentSnapshot.getString("Full Name"));
+                            femail.setText(documentSnapshot.getString("Email"));
+                            fname.setEnabled(false);
+                            femail.setEnabled(false);
+                        }
+                    }
+                });
 
         return view;
     }
