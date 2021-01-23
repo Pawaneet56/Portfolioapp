@@ -104,6 +104,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
                             fyear.setValue(documentSnapshot.getLong("Year").intValue());
                             fbio.setText(documentSnapshot.getString("Bio"));
+                            int po=documentSnapshot.getLong("college").intValue();
+                            spinner.setSelection(po);
 
                             fname.setEnabled(false);
                             femail.setEnabled(false);
@@ -137,6 +139,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                 fname.setEnabled(false);
                 button2.setEnabled(false);
                 fyear.setEnabled(false);
+                spinner.setEnabled(false);
                 fbio.setEnabled(false);
                 SavingPost(pname);
 
@@ -154,8 +157,9 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
             Toast.makeText(getContext(), "Please Select your College", Toast.LENGTH_SHORT).show();
 
         } else {
-            String sNumber = parent.getItemAtPosition(position).toString();
-
+            String current_id=f.getCurrentUser().getUid();
+int hold=spinner.getSelectedItemPosition();
+fstore.collection("users").document(current_id).update("college",hold);
 
 
         }
