@@ -83,6 +83,7 @@ private FirebaseFirestore fstore;
         switch(item.getItemId()){
 
             case R.id.home:
+                
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
                         new HomeFragment()).commit();
                 break;

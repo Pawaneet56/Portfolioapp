@@ -186,7 +186,7 @@ private String currentdate,currenttime,random,downloadurl;
                         HashMap<String,Object> doc = new HashMap<>();
 
                         doc.put("FullName",usname);
-                        //doc.put("Id",current_id);
+                        doc.put("Id",current_id);
                         doc.put("Detail",Post_detail);
                         doc.put("ProjectName",Post_name);
                         doc.put("PostImage",downloadurl);

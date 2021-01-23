@@ -211,6 +211,8 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         doc.put("ID",id);
         doc.put("Full Name",name);
         doc.put("Email",emailid);
+        doc.put("Year",1971);
+        doc.put("Bio",null);
         doc.put("Image",null);
 
         fstore.collection("users").document(id).set(doc)
