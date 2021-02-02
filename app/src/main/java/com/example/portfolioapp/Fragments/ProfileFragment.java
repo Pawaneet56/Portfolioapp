@@ -2,8 +2,10 @@ package com.example.portfolioapp.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -31,11 +33,13 @@ import androidx.fragment.app.Fragment;
 
 import java.io.File;
 import java.text.BreakIterator;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.R;
 import com.example.portfolioapp.Signupactivity;
+import com.example.portfolioapp.Startactivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,10 +58,12 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -76,6 +82,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private EditText fname;
     private EditText femail;
     private Bitmap compressor;
+    private String currenttime,currentdate,random;
     private NumberPicker fyear;
     private EditText fbio;
     private Button button;
@@ -124,7 +131,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         myimage = view.findViewById(R.id.iv_cp);
         fstore = FirebaseFirestore.getInstance();
         f = FirebaseAuth.getInstance();
-        storageReference= FirebaseStorage.getInstance().getReference("users");
+        storageReference= FirebaseStorage.getInstance().getReference("Users");
         myimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,12 +155,15 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
-                            fname.setText(documentSnapshot.getString("FullName"));
+                            fname.setText(documentSnapshot.getString("Full Name"));
                             femail.setText(documentSnapshot.getString("Email"));
 
 
                             fyear.setValue(documentSnapshot.getLong("Year").intValue());
                             fbio.setText(documentSnapshot.getString("Bio"));
+                            String fd=documentSnapshot.getString("Image");
+
+                            Picasso.get().load(fd).into(myimage);
 
 
                             int po = documentSnapshot.getLong("college").intValue();
@@ -185,11 +195,10 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
             @Override
             public void onClick(View v) {
                 String pname = fname.getText().toString();
-                String email = femail.getText().toString();
+
                 int year = fyear.getValue();
                 String bio = fbio.getText().toString();
-                String image=myimage.toString();
-                String downloadurl1=downloadurl.toString();
+
 
                 UpdateProfile(pname, bio, year);
                 fname.setEnabled(false);
@@ -235,7 +244,19 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         fstore.collection("users").document(current_id).update("Bio", bio);
 
         fstore.collection("users").document(current_id).update("Year", year);
-        StorageReference imagereference=storageReference.child(ImageUri.getLastPathSegment());
+        Calendar date = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MM-yyyy");
+
+        currentdate = currentDate.format(date.getTime());
+
+
+        Calendar time = Calendar.getInstance();
+        SimpleDateFormat currentime = new SimpleDateFormat("HH:mm:ss");
+
+        currenttime = currentime.format(date.getTime());
+
+        random = currentdate+" "+currenttime;
+        StorageReference imagereference=storageReference.child(ImageUri.getLastPathSegment()+" "+random+".jpg");
         imagereference.putFile(ImageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -299,8 +320,24 @@ fstore.collection("users").document(id).update("Image",downloadurl);
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE && data != null) {
-            ImageUri = data.getData();
-            myimage.setImageURI(ImageUri);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Are you sure you want to set this image as your profile picture ?");
+            builder.setCancelable(false);
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ImageUri = data.getData();
+                    myimage.setImageURI(ImageUri);
+                }
+            });
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+
 
         }
     }
