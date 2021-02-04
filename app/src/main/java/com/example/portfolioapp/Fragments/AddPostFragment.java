@@ -7,6 +7,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,8 +24,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.portfolioapp.Adaptors.PostAdaptor;
+import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,7 +40,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -46,22 +53,28 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 public class AddPostFragment extends Fragment {
 
     private ImageButton postpic;
-private EditText posttitle;
-private EditText postdetail;
-private Button update;
-private FirebaseFirestore fstore;
-private Context mcontext;
-private FirebaseAuth fauth;
-private Uri Imageuri,donwuri;
+    private EditText posttitle;
+    private EditText postdetail;
+    private Button update;
+    private FirebaseFirestore fstore;
+    private Context mcontext;
+    private FirebaseAuth fauth;
+    private Uri Imageuri;
+    private TextView text1;
+    private Button remove;
 
-private String Post_name,Post_detail;
-private StorageReference imagereference;
-private ProgressDialog loadingbar;
+    private String Post_name,Post_detail;
+    private StorageReference imagereference;
+    private ProgressDialog loadingbar;
 
-private static final int Gallery_pick = 1000;
-private static final int Permission_code = 1001;
+    private static final int Gallery_pick = 1000;
+    private static final int Permission_code = 1001;
 
-private String currentdate,currenttime,random,downloadurl;
+    private String timestamp,downloadurl;
+
+    private String edittitle,editdetails,editimage;
+
+    private String key = "noedit",editpostid = "noId";
 
 
     @Override
@@ -70,21 +83,47 @@ private String currentdate,currenttime,random,downloadurl;
         mcontext = context;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle("Add Project");
+
         View v = inflater.inflate(R.layout.fragment_add_post, container, false);
 
         postpic = v.findViewById(R.id.fProjectpic);
         posttitle = v.findViewById(R.id.fprojectname);
         postdetail = v.findViewById(R.id.fprojectdetail);
         update = v.findViewById(R.id.post);
+        text1 = v.findViewById(R.id.ftext);
+        remove = v.findViewById(R.id.remimage);
         fstore = FirebaseFirestore.getInstance();
         fauth = FirebaseAuth.getInstance();
         imagereference = FirebaseStorage.getInstance().getReference("Posts");
         loadingbar = new ProgressDialog(mcontext);
+        timestamp = String.valueOf(System.currentTimeMillis());
+
+        Bundle bundle = getArguments();
+        if(bundle!=null)
+        {
+            key = bundle.getString("key");
+            editpostid = bundle.getString("editPostid");
+        }
+
+        if(key.equals("editPost"))
+        {
+            getActivity().setTitle("Update Project");
+            update.setText("Update");
+            text1.setText("Update Project");
+            loadPostData(editpostid);
+        }
+        else
+        {
+            text1.setText("Add Project");
+            getActivity().setTitle("Add Project");
+            update.setText("Upload");
+        }
+
 
         postpic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +143,23 @@ private String currentdate,currenttime,random,downloadurl;
             }
         });
 
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    postpic.setImageDrawable(null);
+                    StorageReference picref = FirebaseStorage.getInstance().getReferenceFromUrl(editimage);
+                    picref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(mcontext, "Image is removed succesfully", Toast.LENGTH_SHORT).show();
+                            editimage = "noImage";
+                            remove.setVisibility(View.GONE);
+                        }
+                    });
+                }catch (Exception e){}
+            }
+        });
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,18 +174,34 @@ private String currentdate,currenttime,random,downloadurl;
                 {
                     postdetail.setError("Enter Project detail");
                 }
-                else if(Imageuri==null)
+                else if(key.equals("editPost"))
                 {
-                    Toast.makeText(mcontext,"Please add image to the project",Toast.LENGTH_SHORT).show();
+
+                    loadingbar.setTitle("Updating New Project");
+                    loadingbar.setMessage("Please wait, while we update your project");
+                    loadingbar.setCancelable(false);
+                    loadingbar.show();
+                    beginupdate(editpostid);
+                }
+                else if(Imageuri!=null)
+                {
+
+                    loadingbar.setTitle("Adding New Project");
+                    loadingbar.setMessage("Please wait, while we upload your project");
+                    loadingbar.setCancelable(false);
+                    loadingbar.show();
+                    storingimage();
                 }
                 else
                 {
-                    loadingbar.setTitle("Add New Project");
+                    loadingbar.setTitle("Adding New Project");
                     loadingbar.setMessage("Please wait, while we upload your project");
+                    loadingbar.setCancelable(false);
                     loadingbar.show();
-                    loadingbar.setCanceledOnTouchOutside(true);
-                    storingimage();
+                    SavingPost("noImage");
+
                 }
+
             }
         });
 
@@ -137,25 +209,49 @@ private String currentdate,currenttime,random,downloadurl;
     }
 
 
-    private void storingimage() {
-        Calendar date = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MM-yyyy");
 
-        currentdate = currentDate.format(date.getTime());
+    private void beginupdate(String editpostid) {
+
+        if(editimage.equals("noImage"))
+        {
+            if(Imageuri!=null)
+            {
+                updatewithnowimage(editpostid);
+            }
+            else
+            {
+                UpdatingPost("noImage");
+            }
+        }
+        else if(!editimage.equals("noImage") && Imageuri==null)
+        {
+            UpdatingPost(editimage);
+        }
+        else
+        {
+            if(Imageuri!=null)
+            {
+                updatewaswithimage(editpostid);
+            }
+            else
+            {
+                UpdatingPost("noImage");
+            }
+
+        }
+    }
 
 
-        Calendar time = Calendar.getInstance();
-        SimpleDateFormat currentime = new SimpleDateFormat("HH:mm:ss");
+    private void updatewithnowimage(String editpostid) {
 
-        currenttime = currentime.format(date.getTime());
+        Bitmap bitmap = ((BitmapDrawable)postpic.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        random = currentdate+" "+currenttime;
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] data = baos.toByteArray();
 
-
-
-        StorageReference filePath = imagereference.child(Imageuri.getLastPathSegment()+" "+random+".jpg");
-
-        filePath.putFile(Imageuri)
+        StorageReference filePath = imagereference.child(Imageuri.getLastPathSegment()+"_"+timestamp+".jpeg");
+        filePath.putBytes(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -165,17 +261,202 @@ private String currentdate,currenttime,random,downloadurl;
                         downloadurl = uriTask.getResult().toString();
                         if(uriTask.isSuccessful())
                         {
-                            SavingPost();
+                            UpdatingPost(downloadurl);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        loadingbar.dismiss();
+                        Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    private void updatewaswithimage(String editpostid) {
+        StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(editimage);
+        ref.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Bitmap bitmap = ((BitmapDrawable)postpic.getDrawable()).getBitmap();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        byte[] data = baos.toByteArray();
+
+                        StorageReference filePath = imagereference.child(Imageuri.getLastPathSegment()+"_"+timestamp+".jpeg");
+                        filePath.putBytes(data)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                while(!uriTask.isSuccessful());
+
+                                downloadurl = uriTask.getResult().toString();
+                                if(uriTask.isSuccessful())
+                                {
+                                    UpdatingPost(downloadurl);
+                                }
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        loadingbar.dismiss();
+                                        Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        loadingbar.dismiss();
+                        Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+    private void loadPostData(String editpostid) {
+        fstore.collection("Posts").document(editpostid).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists())
+                        {
+                            edittitle = documentSnapshot.getString("ProjectName");
+                            editdetails = documentSnapshot.getString("Detail");
+                            editimage = documentSnapshot.getString("PostImage");
+
+                            posttitle.setText(edittitle);
+                            postdetail.setText(editdetails);
+
+                            if(!editimage.equals("noImage"))
+                            {
+                                try{
+                                    Picasso.get().load(editimage).into(postpic);
+                                    remove.setVisibility(View.VISIBLE);
+                                }catch(Exception e){}
+                            }
+                        }
+                    }
+                });
+    }
+
+
+    private void storingimage() {
+
+
+            Bitmap bitmap = ((BitmapDrawable)postpic.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+            byte[] data = baos.toByteArray();
+
+            StorageReference filePath = imagereference.child(Imageuri.getLastPathSegment()+"_"+timestamp+".jpeg");
+
+
+            filePath.putBytes(data)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while(!uriTask.isSuccessful());
+
+                            downloadurl = uriTask.getResult().toString();
+                            if(uriTask.isSuccessful())
+                            {
+                                SavingPost(downloadurl);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            loadingbar.dismiss();
+                            Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+    }
+
+
+
+    private void UpdatingPost(String url) {
+        String current_id = fauth.getCurrentUser().getUid();
+        fstore.collection("users").document(current_id).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String usname = documentSnapshot.getString("Full Name");
+                        String upic = documentSnapshot.getString("Image");
+
+                        if(url.equals("noImage"))
+                        {
+                            fstore.collection("Posts").document(editpostid).update(
+                                    "Detail",Post_detail,
+                                    "ProjectName",Post_name,
+                                    "PostImage","noImage",
+                                    "pid",editpostid,
+                                    "pTime",timestamp
+                            )
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
+                                                    new HomeFragment()).commit();
+                                            Toast.makeText(mcontext,"Project Uploaded Successfully",Toast.LENGTH_SHORT).show();
+                                            loadingbar.dismiss();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                                            loadingbar.dismiss();
+                                        }
+                                    });
+
+                        }
+                        else
+                        {
+                            fstore.collection("Posts").document(editpostid).update(
+                                    "Detail",Post_detail,
+                                    "ProjectName",Post_name,
+                                    "PostImage",url,
+                                    "pid",editpostid,
+                                    "pTime",timestamp
+                            )
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
+                                                    new HomeFragment()).commit();
+                                            Toast.makeText(mcontext,"Project Uploaded Successfully",Toast.LENGTH_SHORT).show();
+                                            loadingbar.dismiss();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                                            loadingbar.dismiss();
+                                        }
+                                    });
+
                         }
                     }
                 });
 
     }
 
-
-
-
-    private void SavingPost() {
+    private void SavingPost(String url) {
         String current_id = fauth.getCurrentUser().getUid();
         fstore.collection("users").document(current_id).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -189,10 +470,15 @@ private String currentdate,currenttime,random,downloadurl;
                         doc.put("Id",current_id);
                         doc.put("Detail",Post_detail);
                         doc.put("ProjectName",Post_name);
-                        doc.put("PostImage",downloadurl);
+                        if(url.equals("noImage"))
+                        {doc.put("PostImage","noImage");}
+                        else
+                        {doc.put("PostImage",downloadurl);}
                         doc.put("UserImage",upic);
+                        doc.put("pid",current_id + timestamp);
+                        doc.put("pTime",timestamp);
 
-                        fstore.collection("Posts").document(current_id + random).set(doc)
+                        fstore.collection("Posts").document(current_id + timestamp).set(doc)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -247,4 +533,7 @@ private String currentdate,currenttime,random,downloadurl;
             postpic.setImageURI(Imageuri);
         }
     }
+
+
+
 }

@@ -1,24 +1,21 @@
 package com.example.portfolioapp.Models;
 
 public class Posts {
-    String Detail,FullName,ProjectName,PostImage,UserImage;
 
-    public  Posts(){}
+    String FullName,Id,Detail,ProjectName,PostImage,UserImage,pid,pTime;
 
-    public Posts(String detail, String fullName, String projectName, String postImage, String userImage) {
-        Detail = detail;
+    public Posts() {
+    }
+
+    public Posts(String fullName, String id, String detail, String projectName, String postImage, String userImage, String pid, String pTime) {
         FullName = fullName;
+        Id = id;
+        Detail = detail;
         ProjectName = projectName;
         PostImage = postImage;
         UserImage = userImage;
-    }
-
-    public String getDetail() {
-        return Detail;
-    }
-
-    public void setDetail(String detail) {
-        Detail = detail;
+        this.pid = pid;
+        this.pTime = pTime;
     }
 
     public String getFullName() {
@@ -27,6 +24,22 @@ public class Posts {
 
     public void setFullName(String fullName) {
         FullName = fullName;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public String getDetail() {
+        return Detail;
+    }
+
+    public void setDetail(String detail) {
+        Detail = detail;
     }
 
     public String getProjectName() {
@@ -51,5 +64,21 @@ public class Posts {
 
     public void setUserImage(String userImage) {
         UserImage = userImage;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getpTime() {
+        return pTime;
+    }
+
+    public void setpTime(String pTime) {
+        this.pTime = pTime;
     }
 }

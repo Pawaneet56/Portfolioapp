@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.portfolioapp.Adaptors.PostAdaptor;
 import com.example.portfolioapp.Models.Posts;
 import com.example.portfolioapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,12 +51,18 @@ public class HomeFragment extends Fragment {
 
         fstore = FirebaseFirestore.getInstance();
         recyclerView = v.findViewById(R.id.recview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setReverseLayout(true);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+
         datalist = new ArrayList<>();
         fadaptor = new PostAdaptor(datalist,getContext());
         recyclerView.setAdapter(fadaptor);
 
-        fstore.collection("Posts").get()
+        fstore.collection("Posts").orderBy("pTime").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -64,6 +73,12 @@ public class HomeFragment extends Fragment {
                             datalist.add(obj);
                         }
                         fadaptor.notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(mContext,"Error: "+ e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
 

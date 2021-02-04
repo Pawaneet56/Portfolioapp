@@ -1,5 +1,6 @@
 package com.example.portfolioapp;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ private Button login;
 private FirebaseAuth fAuth;
 private TextView forgotTextLink;
 private ImageView Show;
-
+private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ private ImageView Show;
         Signup1 = findViewById(R.id.Signup1);
         forgotTextLink = findViewById(R.id.forgotpassword);
         Show=findViewById(R.id.show);
+        pd = new ProgressDialog(this);
         Show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +83,9 @@ private ImageView Show;
                     password.setError("Enter Password");
                 }
                 else{
+                    pd.setMessage("Wait while we verify");
+                    pd.setCancelable(false);
+                    pd.show();
                     loginuser(txt_emailid,txt_password);
                 }
 
@@ -152,10 +157,12 @@ private ImageView Show;
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    pd.dismiss();
                     Toast.makeText(LoginActivity.this, " You are Logged in Succesfully", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                 } else {
+                    pd.dismiss();
                     Toast.makeText(LoginActivity.this,"Error "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }

@@ -132,6 +132,9 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         fstore = FirebaseFirestore.getInstance();
         f = FirebaseAuth.getInstance();
         storageReference= FirebaseStorage.getInstance().getReference("Users");
+
+
+
         myimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +153,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                 }
             }
         });
+
+
         fstore.collection("users").document(f.getCurrentUser().getUid().toString()).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -198,8 +203,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
                 int year = fyear.getValue();
                 String bio = fbio.getText().toString();
-
-
+                String image=myimage.toString();
                 UpdateProfile(pname, bio, year);
                 fname.setEnabled(false);
                 button2.setEnabled(false);
@@ -267,8 +271,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                         downloadurl = uriTask.getResult().toString();
                         if(uriTask.isSuccessful())
                         {
-String id=f.getCurrentUser().getUid().toString();
-fstore.collection("users").document(id).update("Image",downloadurl);
+                        String id= f.getCurrentUser().getUid();
+                        fstore.collection("users").document(id).update("Image",downloadurl);
                         }
                     }});
 
@@ -293,7 +297,7 @@ fstore.collection("users").document(id).update("Image",downloadurl);
                     }
 
                 } else {
-                    Toast.makeText(getActivity(), "sorry", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error: "+task.getException().toString() , Toast.LENGTH_SHORT).show();
                 }
             }
         });

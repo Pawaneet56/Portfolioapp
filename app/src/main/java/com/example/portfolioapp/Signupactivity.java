@@ -3,6 +3,7 @@ package com.example.portfolioapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -55,6 +56,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     boolean specialChar = false;
     private FirebaseFirestore fstore;
     private FirebaseStorage fstorage;
+    private ProgressDialog pd;
 
 
 
@@ -73,6 +75,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         Hide=findViewById(R.id.hide);
         fstore=FirebaseFirestore.getInstance();
         fstorage=FirebaseStorage.getInstance();
+        pd = new ProgressDialog(this);
 
 
         Show.setOnClickListener(new View.OnClickListener() {
@@ -166,9 +169,11 @@ public class Signupactivity<Updated> extends AppCompatActivity {
                 }
                 else if(txt_password.equals(txt_cpassword)){
                     if (score == 2) {
+
                         Toast.makeText(getApplicationContext(), "Medium password", Toast.LENGTH_SHORT).show();
                         registeruser(txt_emailid, txt_password, Name);
                     } else if (score == 3) {
+
                         Toast.makeText(getApplicationContext(), "Strong password", Toast.LENGTH_SHORT).show();
                         registeruser(txt_emailid, txt_password, Name);
                     }
@@ -190,14 +195,19 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     }
 
     private void registeruser(String emailid,String password,String Name){
+        pd.setMessage("Registering.Please wait!");
+        pd.setCancelable(false);
+        pd.show();
     auth.createUserWithEmailAndPassword(emailid,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
         if(task.isSuccessful()){
+
             Toast.makeText(Signupactivity.this,"Thank you "+Name+", you are  succesfully registered",Toast.LENGTH_SHORT).show();
             adduser(Name,emailid);
             }
         else{
+            pd.dismiss();
             Toast.makeText(Signupactivity.this,"Error "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
@@ -211,20 +221,22 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         doc.put("ID",id);
         doc.put("Full Name",name);
         doc.put("Email",emailid);
-        doc.put("Year",1971);
-        doc.put("Bio",null);
-        doc.put("Image",null);
+        doc.put("Year",0000);
+        doc.put("Bio","noBio");
+        doc.put("Image","noImage");
 
         fstore.collection("users").document(id).set(doc)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
                         Toast.makeText(Signupactivity.this, "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        pd.dismiss();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finish();
 

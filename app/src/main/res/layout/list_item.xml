@@ -11,62 +11,141 @@
     app:contentPadding="5dp"
     app:cardUseCompatPadding="true"
     app:cardElevation="3dp">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/r1">
+        android:layout_height="wrap_content">
+
+
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/avatar"
             android:id="@+id/luserpic"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/luserpic"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/r1">
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ABCD"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:id="@+id/luname"
             android:textSize="@dimen/font_size_medium"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time"
+            android:id="@+id/ltime"
+            android:textStyle="italic"/>
+        </LinearLayout>
 
-    </LinearLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_threedot"
+            android:background="@drawable/ic_threedot"
+            android:id="@+id/lthreedot"
+            android:layout_alignEnd="@+id/r1"
+            android:layout_alignRight="@+id/r1" />
 
         <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Project"
-        android:textColor="@color/black"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:id="@+id/lproject_name"
-        android:textSize="@dimen/font_size_medium"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Project"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:id="@+id/lproject_name"
+            android:textSize="@dimen/font_size_medium"
+            android:layout_below="@+id/luserpic"
+            android:textStyle="bold"/>
 
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lprojectpic"
-            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
+            app:srcCompat="@drawable/addimage"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/lproject_name"/>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Details"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp"
-        android:id="@+id/ldeatils" />
+        android:id="@+id/ldeatils"
+        android:layout_below="@+id/lprojectpic"
+        android:layout_marginBottom="10dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="likes"
+        android:layout_below="@+id/ldeatils"
+        android:id="@+id/Llikes" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/Llikes">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/cardview_shadow_end_color"
+            android:drawableLeft="@drawable/ic_like"
+            android:text="LIKE"
+            android:drawablePadding="5dp"
+            android:textColor="@color/black"
+            android:id="@+id/likebtn"
+            android:textSize="12dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/cardview_shadow_end_color"
+            android:drawableLeft="@drawable/ic_comment"
+            android:drawablePadding="5dp"
+            android:text="COMMENT"
+            android:textColor="@color/black"
+            android:id="@+id/commentbtn"
+            android:textSize="12dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_share"
+            android:layout_weight="1"
+            android:background="@color/cardview_shadow_end_color"
+            android:text="SHARE"
+            android:drawablePadding="5dp"
+            android:textColor="@color/black"
+            android:id="@+id/sharebtn"
+            android:textSize="12dp"/>
 
     </LinearLayout>
+
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
