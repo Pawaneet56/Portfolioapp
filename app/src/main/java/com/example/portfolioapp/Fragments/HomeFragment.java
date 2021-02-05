@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Posts> datalist;
     private PostAdaptor fadaptor;
-    private SwipeRefreshLayout swipe;
+
 
 
 
@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment {
 
         fstore = FirebaseFirestore.getInstance();
         recyclerView = v.findViewById(R.id.recview);
-        swipe = v.findViewById(R.id.refresh);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setReverseLayout(true);
