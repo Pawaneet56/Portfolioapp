@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -40,15 +41,26 @@ import com.example.portfolioapp.Startactivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> {
 
@@ -56,14 +68,14 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
     Context mcontext;
     String myuid;
     ProgressDialog pd;
-
-
+    FirebaseFirestore fstore;
 
     public PostAdaptor(ArrayList<Posts> detalist, Context mcontext) {
         this.detalist = detalist;
         this.mcontext = mcontext;
            myuid = FirebaseAuth.getInstance().getCurrentUser().getUid();
          pd = new ProgressDialog(mcontext);
+         fstore = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -84,6 +96,8 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         String pdetails = detalist.get(position).getDetail();
         String pimage = detalist.get(position).getPostImage();
         String time = detalist.get(position).getpTime();
+        final int[] plikes = {detalist.get(position).getpLike()};
+        String likes = Integer.toString(plikes[0]);
 
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         cal.setTimeInMillis(Long.parseLong(time));
@@ -95,6 +109,8 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         holder.details.setText(pdetails);
         holder.ptime.setText(ptime);
 
+
+        setlikes(holder,pid,plikes);
 
         if (uimage.equals("noImage")) {
             try {
@@ -144,9 +160,54 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mcontext,"Like",Toast.LENGTH_SHORT).show();
+
+                fstore.collection("Posts").whereEqualTo("pid",pid)
+                        .whereArrayContains("Likes",myuid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.isEmpty())
+                        {
+                            fstore.collection("Posts").document(pid)
+                                    .update("pLike",FieldValue.increment(1));
+                            fstore.collection("Posts").document(pid)
+                                    .update("Likes",FieldValue.arrayUnion(myuid));
+
+                            holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked,0,0,0);
+                            plikes[0]++;
+                            if(plikes[0]==1)
+                            {
+                                holder.like.setText(Integer.toString(plikes[0])+" Like");
+                            }
+                            else
+                            {
+                                holder.like.setText(Integer.toString(plikes[0])+" Likes");
+                            }
+
+                        }
+                        else
+                        {
+                            fstore.collection("Posts").document(pid)
+                                    .update("pLike", FieldValue.increment(-1));
+                            fstore.collection("Posts").document(pid)
+                                    .update("Likes",FieldValue.arrayRemove(myuid));
+
+                            holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like,0,0,0);
+                            plikes[0]--;
+                            if(plikes[0]==0 || plikes[0]==1)
+                            {
+                                holder.like.setText(Integer.toString(plikes[0])+" Like");
+                            }
+                            else
+                            {
+                                holder.like.setText(Integer.toString(plikes[0])+" Likes");
+                            }
+
+                        }
+                    }
+                });
             }
         });
+
 
 
         holder.comment.setOnClickListener(new View.OnClickListener() {
@@ -165,11 +226,51 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
             }
         });
 
+        holder.userpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mcontext,"Profile",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
+    //to set the field of like
+    private void setlikes(myViewHolder holder, String pid,int[] plikes) {
 
+        fstore.collection("Posts").whereEqualTo("pid",pid)
+                .whereArrayContains("Likes",myuid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.isEmpty())
+                {
+                    holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like,0,0,0);
+                    if(plikes[0]==0 || plikes[0]==1)
+                    {
+                        holder.like.setText(Integer.toString(plikes[0])+" Like");
+                    }
+                    else
+                    {
+                        holder.like.setText(Integer.toString(plikes[0])+" Likes");
+                    }
+                }
+                else
+                {
+                    holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked,0,0,0);
+                    if(plikes[0]==0 || plikes[0]==1)
+                    {
+                        holder.like.setText(Integer.toString(plikes[0])+" Like");
+                    }
+                    else
+                    {
+                        holder.like.setText(Integer.toString(plikes[0])+" Likes");
+                    }
+                }
+            }
+        });
+    }
 
-
+//options when you click on the threedot
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void showoptions(ImageButton threedot, String uid, String pid, String pimage, String myuid) {
 
@@ -195,28 +296,45 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                 }
                 else
                 {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("key","editPost");
-                    bundle.putString("editPostid",pid);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
+                    builder.setMessage("Are you sure you want to Edit this project ?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    AddPostFragment fragment = new AddPostFragment();
-                    fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment,fragment);
-                    fragmentTransaction.addToBackStack(null).commit();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("key","editPost");
+                            bundle.putString("editPostid",pid);
+
+                            AddPostFragment fragment = new AddPostFragment();
+                            fragment.setArguments(bundle);
+                            FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment,fragment);
+                            fragmentTransaction.addToBackStack(null).commit();
+
+                        }
+                    });
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
+
                 }
                 return false;
             }
         });
 
         pop.show();
-
     }
 
+
+
     private void begindelete(String pid, String pimage) {
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
         builder.setMessage("Are you sure you want to DELETE this Project ?");
         builder.setCancelable(false);
@@ -261,11 +379,8 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
             }
         });
         builder.show();
-
-
-
-
     }
+
 
     private void deletepost(String pid) {
         FirebaseFirestore.getInstance().collection("Posts").document(pid).delete()
@@ -291,15 +406,10 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
 
     }
 
-
-
     @Override
     public int getItemCount() {
         return detalist.size();
     }
-
-
-
 
     class myViewHolder extends RecyclerView.ViewHolder{
 
@@ -316,7 +426,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
             userpic = itemView.findViewById(R.id.luserpic);
             projectpic = itemView.findViewById(R.id.lprojectpic);
             ptime = itemView.findViewById(R.id.ltime);
-            totlikes = itemView.findViewById(R.id.Llikes);
+            //totlikes = itemView.findViewById(R.id.Llikes);
             threedot = itemView.findViewById(R.id.lthreedot);
             like = itemView.findViewById(R.id.likebtn);
             comment = itemView.findViewById(R.id.commentbtn);

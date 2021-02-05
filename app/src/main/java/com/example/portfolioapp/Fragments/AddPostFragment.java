@@ -43,7 +43,9 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
@@ -103,6 +105,7 @@ public class AddPostFragment extends Fragment {
         loadingbar = new ProgressDialog(mcontext);
         timestamp = String.valueOf(System.currentTimeMillis());
 
+        //if user come from edit for that key values
         Bundle bundle = getArguments();
         if(bundle!=null)
         {
@@ -124,7 +127,7 @@ public class AddPostFragment extends Fragment {
             update.setText("Upload");
         }
 
-
+        //clicking on the imageview
         postpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,6 +146,7 @@ public class AddPostFragment extends Fragment {
             }
         });
 
+        //to remove image
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +165,7 @@ public class AddPostFragment extends Fragment {
             }
         });
 
+        //clicking on upload button
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,7 +214,7 @@ public class AddPostFragment extends Fragment {
     }
 
 
-
+//condition for update
     private void beginupdate(String editpostid) {
 
         if(editimage.equals("noImage"))
@@ -275,6 +280,7 @@ public class AddPostFragment extends Fragment {
 
     }
 
+
     private void updatewaswithimage(String editpostid) {
         StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(editimage);
         ref.delete()
@@ -322,6 +328,7 @@ public class AddPostFragment extends Fragment {
     }
 
 
+
     private void loadPostData(String editpostid) {
         fstore.collection("Posts").document(editpostid).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -350,8 +357,6 @@ public class AddPostFragment extends Fragment {
 
 
     private void storingimage() {
-
-
             Bitmap bitmap = ((BitmapDrawable)postpic.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -477,6 +482,9 @@ public class AddPostFragment extends Fragment {
                         doc.put("UserImage",upic);
                         doc.put("pid",current_id + timestamp);
                         doc.put("pTime",timestamp);
+                        doc.put("pLike",0);
+                        String[] value = {"noId"};
+                        doc.put("Likes", Arrays.asList(value));
 
                         fstore.collection("Posts").document(current_id + timestamp).set(doc)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -509,6 +517,7 @@ public class AddPostFragment extends Fragment {
         startActivityForResult(gallery,Gallery_pick);
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
@@ -524,6 +533,7 @@ public class AddPostFragment extends Fragment {
             }
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -3,11 +3,12 @@ package com.example.portfolioapp.Models;
 public class Posts {
 
     String FullName,Id,Detail,ProjectName,PostImage,UserImage,pid,pTime;
+    int pLike;
 
     public Posts() {
     }
 
-    public Posts(String fullName, String id, String detail, String projectName, String postImage, String userImage, String pid, String pTime) {
+    public Posts(String fullName, String id, String detail, String projectName, String postImage, String userImage, String pid, String pTime, int pLike) {
         FullName = fullName;
         Id = id;
         Detail = detail;
@@ -16,6 +17,7 @@ public class Posts {
         UserImage = userImage;
         this.pid = pid;
         this.pTime = pTime;
+        this.pLike = pLike;
     }
 
     public String getFullName() {
@@ -80,5 +82,13 @@ public class Posts {
 
     public void setpTime(String pTime) {
         this.pTime = pTime;
+    }
+
+    public int getpLike() {
+        return pLike;
+    }
+
+    public void setpLike(int pLike) {
+        this.pLike = pLike;
     }
 }

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.portfolioapp.Adaptors.PostAdaptor;
 import com.example.portfolioapp.Models.Posts;
@@ -33,6 +34,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Posts> datalist;
     private PostAdaptor fadaptor;
+    private SwipeRefreshLayout swipe;
+
+
+
 
 
     //to get context of the fragment
@@ -51,7 +56,7 @@ public class HomeFragment extends Fragment {
 
         fstore = FirebaseFirestore.getInstance();
         recyclerView = v.findViewById(R.id.recview);
-
+        swipe = v.findViewById(R.id.refresh);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setReverseLayout(true);
@@ -60,32 +65,46 @@ public class HomeFragment extends Fragment {
 
         datalist = new ArrayList<>();
         fadaptor = new PostAdaptor(datalist,getContext());
-        recyclerView.setAdapter(fadaptor);
+
+
+
+            fetchdata();
+
+
+
+        return v;
+    }
+
+    private void fetchdata() {
 
         fstore.collection("Posts").orderBy("pTime").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
                         List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                         for(DocumentSnapshot d:list)
                         {
                             Posts obj = d.toObject(Posts.class);
                             datalist.add(obj);
                         }
+                        recyclerView.setAdapter(fadaptor);
                         fadaptor.notifyDataSetChanged();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+
                         Toast.makeText(mContext,"Error: "+ e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
 
-
-        return v;
     }
+
+
 
 
 }
