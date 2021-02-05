@@ -53,7 +53,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/iv_cp"
+                        android:id="@+id/image"
                         android:clickable="true"
                         android:background="@drawable/ic_baseline_person_outline_24"
                         android:scaleType="fitCenter"/>
@@ -62,7 +62,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn"
+                    android:id="@+id/editbutton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:icon="@drawable/ic_baseline_border_color_24"
@@ -80,8 +80,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_below="@id/btn"
-                    android:layout_alignRight="@+id/btn"
+                    android:layout_below="@id/editbutton"
+                    android:layout_alignRight="@+id/editbutton"
                     android:layout_marginBottom="-34dp"
                     android:padding="5dp"
                     android:text="EditProfile"
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
-                android:id="@+id/et_name_cp"
+                android:id="@+id/name"
                 android:drawableLeft="@drawable/ic_baseline_person_24"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:id="@+id/et_Email_cp"
+                android:id="@+id/email"
                 android:drawableLeft="@drawable/ic_baseline_email_24"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Year"
                 android:inputType="number"
-                android:id="@+id/et_year_cp"
+                android:id="@+id/year"
                 android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
@@ -140,6 +140,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner1"
+                android:ellipsize="none"
+                android:maxLines="100"
+                android:layout_weight="1"
+                android:spinnerMode="dialog"
+                android:scrollHorizontally="true"
                 android:layout_margin="10dp" />
 
 
@@ -151,7 +156,7 @@
                 android:drawableLeft="@drawable/ic_baseline_people_24"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
-                android:id="@+id/et_bio_cp"
+                android:id="@+id/bio"
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"/>
 
@@ -162,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_customs"
                 android:layout_marginTop="20sp"
-                android:id="@+id/btn_cp"/>
+                android:id="@+id/savebutton"/>
 
                 <ProgressBar
                     android:id="@+id/progressbar_cp"
