@@ -1,6 +1,7 @@
 package com.example.portfolioapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.example.portfolioapp.Fragments.AddPostFragment;
 import com.example.portfolioapp.Fragments.HomeFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -73,7 +75,25 @@ private FirebaseFirestore fstore;
                         }
                     }
                 });
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FilterActivity.class);
+                startActivityForResult(intent, 101);
+            }
+        });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if(requestCode==101)
+        {
+            TextView textView = findViewById(R.id.fragment);
+            textView.setText(data.getStringExtra("data"));
+        }
     }
 
 
