@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfolioapp.Fragments.AddPostFragment;
 import com.example.portfolioapp.Fragments.HomeFragment;
+import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.Models.Posts;
 import com.example.portfolioapp.R;
@@ -229,7 +230,17 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         holder.userpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mcontext,"Profile",Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("TheirProfile","true");
+                bundle.putString("uid",uid);
+
+                ProfileFragment fragment = new ProfileFragment();
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment,fragment);
+                fragmentTransaction.addToBackStack(null).commit();
+
             }
         });
 

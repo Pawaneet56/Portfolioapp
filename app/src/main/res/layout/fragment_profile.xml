@@ -84,6 +84,7 @@
                     android:layout_alignRight="@+id/editbutton"
                     android:layout_marginBottom="-34dp"
                     android:padding="5dp"
+                    android:id="@+id/edittext"
                     android:text="EditProfile"
                     android:textColor="@color/black"
                     android:textSize="@dimen/font_size_small" />

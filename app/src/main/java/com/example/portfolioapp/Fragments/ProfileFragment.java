@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.lang.String;
 import java.net.URI;
@@ -65,6 +67,9 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private ImageView myimage;
     private Uri filepath;
     private Context mcontext;
+    private TextView edittext;
+    String name,bio,image,email;
+    int year,college;
      String downloadurl;
      String urli;
     private static final int Gallery_pick = 1000;
@@ -72,6 +77,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     FirebaseStorage storage;
     StorageReference storageReference;
     private Button save;
+    String Profile="myProfile",uid;
 
     int pos;
     @Override
@@ -85,6 +91,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_profile,container,false);
 Edit=v.findViewById(R.id.editbutton);
+edittext=v.findViewById(R.id.edittext);
 Name=v.findViewById(R.id.name);
 Email=v.findViewById(R.id.email);
 Year=v.findViewById(R.id.year);
@@ -94,9 +101,26 @@ spinner=v.findViewById(R.id.spinner1);
 Bio=v.findViewById(R.id.bio);
 myimage=v.findViewById(R.id.image);
 save=v.findViewById(R.id.savebutton);
+fauth=FirebaseAuth.getInstance();
+fstore=FirebaseFirestore.getInstance();
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        String id=fauth.getCurrentUser().getUid().toString();
+        Bundle bundle=getArguments();
+        if(bundle!=null){
+        Profile=bundle.getString("TheirProfile");
+        uid=bundle.getString("uid");}
+        if(Profile.equals("true")){
+
+            showUser(uid);
+            Edit.setVisibility(View.GONE);
+            edittext.setVisibility(View.GONE);
+            save.setVisibility(View.GONE);
+        }
+        else{
+        showUser(id);
+            save.setVisibility(View.GONE);}
 
 save.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -114,7 +138,7 @@ String email=Email.getText().toString();
         spinner.setEnabled(false);
         Bio.setEnabled(false);
         myimage.setEnabled(false);
-        save.setEnabled(false);
+        save.setVisibility(View.GONE);
     }
 });
 Edit.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +149,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
         spinner.setEnabled(true);
         Bio.setEnabled(true);
         myimage.setEnabled(true);
-        save.setEnabled(true);
+        save.setVisibility(View.VISIBLE);
     }
 });
         myimage.setOnClickListener(new View.OnClickListener() {
@@ -145,8 +169,6 @@ Edit.setOnClickListener(new View.OnClickListener() {
 
     }
 });
-fauth=FirebaseAuth.getInstance();
-fstore=FirebaseFirestore.getInstance();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.colleges,android.R.layout.simple_spinner_item);
 
 
@@ -154,35 +176,6 @@ fstore=FirebaseFirestore.getInstance();
 
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
-fstore.collection("users").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-    @Override
-    public void onSuccess(DocumentSnapshot documentSnapshot) {
-        Name.setText(documentSnapshot.getString("Full Name"));
-        Email.setText(documentSnapshot.getString("Email"));
-        Year.setValue(documentSnapshot.getLong("Year").intValue());
-        int fd=documentSnapshot.getLong("college").intValue();
-        spinner.setSelection(fd);
-        urli=documentSnapshot.getString("Image");
-        Bio.setText(documentSnapshot.getString("Bio"));
-        Email.setEnabled(false);
-        Name.setEnabled(false);
-        Year.setEnabled(false);
-        save.setEnabled(false);
-        spinner.setEnabled(false);
-        Bio.setEnabled(false);
-        myimage.setEnabled(false);
-        if(documentSnapshot.getString("Image").equals("noImage")){
-           myimage.setImageResource(R.drawable.avatar);
-        }
-        else{
-Picasso.get().load(documentSnapshot.getString("Image")).into(myimage);
-        }
-
-    }
-});
-
-
 
 
     return v;
@@ -221,6 +214,40 @@ Picasso.get().load(documentSnapshot.getString("Image")).into(myimage);
                 Toast.makeText(getActivity(),"Sorry",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void showUser(String id ){
+
+        fstore.collection("users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    name = documentSnapshot.getString("Full Name");
+                    email = documentSnapshot.getString("Email");
+                    year=documentSnapshot.getLong("Year").intValue();
+                    college = documentSnapshot.getLong("college").intValue();
+                    bio=documentSnapshot.getString("Bio");
+                    Year.setValue(year);
+                    Name.setText(name);
+                    Email.setText(email);
+                    spinner.setSelection(college);
+                    Bio.setText(bio);
+                    urli = documentSnapshot.getString("Image");
+                    Email.setEnabled(false);
+                    Name.setEnabled(false);
+                    Year.setEnabled(false);
+                    spinner.setEnabled(false);
+                    Bio.setEnabled(false);
+                    myimage.setEnabled(false);
+                    if (urli.equals("noImage")) {
+                        myimage.setImageResource(R.drawable.avatar);
+                    } else {
+                        Picasso.get().load(urli).into(myimage);
+                    }
+
+                }
+            }
+        });
+
     }
 
     private void pickImageFromGallery() {
