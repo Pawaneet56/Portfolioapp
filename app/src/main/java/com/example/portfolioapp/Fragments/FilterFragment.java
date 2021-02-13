@@ -1,38 +1,41 @@
-package com.example.portfolioapp;
+package com.example.portfolioapp.Fragments;
 
-        import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
 
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.CompoundButton;
+import androidx.fragment.app.Fragment;
 
-        import com.google.android.material.chip.Chip;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
 
-        import java.sql.Array;
-        import java.util.ArrayList;
+import com.example.portfolioapp.R;
+import com.google.android.material.chip.Chip;
 
-public class FilterActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
+
+public class FilterFragment extends Fragment {
     private Chip chip4,chip5,chip6,chip7,chip8,chip9,chip10,chip11,chip12,chip13;
     private Button Apply;
     private ArrayList<String> selectedChipData;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
 
-        chip4 = findViewById(R.id.chip4);
-        chip5 = findViewById(R.id.chip5);
-        chip6 = findViewById(R.id.chip6);
-        chip7 = findViewById(R.id.chip7);
-        chip8 = findViewById(R.id.chip8);
-        chip9 = findViewById(R.id.chip9);
-        chip10 = findViewById(R.id.chip10);
-        chip11 = findViewById(R.id.chip11);
-        chip12 = findViewById(R.id.chip12);
-        chip13 = findViewById(R.id.chip13);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v=inflater.inflate(R.layout.fragment_filter, container, false);
+        chip4 = v.findViewById(R.id.chip4);
+        chip5 = v.findViewById(R.id.chip5);
+        chip6 = v.findViewById(R.id.chip6);
+        chip7 = v.findViewById(R.id.chip7);
+        chip8 = v.findViewById(R.id.chip8);
+        chip9 = v.findViewById(R.id.chip9);
+        chip10 =v. findViewById(R.id.chip10);
+        chip11 = v.findViewById(R.id.chip11);
+        chip12 = v.findViewById(R.id.chip12);
+        chip13 = v.findViewById(R.id.chip13);
 
         selectedChipData = new ArrayList<>();
 
@@ -61,15 +64,19 @@ public class FilterActivity extends AppCompatActivity {
         chip12.setOnCheckedChangeListener(checkedChangeListener);
         chip13.setOnCheckedChangeListener(checkedChangeListener);
 
-        Apply = findViewById(R.id.Apply);
+        Apply = v.findViewById(R.id.Apply);
         Apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("data",selectedChipData.toString());
-                setResult(101,resultIntent);
-                finish();
+
+
             }
         });
+
+
+        // Inflate the layout for this fragment
+        return v;
     }
 }

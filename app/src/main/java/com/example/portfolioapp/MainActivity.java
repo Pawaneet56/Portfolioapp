@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.portfolioapp.Fragments.AddPostFragment;
+import com.example.portfolioapp.Fragments.FilterFragment;
 import com.example.portfolioapp.Fragments.HomeFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -79,8 +80,9 @@ private FirebaseFirestore fstore;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, FilterActivity.class);
-                startActivityForResult(intent, 101);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
+                        new FilterFragment()).commit();
+
             }
         });
     }
