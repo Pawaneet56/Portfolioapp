@@ -1,11 +1,15 @@
 package com.example.portfolioapp.Fragments;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -114,9 +118,13 @@ fstore=FirebaseFirestore.getInstance();
         if(Profile.equals("true")){
 
             showUser(uid);
+            if(!uid.equals(id)){
             Edit.setVisibility(View.GONE);
             edittext.setVisibility(View.GONE);
-            save.setVisibility(View.GONE);
+            save.setVisibility(View.GONE);}
+            else{
+                save.setVisibility(View.GONE);
+            }
         }
         else{
         showUser(id);
@@ -169,6 +177,13 @@ Edit.setOnClickListener(new View.OnClickListener() {
 
     }
 });
+        myimage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(getActivity(),"Profile picture",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.colleges,android.R.layout.simple_spinner_item);
 
 
@@ -215,6 +230,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
             }
         });
     }
+
     private void showUser(String id ){
 
         fstore.collection("users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
