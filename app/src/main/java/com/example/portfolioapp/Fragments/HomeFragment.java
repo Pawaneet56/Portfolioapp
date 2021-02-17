@@ -35,11 +35,6 @@ public class HomeFragment extends Fragment {
     private ArrayList<Posts> datalist;
     private PostAdaptor fadaptor;
 
-
-
-
-
-
     //to get context of the fragment
     @Override
     public void onAttach(@NonNull Context context) {

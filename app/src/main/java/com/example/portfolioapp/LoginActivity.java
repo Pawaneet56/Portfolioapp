@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,8 +35,8 @@ private TextView Signup1;
 private Button login;
 private FirebaseAuth fAuth;
 private TextView forgotTextLink;
-private ImageView Show;
 private ProgressDialog pd;
+private TextInputLayout erroremail,errorpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,25 +49,9 @@ private ProgressDialog pd;
         login=findViewById(R.id.login);
         Signup1 = findViewById(R.id.Signup1);
         forgotTextLink = findViewById(R.id.forgotpassword);
-        Show=findViewById(R.id.show);
+        erroremail = findViewById(R.id.erroremaillogin);
+        errorpassword = findViewById(R.id.errorpasswordlogin);
         pd = new ProgressDialog(this);
-        Show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if(password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
-                    Show.setImageResource(R.drawable.hideeye);
-                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    password.setSelection(password.getText().length());
-                } else {
-                    Show.setImageResource(R.drawable.showeye);
-                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    password.setSelection(password.getText().length());
-                }
-
-            }
-        });
 
 //login button
         login.setOnClickListener(new View.OnClickListener() {
@@ -75,14 +62,32 @@ private ProgressDialog pd;
 
                 String txt_password=password.getText().toString();
 
+                boolean isemail=false;
+                boolean ispassword=false;
+
 
                 if(TextUtils.isEmpty(txt_emailid)){
-                    emailid.setError("Enter Email Id");
+                    erroremail.setError("Enter Email Id");
+                    isemail=false;
                 }
+                else
+                {
+                    erroremail.setErrorEnabled(false);
+                    isemail=true;
+                }
+
+
                 if(TextUtils.isEmpty(txt_password)) {
-                    password.setError("Enter Password");
+                    errorpassword.setError("Enter Password");
+                    ispassword=false;
                 }
-                else{
+                else
+                {
+                    errorpassword.setErrorEnabled(false);
+                    ispassword=true;
+                }
+
+                if(isemail && ispassword){
                     pd.setMessage("Wait while we verify");
                     pd.setCancelable(false);
                     pd.show();
@@ -92,6 +97,47 @@ private ProgressDialog pd;
 
             }
         });
+
+        emailid.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(emailid.getText().length()!=0)
+                {
+                    erroremail.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(password.getText().length()!=0)
+                {
+                    errorpassword.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
 //forgot password
         forgotTextLink.setOnClickListener(new View.OnClickListener() {

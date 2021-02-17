@@ -43,7 +43,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/box"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
@@ -57,12 +56,19 @@
                 android:layout_marginRight="0dp"
                 android:textColor="@color/black"/>
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/errorname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:id="@+id/name"
                 android:hint="Enter Full Name"
                 android:textColor="@color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -76,13 +82,20 @@
                 android:layout_marginRight="0dp"
                 android:textColor="@color/black"/>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/erroremail"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:id="@+id/emailid"
                 android:hint="Enter Email ID"
-                android:textColor="@color/black"/>
-
+                android:textColor="@color/black"
+                android:inputType="textEmailAddress"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -95,30 +108,51 @@
                 android:padding="5dp"
                 android:layout_marginRight="0dp"
                 android:textColor="@color/black" />
-            <LinearLayout
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
+                android:id="@+id/errorpassword"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                app:passwordToggleEnabled="true"
+                app:errorIconDrawable="@null">
+
                 <EditText
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
                     android:inputType="textPassword"
                     android:hint="Enter password"
                     android:id="@+id/password"
                     android:textColor="@color/black"/>
 
+</com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/show"
-                    android:src="@drawable/showeye"/>
-
-
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="false"
+                    android:maxHeight="20dip"
+                    android:minHeight="20dip"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:progress="0"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Weak"
+                    android:visibility="gone"
+                    android:id="@+id/password_strength" />
             </LinearLayout>
+
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,28 +166,23 @@
                 android:textColor="@color/black"/>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <EditText
-                    android:layout_width="180dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/errorcpassword"
                     android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    app:passwordToggleEnabled="true"
+                    app:errorIconDrawable="@null">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
                     android:id="@+id/cpassword"
                     android:hint="Enter password again"
                     android:textColor="@color/black"
-                    android:inputType="textPassword"
-                    android:layout_margin="10dp" />
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/hide"
-                    android:src="@drawable/showeye"/>
+                    android:inputType="textPassword"/>
 
+                </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
 
             <Button
                 android:layout_width="200dp"
