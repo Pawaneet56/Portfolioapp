@@ -117,15 +117,14 @@ myimage=v.findViewById(R.id.image);
 save=v.findViewById(R.id.savebutton);
 fauth=FirebaseAuth.getInstance();
 fstore=FirebaseFirestore.getInstance();
-fstore.collection("users").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-    @Override
-    public void onSuccess(DocumentSnapshot documentSnapshot) {
-        urli=documentSnapshot.getString("Image");
-    }
-});
-
-        storage = FirebaseStorage.getInstance();
+storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        fstore.collection("users").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                urli=documentSnapshot.getString("Image");
+            }
+        });
         String id=fauth.getCurrentUser().getUid().toString();
         Bundle bundle=getArguments();
         if(bundle!=null){
@@ -154,7 +153,7 @@ save.setOnClickListener(new View.OnClickListener() {
         String collegeName=spinner.getSelectedItem().toString();
         int college=spinner.getSelectedItemPosition();
         String bio=Bio.getText().toString();
-        updateuser(email,name,year,college,collegeName,bio);
+        updateuser(name,year,college,collegeName,bio);
         uploadImage();
         Name1.setText(name);
         CollegeName.setText(collegeName);
@@ -175,6 +174,7 @@ save.setOnClickListener(new View.OnClickListener() {
 Edit.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+
                 if(urli.equals("noImage")){
                     myimage.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -274,31 +274,15 @@ Edit.setOnClickListener(new View.OnClickListener() {
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    private void updateuser(String email,String name,int year,int college,String collegeName,String bio){
+    private void updateuser(String name,int year,int college,String collegeName,String bio){
         String id = fauth.getCurrentUser().getUid();
+fstore.collection("users").document(id).update("Full Name",name);
+        fstore.collection("users").document(id).update("Bio",bio);
+        fstore.collection("users").document(id).update("college",college);
+        fstore.collection("users").document(id).update("collegeName",collegeName);
+        fstore.collection("users").document(id).update("Year",year);
 
-
-        Map<String,Object> doc = new HashMap<>();
-        doc.put("Full Name",name);
-        doc.put("Year",year);
-        doc.put("Bio",bio);
-        doc.put("college",college);
-        doc.put("collegeName",collegeName);
-        doc.put("Email",email);
-        doc.put("Id",id);
-
-        fstore.collection("users").document(id).set(doc).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(getActivity(),"Updated",Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                Toast.makeText(getActivity(),"Sorry",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+          }
 
     private void showUser(String id ){
 
@@ -404,6 +388,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
                                     if(uriTask.isSuccessful())
                                     {
                                         Savingimage(downloadurl);
+                                        urli=downloadurl;
                                     }
                                     // Image uploaded successfully
                                     // Dismiss dialog
