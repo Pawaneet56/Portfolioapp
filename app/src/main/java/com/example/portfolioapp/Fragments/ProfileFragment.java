@@ -4,8 +4,10 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
@@ -35,7 +37,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.R;
+import com.example.portfolioapp.Startactivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -62,18 +66,20 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private Button Edit;
     private EditText Name;
-    private EditText Email;
     private NumberPicker Year;
     private Spinner spinner;
     private EditText Bio;
     private FirebaseAuth fauth;
     private FirebaseFirestore fstore;
     private ImageView myimage;
+    private TextView Year1,CollegeName;
     private Uri filepath;
     private Context mcontext;
     private TextView edittext;
+    private TextView Name1,Email1,Bio1;
     String name,bio,image,email;
-    int year,college;
+    int year;
+    String college;
      String downloadurl;
      String urli;
     private static final int Gallery_pick = 1000;
@@ -97,9 +103,13 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 Edit=v.findViewById(R.id.editbutton);
 edittext=v.findViewById(R.id.edittext);
 Name=v.findViewById(R.id.name);
-Email=v.findViewById(R.id.email);
+Bio1=v.findViewById(R.id.bio1);
 Year=v.findViewById(R.id.year);
+Name1=v.findViewById(R.id.name1);
+Email1=v.findViewById(R.id.email1);
 Year.setMinValue(1971);
+Year1=v.findViewById(R.id.year1);
+CollegeName=v.findViewById(R.id.college);
 Year.setMaxValue(2020);
 spinner=v.findViewById(R.id.spinner1);
 Bio=v.findViewById(R.id.bio);
@@ -107,6 +117,12 @@ myimage=v.findViewById(R.id.image);
 save=v.findViewById(R.id.savebutton);
 fauth=FirebaseAuth.getInstance();
 fstore=FirebaseFirestore.getInstance();
+fstore.collection("users").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+    @Override
+    public void onSuccess(DocumentSnapshot documentSnapshot) {
+        urli=documentSnapshot.getString("Image");
+    }
+});
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -135,29 +151,88 @@ save.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {
         String name=Name.getText().toString();
         int year=Year.getValue();
-String email=Email.getText().toString();
-        int college=pos;
+        String collegeName=spinner.getSelectedItem().toString();
+        int college=spinner.getSelectedItemPosition();
         String bio=Bio.getText().toString();
-        updateuser(email,name,year,college,bio);
+        updateuser(email,name,year,college,collegeName,bio);
         uploadImage();
-        Email.setEnabled(false);
-        Name.setEnabled(false);
-        Year.setEnabled(false);
-        spinner.setEnabled(false);
-        Bio.setEnabled(false);
+        Name1.setText(name);
+        CollegeName.setText(collegeName);
+        Bio1.setText(bio);
+        Year1.setText(""+year);
+        Year1.setVisibility(View.VISIBLE);
+        Name.setVisibility(View.GONE);
+        Name1.setVisibility(View.VISIBLE);
+        CollegeName.setVisibility(View.VISIBLE);
+        Year.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+        Bio.setVisibility(View.GONE);
         myimage.setEnabled(false);
         save.setVisibility(View.GONE);
+        Bio1.setVisibility(View.VISIBLE);
     }
 });
 Edit.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Name.setEnabled(true);
-        Year.setEnabled(true);
-        spinner.setEnabled(true);
-        Bio.setEnabled(true);
+                if(urli.equals("noImage")){
+                    myimage.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            Toast.makeText(getActivity(),"Profile Picture",Toast.LENGTH_SHORT).show();
+
+                            return true;
+                        }
+                    });
+                                   }
+                else{
+                    myimage.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Do you want to remove profile picture?");
+                            builder.setCancelable(false);
+                            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    myimage.setImageResource(R.drawable.avatar);
+                                    StorageReference picref = FirebaseStorage.getInstance().getReferenceFromUrl(urli);
+                                    picref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(mcontext, "Image is removed succesfully", Toast.LENGTH_SHORT).show();
+                                            urli = "noImage";
+                                            filepath=null;
+                                            fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("Image",urli);
+
+                                        }
+                                    });
+
+                                }
+                            });
+                            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            builder.show();
+                            return true;
+                        }
+                    });
+                }
+
+        Name1.setVisibility(View.GONE);
+        Name.setVisibility(View.VISIBLE);
+        Year.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);
+        Year1.setVisibility(View.GONE);
+        Bio.setVisibility(View.VISIBLE);
+        Bio1.setVisibility(View.GONE);
         myimage.setEnabled(true);
         save.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);
+        CollegeName.setVisibility(View.GONE);
     }
 });
         myimage.setOnClickListener(new View.OnClickListener() {
@@ -177,13 +252,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
 
     }
 });
-        myimage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(getActivity(),"Profile picture",Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.colleges,android.R.layout.simple_spinner_item);
 
 
@@ -205,7 +274,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    private void updateuser(String email,String name,int year,int college,String bio){
+    private void updateuser(String email,String name,int year,int college,String collegeName,String bio){
         String id = fauth.getCurrentUser().getUid();
 
 
@@ -214,7 +283,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
         doc.put("Year",year);
         doc.put("Bio",bio);
         doc.put("college",college);
-        doc.put("Image",urli);
+        doc.put("collegeName",collegeName);
         doc.put("Email",email);
         doc.put("Id",id);
 
@@ -240,21 +309,25 @@ Edit.setOnClickListener(new View.OnClickListener() {
                     name = documentSnapshot.getString("Full Name");
                     email = documentSnapshot.getString("Email");
                     year=documentSnapshot.getLong("Year").intValue();
-                    college = documentSnapshot.getLong("college").intValue();
+                    college = documentSnapshot.getString("collegeName");
+                    int college1=documentSnapshot.getLong("college").intValue();
                     bio=documentSnapshot.getString("Bio");
+                    spinner.setSelection(college1);
+                    Email1.setText(email);
+                    Year1.setText(""+year);
+                    Name1.setText(name);
                     Year.setValue(year);
                     Name.setText(name);
-                    Email.setText(email);
-                    spinner.setSelection(college);
+                    Bio1.setText(bio);
+                    CollegeName.setText(college);
                     Bio.setText(bio);
-                    urli = documentSnapshot.getString("Image");
-                    Email.setEnabled(false);
-                    Name.setEnabled(false);
-                    Year.setEnabled(false);
-                    spinner.setEnabled(false);
-                    Bio.setEnabled(false);
+                    Bio.setVisibility(View.GONE);
+                    spinner.setVisibility(View.GONE);
+                    Year.setVisibility(View.GONE);
+                    Name.setVisibility(View.GONE);
+                    spinner.setVisibility(View.GONE);
                     myimage.setEnabled(false);
-                    if (urli.equals("noImage")) {
+                    if ( documentSnapshot.getString("Image").equals("noImage")) {
                         myimage.setImageResource(R.drawable.avatar);
                     } else {
                         Picasso.get().load(urli).into(myimage);

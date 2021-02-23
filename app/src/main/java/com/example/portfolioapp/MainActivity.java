@@ -35,6 +35,7 @@ private DrawerLayout drawerLayout;
 private FirebaseAuth f;
 private TextView fname;
 private FirebaseFirestore fstore;
+private ImageView fimage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ private FirebaseFirestore fstore;
         f = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         fname = v.findViewById(R.id.headerfname);
+        fimage=v.findViewById(R.id.headerpic);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,7 +75,12 @@ private FirebaseFirestore fstore;
                         if(documentSnapshot.exists())
                         {
                             fname.setText(documentSnapshot.getString("Full Name"));
-                        }
+                            if(documentSnapshot.getString("Image").equals("noImage")){
+                                fimage.setImageResource(R.drawable.avatar);
+                            }
+                            else{
+                            Picasso.get().load(documentSnapshot.getString("Image")).into(fimage);
+                        }}
                     }
                 });
         FloatingActionButton fab = findViewById(R.id.fab);

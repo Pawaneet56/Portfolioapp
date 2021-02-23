@@ -91,6 +91,18 @@
 
 
             </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Full Name"
+                android:id="@+id/name1"
+                android:textSize="20dp"
+                android:drawableLeft="@drawable/ic_baseline_person_24"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
+
 
 
             <EditText
@@ -104,16 +116,18 @@
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"/>
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:id="@+id/email"
+                android:textSize="17sp"
+                android:id="@+id/email1"
                 android:drawableLeft="@drawable/ic_baseline_email_24"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"/>
+
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -124,6 +138,7 @@
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
                 />
+
 
             <NumberPicker
                 android:layout_width="match_parent"
@@ -136,6 +151,15 @@
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="4dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:textColor="@android:color/black"
+                android:id="@+id/year1"/>
 
             <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:layout_width="match_parent"
@@ -147,7 +171,26 @@
                 android:spinnerMode="dialog"
                 android:scrollHorizontally="true"
                 android:layout_margin="10dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:textColor="@android:color/black"
+                android:id="@+id/college"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Bio"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/ic_baseline_people_24"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/bio1"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
 
 
             <EditText

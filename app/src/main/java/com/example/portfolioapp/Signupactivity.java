@@ -332,6 +332,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         doc.put("Bio","noBio");
         doc.put("Image","noImage");
         doc.put("college",0);
+        doc.put("collegeName","Select your college");
 
         fstore.collection("users").document(id).set(doc)
                 .addOnFailureListener(new OnFailureListener() {
