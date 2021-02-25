@@ -10,11 +10,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,8 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 import java.lang.String;
 import java.net.URI;
 import java.net.MalformedURLException;
@@ -159,16 +164,7 @@ save.setOnClickListener(new View.OnClickListener() {
         CollegeName.setText(collegeName);
         Bio1.setText(bio);
         Year1.setText(""+year);
-        Year1.setVisibility(View.VISIBLE);
-        Name.setVisibility(View.GONE);
-        Name1.setVisibility(View.VISIBLE);
-        CollegeName.setVisibility(View.VISIBLE);
-        Year.setVisibility(View.GONE);
-        spinner.setVisibility(View.GONE);
-        Bio.setVisibility(View.GONE);
-        myimage.setEnabled(false);
-        save.setVisibility(View.GONE);
-        Bio1.setVisibility(View.VISIBLE);
+
     }
 });
 Edit.setOnClickListener(new View.OnClickListener() {
@@ -203,6 +199,12 @@ Edit.setOnClickListener(new View.OnClickListener() {
                                             Toast.makeText(mcontext, "Image is removed succesfully", Toast.LENGTH_SHORT).show();
                                             urli = "noImage";
                                             filepath=null;
+                                            String name=Name.getText().toString();
+                                            int year=Year.getValue();
+                                            String collegeName=spinner.getSelectedItem().toString();
+                                            int college=spinner.getSelectedItemPosition();
+                                            String bio=Bio.getText().toString();
+                                            updateuser(name,year,college,collegeName,bio);
                                             fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("Image",urli);
 
                                         }
@@ -221,7 +223,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
                         }
                     });
                 }
-
+Edit.setVisibility(View.GONE);
         Name1.setVisibility(View.GONE);
         Name.setVisibility(View.VISIBLE);
         Year.setVisibility(View.VISIBLE);
@@ -253,7 +255,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
     }
 });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.colleges,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.colleges,android.R.layout.simple_dropdown_item_1line);
 
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -276,12 +278,23 @@ Edit.setOnClickListener(new View.OnClickListener() {
     }
     private void updateuser(String name,int year,int college,String collegeName,String bio){
         String id = fauth.getCurrentUser().getUid();
+
 fstore.collection("users").document(id).update("Full Name",name);
         fstore.collection("users").document(id).update("Bio",bio);
         fstore.collection("users").document(id).update("college",college);
         fstore.collection("users").document(id).update("collegeName",collegeName);
         fstore.collection("users").document(id).update("Year",year);
-
+        Year1.setVisibility(View.VISIBLE);
+        Name.setVisibility(View.GONE);
+        Name1.setVisibility(View.VISIBLE);
+        CollegeName.setVisibility(View.VISIBLE);
+        Year.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+        Bio.setVisibility(View.GONE);
+        myimage.setEnabled(false);
+        save.setVisibility(View.GONE);
+        Bio1.setVisibility(View.VISIBLE);
+        Edit.setVisibility(View.VISIBLE);
           }
 
     private void showUser(String id ){
@@ -370,10 +383,16 @@ fstore.collection("users").document(id).update("Full Name",name);
                     .child(
                             "images/"
                                     + UUID.randomUUID().toString());
+            Bitmap bitmap = ((BitmapDrawable)myimage.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG,25,baos);
+            byte[] data = baos.toByteArray();
+
 
             // adding listeners on upload
             // or failure of image
-            ref.putFile(filepath)
+            ref.putBytes(data)
                     .addOnSuccessListener(
                             new OnSuccessListener<UploadTask.TaskSnapshot>() {
 

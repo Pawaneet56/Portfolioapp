@@ -232,7 +232,7 @@
                 android:ellipsize="none"
                 android:maxLines="100"
                 android:layout_weight="1"
-                android:spinnerMode="dialog"
+                android:spinnerMode="dropdown"
                 android:scrollHorizontally="true"
                 android:layout_margin="10dp" />
             <TextView
