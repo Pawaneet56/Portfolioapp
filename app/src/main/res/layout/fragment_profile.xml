@@ -224,17 +224,7 @@
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black" />
-            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@drawable/inputs"
-                android:id="@+id/spinner1"
-                android:ellipsize="none"
-                android:maxLines="100"
-                android:layout_weight="1"
-                android:spinnerMode="dialog"
-                android:scrollHorizontally="true"
-                android:layout_margin="10dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -246,6 +236,16 @@
                 android:textColor="@android:color/black"
                 android:id="@+id/college"/>
         </LinearLayout>
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/spinner1"
+                android:ellipsize="none"
+                android:maxLines="100"
+                android:layout_weight="1"
+                android:spinnerMode="dialog"
+                android:scrollHorizontally="true"
+                android:layout_margin="10dp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
