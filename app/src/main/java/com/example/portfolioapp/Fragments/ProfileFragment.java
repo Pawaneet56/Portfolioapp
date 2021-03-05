@@ -224,6 +224,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
                     });
                 }
 Edit.setVisibility(View.GONE);
+                edittext.setVisibility(View.GONE);
         Name1.setVisibility(View.GONE);
         Name.setVisibility(View.VISIBLE);
         Year.setVisibility(View.VISIBLE);
@@ -295,6 +296,7 @@ fstore.collection("users").document(id).update("Full Name",name);
         save.setVisibility(View.GONE);
         Bio1.setVisibility(View.VISIBLE);
         Edit.setVisibility(View.VISIBLE);
+        edittext.setVisibility(View.VISIBLE);
           }
 
     private void showUser(String id ){
@@ -327,7 +329,7 @@ fstore.collection("users").document(id).update("Full Name",name);
                     if ( documentSnapshot.getString("Image").equals("noImage")) {
                         myimage.setImageResource(R.drawable.avatar);
                     } else {
-                        Picasso.get().load(urli).into(myimage);
+                        Picasso.get().load(documentSnapshot.getString("Image")).into(myimage);
                     }
 
                 }
