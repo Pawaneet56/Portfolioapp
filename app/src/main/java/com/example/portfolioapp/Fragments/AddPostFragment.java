@@ -252,7 +252,7 @@ public class AddPostFragment extends Fragment {
         Bitmap bitmap = ((BitmapDrawable)postpic.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        bitmap.compress(Bitmap.CompressFormat.JPEG,25,baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
         byte[] data = baos.toByteArray();
 
         StorageReference filePath = imagereference.child(Imageuri.getLastPathSegment()+"_"+timestamp+".jpeg");
@@ -291,7 +291,7 @@ public class AddPostFragment extends Fragment {
                         Bitmap bitmap = ((BitmapDrawable)postpic.getDrawable()).getBitmap();
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,25,baos);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
                         byte[] data = baos.toByteArray();
 
                         StorageReference filePath = imagereference.child(Imageuri.getLastPathSegment()+"_"+timestamp+".jpeg");

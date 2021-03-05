@@ -329,7 +329,8 @@ fstore.collection("users").document(id).update("Full Name",name);
                     if ( documentSnapshot.getString("Image").equals("noImage")) {
                         myimage.setImageResource(R.drawable.avatar);
                     } else {
-                        Picasso.get().load(documentSnapshot.getString("Image")).into(myimage);
+                        //Picasso.get().load(documentSnapshot.getString("Image")).into(myimage);
+                        Picasso.get().load(documentSnapshot.getString("Image")).fit().centerCrop(-10).into(myimage);
                     }
 
                 }
@@ -365,7 +366,7 @@ fstore.collection("users").document(id).update("Full Name",name);
         if(resultCode== Activity.RESULT_OK && requestCode == Gallery_pick && data!=null)
         {
             filepath=data.getData();
-            myimage.setImageURI(filepath);
+            Picasso.get().load(filepath).fit().centerCrop(-10).into(myimage);
 
         }
     }
@@ -388,7 +389,7 @@ fstore.collection("users").document(id).update("Full Name",name);
             Bitmap bitmap = ((BitmapDrawable)myimage.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-            bitmap.compress(Bitmap.CompressFormat.JPEG,25,baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
             byte[] data = baos.toByteArray();
 
 

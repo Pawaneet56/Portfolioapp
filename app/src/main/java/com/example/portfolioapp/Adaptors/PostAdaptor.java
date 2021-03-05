@@ -122,7 +122,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         else
         {
             try{
-                Picasso.get().load(uimage).into(holder.userpic);
+                Picasso.get().load(uimage).fit().centerCrop(-10).into(holder.userpic);
             }catch(Exception e){}
         }
 

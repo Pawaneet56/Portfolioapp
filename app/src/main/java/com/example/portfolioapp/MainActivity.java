@@ -79,7 +79,7 @@ private ImageView fimage;
                                 fimage.setImageResource(R.drawable.avatar);
                             }
                             else{
-                            Picasso.get().load(documentSnapshot.getString("Image")).into(fimage);
+                            Picasso.get().load(documentSnapshot.getString("Image")).fit().centerCrop(-10).into(fimage);
                         }}
                     }
                 });
