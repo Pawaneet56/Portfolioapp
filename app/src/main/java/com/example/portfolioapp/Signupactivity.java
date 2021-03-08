@@ -57,11 +57,6 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     private FirebaseAuth auth;
     private EditText name;
     private TextView login;
-    int score = 0;
-    boolean upper = false;
-    boolean lower = false;
-    boolean digit = false;
-    boolean specialChar = false;
     private FirebaseFirestore fstore;
     private FirebaseStorage fstorage;
     private ProgressDialog pd;

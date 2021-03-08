@@ -30,6 +30,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfolioapp.Fragments.AddPostFragment;
@@ -444,4 +446,6 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
             share = itemView.findViewById(R.id.sharebtn);
         }
     }
+
+
 }

@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
@@ -100,8 +101,8 @@ private ImageView fimage;
 
         if(requestCode==101)
         {
-            TextView textView = findViewById(R.id.fragment);
-            textView.setText(data.getStringExtra("data"));
+            /*TextView textView = findViewById(R.id.fragment);
+            textView.setText(data.getStringExtra("data"));*/
         }
     }
 
@@ -164,6 +165,16 @@ private ImageView fimage;
         }
         else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user=f.getCurrentUser();
+        if(user==null)
+        {
+            startActivity(new Intent(MainActivity.this,Startactivity.class));
         }
     }
 }

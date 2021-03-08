@@ -2,9 +2,11 @@ package com.example.portfolioapp.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,9 +26,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidbuts.multispinnerfilter.KeyPairBoolData;
+import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
+import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.portfolioapp.Adaptors.PostAdaptor;
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.R;
@@ -34,6 +41,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,9 +53,13 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
@@ -65,6 +77,10 @@ public class AddPostFragment extends Fragment {
     private TextView text1;
     private Button remove;
 
+    private MultiSpinnerSearch domainselection;
+    private final List<String> itemsindomain=new ArrayList<>();
+    private List<String> item;
+
     private String Post_name,Post_detail;
     private StorageReference imagereference;
     private ProgressDialog loadingbar;
@@ -77,6 +93,16 @@ public class AddPostFragment extends Fragment {
     private String edittitle,editdetails,editimage;
 
     private String key = "noedit",editpostid = "noId";
+
+    private RadioGroup paymentmode,typeofproject;
+    private RadioButton typeofmode,projecttype;
+
+    private TextInputLayout nameerror,detailerror;
+    private Boolean isposttitle=false,ispostdetail=false,ispaymentmode=false,istypeofpost=false,isdomain=false;
+    private TextView errorpaymentmode,errortypeofproject,errordomain;
+
+    public AddPostFragment() {
+    }
 
 
     @Override
@@ -99,11 +125,24 @@ public class AddPostFragment extends Fragment {
         update = v.findViewById(R.id.post);
         text1 = v.findViewById(R.id.ftext);
         remove = v.findViewById(R.id.remimage);
+        paymentmode=v.findViewById(R.id.typeofmode);
+        typeofproject=v.findViewById(R.id.Type_of_post);
+        domainselection=v.findViewById(R.id.domainselection);
+        errorpaymentmode=v.findViewById(R.id.errortypeofpayment);
+        errortypeofproject=v.findViewById(R.id.errortypeofproject);
+        errordomain=v.findViewById(R.id.errordomain);
+        nameerror=v.findViewById(R.id.errorprojectname);
+        detailerror=v.findViewById(R.id.errordescription);
         fstore = FirebaseFirestore.getInstance();
         fauth = FirebaseAuth.getInstance();
         imagereference = FirebaseStorage.getInstance().getReference("Posts");
         loadingbar = new ProgressDialog(mcontext);
         timestamp = String.valueOf(System.currentTimeMillis());
+
+        item=new ArrayList<>();
+
+
+
 
         //if user come from edit for that key values
         Bundle bundle = getArguments();
@@ -146,6 +185,7 @@ public class AddPostFragment extends Fragment {
             }
         });
 
+
         //to remove image
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,22 +213,73 @@ public class AddPostFragment extends Fragment {
                  Post_detail = postdetail.getText().toString();
                 if(TextUtils.isEmpty(Post_name))
                 {
-                    posttitle.setError("Enter Project Title");
+                    nameerror.setError("Enter Post Title");
+                    isposttitle=false;
                 }
-                else if(TextUtils.isEmpty(Post_detail))
+                else
                 {
-                    postdetail.setError("Enter Project detail");
+                    nameerror.setErrorEnabled(false);
+                    isposttitle=true;
                 }
-                else if(key.equals("editPost"))
+
+
+                if(TextUtils.isEmpty(Post_detail))
+                {
+                    detailerror.setError("Enter Project detail");
+                    ispostdetail=false;
+                }
+                else
+                {
+                    detailerror.setErrorEnabled(false);
+                    ispostdetail=true;
+                }
+
+                if(paymentmode.getCheckedRadioButtonId()==-1)
+                {
+                    errorpaymentmode.setVisibility(View.VISIBLE);
+                    ispaymentmode=false;
+                }
+                else
+                {
+                    errorpaymentmode.setVisibility(View.GONE);
+                    ispaymentmode=true;
+                }
+
+                if(typeofproject.getCheckedRadioButtonId()==-1)
+                {
+                    errortypeofproject.setVisibility(View.VISIBLE);
+                    istypeofpost=false;
+                }
+                else
+                {
+                    errortypeofproject.setVisibility(View.GONE);
+                    istypeofpost=true;
+                }
+
+                if(itemsindomain.isEmpty())
+                {
+                    isdomain=false;
+                    errordomain.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    isdomain=true;
+                    errordomain.setVisibility(View.GONE);
+                }
+
+
+
+                if(key.equals("editPost"))
                 {
 
-                    loadingbar.setTitle("Updating New Project");
+                    loadingbar.setTitle("Updating Project");
                     loadingbar.setMessage("Please wait, while we update your project");
                     loadingbar.setCancelable(false);
                     loadingbar.show();
                     beginupdate(editpostid);
                 }
-                else if(Imageuri!=null)
+
+                else if(Imageuri!=null && ispostdetail && isposttitle && ispaymentmode && istypeofpost && isdomain)
                 {
 
                     loadingbar.setTitle("Adding New Project");
@@ -197,21 +288,85 @@ public class AddPostFragment extends Fragment {
                     loadingbar.show();
                     storingimage();
                 }
-                else
+                else if(ispostdetail && isposttitle && ispaymentmode && istypeofpost && isdomain)
                 {
                     loadingbar.setTitle("Adding New Project");
                     loadingbar.setMessage("Please wait, while we upload your project");
                     loadingbar.setCancelable(false);
                     loadingbar.show();
                     SavingPost("noImage");
-
                 }
 
             }
         });
 
+        //selecting domain
+        final List<KeyPairBoolData> isselected = new ArrayList<>();
+        final List<String> list = Arrays.asList(getResources().getStringArray(R.array.Domains));
+
+        if(!key.equals("editPost"))
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                KeyPairBoolData k = new KeyPairBoolData();
+                k.setId(i+1);
+                k.setName(list.get(i));
+                k.setSelected(false);
+                isselected.add(k);
+            }
+
+        }
+        else
+        {
+
+            for(int i=0;i<list.size();i++)
+            {
+                KeyPairBoolData k = new KeyPairBoolData();
+                k.setId(i+1);
+                k.setName(list.get(i));
+
+                if(item.contains(list.get(i)))
+                {
+                    k.setSelected(true);
+                }
+                else
+                {
+                    k.setSelected(false);
+                }
+
+                isselected.add(k);
+            }
+
+        }
+
+        domainselection.setSearchEnabled(true);
+        domainselection.setSearchHint("Domain");
+        domainselection.setClearText("Close & Clear");
+        domainselection.setEmptyTitle("No data found");
+
+        domainselection.setItems(isselected, new MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(List<KeyPairBoolData> selectedItems) {
+                itemsindomain.clear();
+                for(int i=0;i<selectedItems.size();i++)
+                {
+                    if(selectedItems.get(i).isSelected())
+                    {
+                        itemsindomain.add(selectedItems.get(i).getName());
+                    }
+                }
+            }
+        });
+
         return v;
     }
+
+
+
+
+
+
+
 
 
 //condition for update
@@ -340,6 +495,34 @@ public class AddPostFragment extends Fragment {
                             editdetails = documentSnapshot.getString("Detail");
                             editimage = documentSnapshot.getString("PostImage");
 
+                            String oldtypeofpayment=documentSnapshot.getString("Paid_Unpaid");
+                            if(oldtypeofpayment.equals("Paid"))
+                            {
+                                paymentmode.check(R.id.paid);
+                            }
+                            else
+                            {
+                                paymentmode.check(R.id.unpaid);
+                            }
+
+                            String oldtypeofproject=documentSnapshot.getString("Type_of_post");
+                            if(oldtypeofproject.equals("Project"))
+                            {
+                                typeofproject.check(R.id.project);
+                            }
+                            else if(oldtypeofproject.equals("Part Time Jobs"))
+                            {
+                                typeofproject.check(R.id.part_time_job);
+                            }
+                            else
+                            {
+                                typeofproject.check(R.id.internship);
+                            }
+
+                            item = (List<String>) Collections.singletonList(documentSnapshot.get("Domain").toString());
+
+
+
                             posttitle.setText(edittitle);
                             postdetail.setText(editdetails);
 
@@ -394,6 +577,13 @@ public class AddPostFragment extends Fragment {
 
 
     private void UpdatingPost(String url) {
+
+        int radioid1 = typeofproject.getCheckedRadioButtonId();
+        int radioid2 = paymentmode.getCheckedRadioButtonId();
+
+        typeofmode = getView().findViewById(radioid2);
+        projecttype = getView().findViewById(radioid1);
+
         String current_id = fauth.getCurrentUser().getUid();
         fstore.collection("users").document(current_id).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -409,14 +599,18 @@ public class AddPostFragment extends Fragment {
                                     "ProjectName",Post_name,
                                     "PostImage","noImage",
                                     "pid",editpostid,
-                                    "pTime",timestamp
+                                    "pTime",timestamp,
+                                    "Paid_Unpaid",typeofmode.getText().toString(),
+                                    "Type_of_post",projecttype.getText().toString(),
+                                    "Domain",itemsindomain
+
                             )
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
                                                     new HomeFragment()).commit();
-                                            Toast.makeText(mcontext,"Project Uploaded Successfully",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mcontext,"Project Updated Successfully",Toast.LENGTH_SHORT).show();
                                             loadingbar.dismiss();
                                         }
                                     })
@@ -436,14 +630,17 @@ public class AddPostFragment extends Fragment {
                                     "ProjectName",Post_name,
                                     "PostImage",url,
                                     "pid",editpostid,
-                                    "pTime",timestamp
+                                    "pTime",timestamp,
+                                    "Paid_Unpaid",typeofmode.getText().toString(),
+                                    "Type_of_post",projecttype.getText().toString(),
+                                    "Domain",itemsindomain
                             )
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
                                                     new HomeFragment()).commit();
-                                            Toast.makeText(mcontext,"Project Uploaded Successfully",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mcontext,"Project Updated Successfully",Toast.LENGTH_SHORT).show();
                                             loadingbar.dismiss();
                                         }
                                     })
@@ -463,6 +660,14 @@ public class AddPostFragment extends Fragment {
 
     private void SavingPost(String url) {
         String current_id = fauth.getCurrentUser().getUid();
+
+        int radioid1 = typeofproject.getCheckedRadioButtonId();
+        int radioid2 = paymentmode.getCheckedRadioButtonId();
+
+        typeofmode = getView().findViewById(radioid2);
+        projecttype = getView().findViewById(radioid1);
+
+
         fstore.collection("users").document(current_id).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -483,8 +688,11 @@ public class AddPostFragment extends Fragment {
                         doc.put("pid",current_id + timestamp);
                         doc.put("pTime",timestamp);
                         doc.put("pLike",0);
+                        doc.put("Paid_Unpaid",typeofmode.getText().toString());
                         String[] value = {"noId"};
                         doc.put("Likes", Arrays.asList(value));
+                        doc.put("Type_of_post",projecttype.getText().toString());
+                        doc.put("Domain",itemsindomain);
 
                         fstore.collection("Posts").document(current_id + timestamp).set(doc)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -507,7 +715,6 @@ public class AddPostFragment extends Fragment {
                     }
                 });
     }
-
 
 
 

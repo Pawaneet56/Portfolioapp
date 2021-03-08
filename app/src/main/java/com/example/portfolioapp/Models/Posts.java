@@ -1,5 +1,6 @@
 package com.example.portfolioapp.Models;
 
+
 public class Posts {
 
     String FullName,Id,Detail,ProjectName,PostImage,UserImage,pid,pTime;
@@ -19,6 +20,8 @@ public class Posts {
         this.pTime = pTime;
         this.pLike = pLike;
     }
+
+
 
     public String getFullName() {
         return FullName;
@@ -91,4 +94,7 @@ public class Posts {
     public void setpLike(int pLike) {
         this.pLike = pLike;
     }
+
+
+
 }

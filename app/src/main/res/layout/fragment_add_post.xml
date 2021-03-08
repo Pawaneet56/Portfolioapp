@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,13 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:scrollbars="none"
-        tools:context=".Fragments.AddPostFragment">
+        android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:context=".AddPostFragment">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,53 +39,171 @@
                 app:srcCompat="@drawable/addimage"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp" />
+
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Remove Image"
                 android:id="@+id/remimage"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/errorprojectname"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:errorIconDrawable="@null"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
             <EditText
                 android:id="@+id/fprojectname"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_height="60dp"
                 android:drawableLeft="@drawable/ic_baseline_title_24"
                 android:drawablePadding="7dp"
                 android:hint="Project Name"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black" />
 
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/errordescription"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:errorIconDrawable="@null"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
 
             <EditText
                 android:id="@+id/fprojectdetail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_height="60dp"
                 android:drawableLeft="@drawable/ic_baseline_description_24"
                 android:drawablePadding="7dp"
                 android:hint="Description"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black" />
 
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text= "Type of Post :"
+                android:id="@+id/TExt_1"
+                style="@style/RegularMono"
+                android:textSize="@dimen/font_size_small"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:textColor="@color/black"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Type_of_post">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Project"
+                    android:id="@+id/project"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Part Time Jobs"
+                    android:id="@+id/part_time_job"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Internships"
+                    android:id="@+id/internship"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/errortypeofproject"
+                android:textColor="@color/red"
+                android:text="Select Type of Post"
+                android:visibility="gone"/>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text= "Paid/Unpaid :"
+                style="@style/RegularMono"
+                android:textSize="@dimen/font_size_small"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:id="@+id/paidunpaidtext"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/typeofmode">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paid"
+                    android:id="@+id/paid"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unpaid"
+                    android:id="@+id/unpaid"/>
+
+            </RadioGroup>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/errortypeofpayment"
+                android:text="Select Type of payment"
+                android:visibility="gone"
+                android:textColor="@color/red"/>
+
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/domainselection"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:hintText="Select Domain"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/errordomain"
+                android:text="Select Domain"
+                android:textColor="@color/red"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_marginTop="20sp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/btn_customs"
-                android:text="Upload Project" />
+                android:text="Upload Project"/>
 
         </LinearLayout>
 
-    </ScrollView>
+</ScrollView>
 
 
-</LinearLayout>
+</RelativeLayout>
 
 

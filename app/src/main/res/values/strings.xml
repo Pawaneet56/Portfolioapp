@@ -12,7 +12,7 @@
 
     <string name="Error">Error</string>
     <string name="error">ERROR</string>
-    <string name="spinner_title"></string>
+
     <string-array name="colleges">
         <item>Select your college</item>
         <item>Indian Institute of Technology,Bombay</item>
@@ -40,6 +40,21 @@
         <item>Indian Institute of Technology,Tirupati</item>
 
 
+    </string-array>
+
+    <string-array name="Domains">
+        <item>Algorithms</item>
+        <item>Design and Product</item>
+        <item>Software Development</item>
+        <item>Computer Security and Networks</item>
+        <item>Data Analysis</item>
+        <item>Probability and Statistics</item>
+        <item>App Development</item>
+        <item>Web Development</item>
+        <item>Data Science</item>
+        <item>Machine Learning</item>
+        <item>Cloud Computing</item>
+        <item>Data Management</item>
     </string-array>
 
 </resources>
