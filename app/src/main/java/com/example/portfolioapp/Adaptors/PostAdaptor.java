@@ -225,8 +225,12 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mcontext,"share",Toast.LENGTH_SHORT).show();
-            }
+                String uimage = detalist.get(position).getUserImage();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT,uimage);
+                intent.setType("");
+                mcontext.startActivity(Intent.createChooser(intent, "Send To"));
+                           }
         });
 
         holder.userpic.setOnClickListener(new View.OnClickListener() {
