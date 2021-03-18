@@ -45,12 +45,16 @@ import androidx.fragment.app.Fragment;
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.R;
 import com.example.portfolioapp.Startactivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -241,17 +245,32 @@ Edit.setVisibility(View.GONE);
         myimage.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-            if(checkSelfPermission(mcontext, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED){
-                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                requestPermissions(permissions,Permission_code);
-            }else{
-                pickImageFromGallery();
-            }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Do you want to change profile picture?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                    if(checkSelfPermission(mcontext, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED){
+                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        requestPermissions(permissions,Permission_code);
+                    }else{
+                        pickImageFromGallery();
+                    }
 
-        }else{
-            pickImageFromGallery();
-        }
+                }else{
+                    pickImageFromGallery();
+                }
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
 
     }
 });
@@ -279,7 +298,18 @@ Edit.setVisibility(View.GONE);
     }
     private void updateuser(String name,int year,int college,String collegeName,String bio){
         String id = fauth.getCurrentUser().getUid();
-
+        fstore.collection("Posts").whereEqualTo("Id",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<Object, String> doc = new HashMap<>();
+                        doc.put("FullName",name);
+                        fstore.collection("Posts").document(document.getId()).set(doc, SetOptions.merge());
+                    }
+                }
+            }
+        });
 fstore.collection("users").document(id).update("Full Name",name);
         fstore.collection("users").document(id).update("Bio",bio);
         fstore.collection("users").document(id).update("college",college);
@@ -411,6 +441,8 @@ fstore.collection("users").document(id).update("Full Name",name);
                                     {
                                         Savingimage(downloadurl);
                                         urli=downloadurl;
+
+
                                     }
                                     // Image uploaded successfully
                                     // Dismiss dialog
@@ -460,6 +492,18 @@ fstore.collection("users").document(id).update("Full Name",name);
 private void Savingimage(String url){
         String id=fauth.getCurrentUser().getUid();
         fstore.collection("users").document(id).update("Image",url);
+    fstore.collection("Posts").whereEqualTo("Id",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Map<Object, String> doc = new HashMap<>();
+                    doc.put("UserImage",url);
+                    fstore.collection("Posts").document(document.getId()).set(doc, SetOptions.merge());
+                }
+            }
+        }
+    });
 }
 
 }
