@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.portfolioapp.Fragments.AddPostFragment;
-import com.example.portfolioapp.Fragments.FilterFragment;
 import com.example.portfolioapp.Fragments.HomeFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -84,27 +83,9 @@ private ImageView fimage;
                         }}
                     }
                 });
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
-                        new FilterFragment()).commit();
 
-            }
-        });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-
-        if(requestCode==101)
-        {
-            /*TextView textView = findViewById(R.id.fragment);
-            textView.setText(data.getStringExtra("data"));*/
-        }
-    }
 
 
     @Override

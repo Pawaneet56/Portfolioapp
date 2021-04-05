@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.portfolioapp.Adaptors.FilterAdaptor;
 import com.example.portfolioapp.Adaptors.PostAdaptor;
+import com.example.portfolioapp.Models.Filters;
 import com.example.portfolioapp.Models.Posts;
 import com.example.portfolioapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +37,10 @@ public class HomeFragment extends Fragment {
     private ArrayList<Posts> datalist;
     private PostAdaptor fadaptor;
 
+    private RecyclerView filterrecycler;
+    private ArrayList<Filters> filterOptions;
+    private FilterAdaptor filterAdaptor;
+
     //to get context of the fragment
     @Override
     public void onAttach(@NonNull Context context) {
@@ -51,6 +57,14 @@ public class HomeFragment extends Fragment {
 
         fstore = FirebaseFirestore.getInstance();
         recyclerView = v.findViewById(R.id.recview);
+        filterrecycler = v.findViewById(R.id.filterrecycler);
+
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,true);
+        linearLayoutManager1.setStackFromEnd(true);
+
+        filterrecycler.setLayoutManager(linearLayoutManager1);
+
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setReverseLayout(true);
@@ -60,10 +74,19 @@ public class HomeFragment extends Fragment {
         datalist = new ArrayList<>();
         fadaptor = new PostAdaptor(datalist,getContext());
 
+        fetchdata();
 
 
-            fetchdata();
 
+        filterOptions = new ArrayList<>();
+        filterAdaptor = new FilterAdaptor(filterOptions,getContext());
+
+        filterOptions.add(new Filters("Job Type"));
+        filterOptions.add(new Filters("Paid/Unpaid"));
+        filterOptions.add(new Filters("Domain"));
+
+        filterrecycler.setAdapter(filterAdaptor);
+        filterAdaptor.notifyDataSetChanged();
 
 
         return v;
