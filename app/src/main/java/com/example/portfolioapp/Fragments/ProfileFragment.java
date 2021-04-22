@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
@@ -41,14 +43,18 @@ import java.net.URISyntaxException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.R;
 import com.example.portfolioapp.Startactivity;
+import com.firebase.ui.auth.ui.accountlink.WelcomeBackPasswordPrompt;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -70,9 +76,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static android.content.Context.MODE_PRIVATE;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
-public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     private Button Edit;
     private EditText Name;
     private NumberPicker Year;
@@ -91,11 +98,13 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     String college;
      String downloadurl;
      String urli;
+     private TextView headname;
+     private ImageView headimage;
     private static final int Gallery_pick = 1000;
     private static final int Permission_code = 1001;
     FirebaseStorage storage;
     StorageReference storageReference;
-    private Button save;
+    private Button save,post;
     String Profile="myProfile",uid;
 
     int pos;
@@ -120,6 +129,7 @@ Year.setMinValue(1971);
 Year1=v.findViewById(R.id.year1);
 CollegeName=v.findViewById(R.id.college);
 Year.setMaxValue(2020);
+post=v.findViewById(R.id.posts);
 spinner=v.findViewById(R.id.spinner1);
 Bio=v.findViewById(R.id.bio);
 myimage=v.findViewById(R.id.image);
@@ -127,6 +137,8 @@ save=v.findViewById(R.id.savebutton);
 fauth=FirebaseAuth.getInstance();
 fstore=FirebaseFirestore.getInstance();
 storage = FirebaseStorage.getInstance();
+
+
         storageReference = storage.getReference();
         fstore.collection("users").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -153,6 +165,25 @@ storage = FirebaseStorage.getInstance();
         else{
         showUser(id);
             save.setVisibility(View.GONE);}
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("post","true");
+                if(Profile.equals("true")){
+                bundle2.putString("uid",uid);}
+                else{
+                    bundle2.putString("uid",id);
+                }
+
+                HomeFragment fragment = new HomeFragment();
+                fragment.setArguments(bundle2);
+                FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment,fragment);
+                fragmentTransaction.addToBackStack(null).commit();
+            }
+        });
 
 save.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -168,6 +199,7 @@ save.setOnClickListener(new View.OnClickListener() {
         CollegeName.setText(collegeName);
         Bio1.setText(bio);
         Year1.setText(""+year);
+        post.setVisibility(View.VISIBLE);
 
     }
 });
@@ -235,6 +267,7 @@ Edit.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
         Year1.setVisibility(View.GONE);
         Bio.setVisibility(View.VISIBLE);
+        post.setVisibility(View.GONE);
         Bio1.setVisibility(View.GONE);
         myimage.setEnabled(true);
         save.setVisibility(View.VISIBLE);
@@ -310,6 +343,12 @@ Edit.setVisibility(View.GONE);
                 }
             }
         });
+        SharedPreferences shared = getActivity().getSharedPreferences("MyPREFERENCES",MODE_PRIVATE);
+                SharedPreferences.Editor editor = shared.edit();
+                editor.putString("Key","Key");
+        editor.putString("Name",name);
+        editor.commit();
+
 fstore.collection("users").document(id).update("Full Name",name);
         fstore.collection("users").document(id).update("Bio",bio);
         fstore.collection("users").document(id).update("college",college);
@@ -327,6 +366,7 @@ fstore.collection("users").document(id).update("Full Name",name);
         Bio1.setVisibility(View.VISIBLE);
         Edit.setVisibility(View.VISIBLE);
         edittext.setVisibility(View.VISIBLE);
+
           }
 
     private void showUser(String id ){
@@ -443,6 +483,7 @@ fstore.collection("users").document(id).update("Full Name",name);
                                         urli=downloadurl;
 
 
+
                                     }
                                     // Image uploaded successfully
                                     // Dismiss dialog
@@ -490,6 +531,8 @@ fstore.collection("users").document(id).update("Full Name",name);
         }
     }
 private void Savingimage(String url){
+        /*Intent i =new Intent(getActivity().getBaseContext(),MainActivity.class);
+        i.putExtra("Image",url);*/
         String id=fauth.getCurrentUser().getUid();
         fstore.collection("users").document(id).update("Image",url);
     fstore.collection("Posts").whereEqualTo("Id",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -506,4 +549,8 @@ private void Savingimage(String url){
     });
 }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+        return false;
+    }
 }

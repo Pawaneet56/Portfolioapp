@@ -93,31 +93,58 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchdata() {
+        Bundle bundle=getArguments();
+        if(bundle!=null){
+        String Profile=bundle.getString("post");
 
-        fstore.collection("Posts").orderBy("pTime").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+        if(Profile.equals("true")) {
+            String uid = bundle.getString("uid");
+            fstore.collection("Posts").whereEqualTo("Id",uid).orderBy("pTime").get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                        List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                        for(DocumentSnapshot d:list)
-                        {
-                            Posts obj = d.toObject(Posts.class);
-                            datalist.add(obj);
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                            for(DocumentSnapshot d:list)
+                            {
+                                Posts obj = d.toObject(Posts.class);
+                                datalist.add(obj);
+                            }
+                            recyclerView.setAdapter(fadaptor);
+                            fadaptor.notifyDataSetChanged();
+
                         }
-                        recyclerView.setAdapter(fadaptor);
-                        fadaptor.notifyDataSetChanged();
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
+        }}
+else {
+            fstore.collection("Posts").orderBy("pTime").get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot d : list) {
+                                Posts obj = d.toObject(Posts.class);
+                                datalist.add(obj);
+                            }
+                            recyclerView.setAdapter(fadaptor);
+                            fadaptor.notifyDataSetChanged();
 
-                        Toast.makeText(mContext,"Error: "+ e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
 
+                            Toast.makeText(mContext, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
 
     }
 

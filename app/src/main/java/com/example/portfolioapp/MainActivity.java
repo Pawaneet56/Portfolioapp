@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,9 +56,13 @@ private ImageView fimage;
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer);
-
+        SharedPreferences shared = getSharedPreferences("MyPREFERENCES", MODE_PRIVATE);
+        String key=shared.getString("Key","");
+        String name = (shared.getString("Name",""));
+        if(key.equals("Key")){
+            fname.setText(name);
+        }
         navigationView.setNavigationItemSelectedListener(this);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.open,R.string.close);
 

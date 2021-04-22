@@ -287,6 +287,18 @@
                 android:id="@+id/bio"
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/inputs"
+                android:text="Posts"
+                android:textSize="17dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/posts"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
+
         </LinearLayout>
 
             <Button
