@@ -118,25 +118,25 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_profile,container,false);
-Edit=v.findViewById(R.id.editbutton);
-edittext=v.findViewById(R.id.edittext);
-Name=v.findViewById(R.id.name);
-Bio1=v.findViewById(R.id.bio1);
-Year=v.findViewById(R.id.year);
-Name1=v.findViewById(R.id.name1);
-Email1=v.findViewById(R.id.email1);
-Year.setMinValue(1971);
-Year1=v.findViewById(R.id.year1);
-CollegeName=v.findViewById(R.id.college);
-Year.setMaxValue(2020);
-post=v.findViewById(R.id.posts);
-spinner=v.findViewById(R.id.spinner1);
-Bio=v.findViewById(R.id.bio);
-myimage=v.findViewById(R.id.image);
-save=v.findViewById(R.id.savebutton);
-fauth=FirebaseAuth.getInstance();
-fstore=FirebaseFirestore.getInstance();
-storage = FirebaseStorage.getInstance();
+        Edit=v.findViewById(R.id.editbutton);
+        edittext=v.findViewById(R.id.edittext);
+        Name=v.findViewById(R.id.name);
+        Bio1=v.findViewById(R.id.bio1);
+        Year=v.findViewById(R.id.year);
+        Name1=v.findViewById(R.id.name1);
+        Email1=v.findViewById(R.id.email1);
+        Year.setMinValue(1971);
+        Year1=v.findViewById(R.id.year1);
+        CollegeName=v.findViewById(R.id.college);
+        Year.setMaxValue(2020);
+        post=v.findViewById(R.id.posts);
+        spinner=v.findViewById(R.id.spinner1);
+        Bio=v.findViewById(R.id.bio);
+        myimage=v.findViewById(R.id.image);
+        save=v.findViewById(R.id.savebutton);
+        fauth=FirebaseAuth.getInstance();
+        fstore=FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
 
 
         storageReference = storage.getReference();

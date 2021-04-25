@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
 
     private Context mContext;
     private FirebaseFirestore fstore;
@@ -147,8 +147,6 @@ else {
         }
 
     }
-
-
 
 
 }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.portfolioapp.Fragments.AddPostFragment;
+import com.example.portfolioapp.Fragments.BottomFilter;
 import com.example.portfolioapp.Fragments.HomeFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BottomFilter.BottomSheetListner {
 private DrawerLayout drawerLayout;
 private FirebaseAuth f;
 private TextView fname;
@@ -162,6 +163,11 @@ private ImageView fimage;
         {
             startActivity(new Intent(MainActivity.this,Startactivity.class));
         }
+    }
+
+    @Override
+    public void onButtonClicked(String text) {
+        Toast.makeText(this,text+" filter was clicked",Toast.LENGTH_SHORT).show();
     }
 }
 

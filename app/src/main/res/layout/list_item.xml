@@ -16,13 +16,15 @@
         android:layout_height="wrap_content">
 
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/avatar"
             android:id="@+id/luserpic"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitXY"
+            android:padding="2dp"
+            app:shapeAppearanceOverlay="@style/Circular"/>
 
 
         <LinearLayout
@@ -91,6 +93,7 @@
         android:textColor="@color/black"
         android:layout_marginTop="20dp"
         android:id="@+id/ldeatils"
+        android:layout_margin="5dp"
         android:layout_below="@+id/lprojectpic"
         android:layout_marginBottom="10dp"/>
 

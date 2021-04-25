@@ -2,6 +2,7 @@ package com.example.portfolioapp.Adaptors;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,12 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.portfolioapp.Fragments.BottomFilter;
+import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.Models.Filters;
 import com.example.portfolioapp.R;
 
 import java.util.ArrayList;
-import java.util.logging.Filter;
 
 public class FilterAdaptor extends RecyclerView.Adapter<FilterAdaptor.myViewHolder> {
 
@@ -42,6 +44,24 @@ public class FilterAdaptor extends RecyclerView.Adapter<FilterAdaptor.myViewHold
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
 
         holder.filter.setText(Filterlist.get(position).getFilters());
+
+        holder.filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("filter_type",Filterlist.get(position).getFilters());
+
+
+                BottomFilter bottomFilter = new BottomFilter();
+                bottomFilter.setArguments(bundle);
+
+                bottomFilter.setCancelable(false);
+
+                bottomFilter.show(((MainActivity)mcontext).getSupportFragmentManager(),bottomFilter.getTag());
+            }
+        });
+
     }
 
     @Override
