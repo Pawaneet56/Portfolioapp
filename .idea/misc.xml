@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Pawaneet/AndroidStudioProjects/Portfolioapp/app/src/main/res/layout/bottom_filter_sheet.xml" value="0.1" />
+        <entry key="..\:/Users/Pawaneet/AndroidStudioProjects/Portfolioapp/app/src/main/res/layout/filter_view_option.xml" value="0.1" />
         <entry key="..\:/Users/Pawaneet/AndroidStudioProjects/Portfolioapp/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
       </map>
     </option>

@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment{
     private RecyclerView recyclerView;
     private ArrayList<Posts> datalist;
     private PostAdaptor fadaptor;
-
+private String Profile="false",domain1="false";
     private RecyclerView filterrecycler;
     private ArrayList<Filters> filterOptions;
     private FilterAdaptor filterAdaptor;
@@ -95,7 +95,31 @@ public class HomeFragment extends Fragment{
     private void fetchdata() {
         Bundle bundle=getArguments();
         if(bundle!=null){
-        String Profile=bundle.getString("post");
+            if(bundle.getString("post")!=null){
+         Profile=bundle.getString("post");}
+            if(bundle.getString("domain")!=null){
+         domain1=bundle.getString("domain");}
+        if(domain1.equals("true")){
+        ArrayList<String>domains=bundle.getStringArrayList("domainsitems");
+        fstore.collection("Posts").whereArrayContainsAny("Domain",domains).orderBy("pTime").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d:list)
+                {
+                    Posts obj = d.toObject(Posts.class);
+                    datalist.add(obj);
+                }
+                recyclerView.setAdapter(fadaptor);
+                fadaptor.notifyDataSetChanged();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+        }
 
         if(Profile.equals("true")) {
             String uid = bundle.getString("uid");

@@ -13,6 +13,13 @@
         android:layout_gravity="center"
         android:text="ABC"
         android:id="@+id/bottomsheetfilter"/>
+    <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+        android:id="@+id/searchMultiSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="20dp" >
+    </com.androidbuts.multispinnerfilter.MultiSpinnerSearch>
 
     <Button
         android:layout_marginTop="30dp"
