@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -169,5 +170,10 @@ private ImageView fimage;
     public void onButtonClicked(String text) {
         Toast.makeText(this,text+" filter was clicked",Toast.LENGTH_SHORT).show();
     }
+
+
+
+
+
 }
 
