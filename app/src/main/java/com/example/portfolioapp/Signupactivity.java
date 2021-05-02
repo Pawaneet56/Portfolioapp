@@ -46,6 +46,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.MalformedParameterizedTypeException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -328,6 +329,12 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         doc.put("Image","noImage");
         doc.put("college",0);
         doc.put("collegeName","Select your college");
+        Map<String,Object>map=new HashMap<>();
+        ArrayList<String> a=new ArrayList<String>();
+        map.put("Id",id);
+        fstore.collection("filter").document(id).set(doc);
+        fstore.collection("filter").document(id).update("Id",id,"paid_unpaid","noFilter","typeofpost","noFilter","domainitems",a);
+
 
         fstore.collection("users").document(id).set(doc)
                 .addOnFailureListener(new OnFailureListener() {
