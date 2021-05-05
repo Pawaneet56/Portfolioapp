@@ -55,8 +55,8 @@ public class BottomFilter extends BottomSheetDialogFragment {
 
         filter_text = v.findViewById(R.id.bottomsheetfilter);
         Close = v.findViewById(R.id.bottom_close);
-domainselection=v.findViewById(R.id.searchMultiSpinner);
-radio1=v.findViewById(R.id.r1);
+        domainselection=v.findViewById(R.id.searchMultiSpinner);
+        radio1=v.findViewById(R.id.r1);
         radio2=v.findViewById(R.id.r2);
         radio3=v.findViewById(R.id.r3);
         radio4=v.findViewById(R.id.r4);

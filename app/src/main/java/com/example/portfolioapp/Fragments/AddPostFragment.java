@@ -31,6 +31,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
@@ -50,6 +55,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -60,6 +68,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
@@ -701,6 +710,16 @@ public class AddPostFragment extends Fragment {
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
                                                 new HomeFragment()).commit();
                                         Toast.makeText(mcontext,"Project Uploaded Successfully",Toast.LENGTH_SHORT).show();
+
+
+                                        prepareNotification(
+                                                current_id+timestamp,
+                                                usname+" added new Post",
+                                                ""+Post_name+"\n"+Post_detail,
+                                                "Post");
+
+
+
                                         loadingbar.dismiss();
                                     }
                                 })
@@ -749,6 +768,63 @@ public class AddPostFragment extends Fragment {
             Imageuri=data.getData();
             postpic.setImageURI(Imageuri);
         }
+    }
+
+    //preparing notification for the newly added post
+    private void prepareNotification(String pid,String title,String description,String notificationTopic)
+    {
+
+        String current_id = fauth.getCurrentUser().getUid();
+
+        String Notification_Topic = "/topics/" + notificationTopic;
+
+        String Notification_Title = title;
+
+        String Notification_msg = description;
+
+        JSONObject notify = new JSONObject();
+
+        JSONObject notifybody = new JSONObject();
+
+        try {
+            notifybody.put("sender",current_id);
+            notifybody.put("pid",pid);
+            notifybody.put("nTitle",Notification_Title);
+            notifybody.put("pDescription",Notification_msg);
+
+            notify.put("to",Notification_Topic);
+            notify.put("data",notifybody);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notify,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mcontext,error.toString(),Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<>();
+
+                headers.put("Content_type","application/json");
+                headers.put("Authorization","key=AAAAZLL_RcE:APA91bGAkYrpMAzawhZokXtLL4Hn1bCYaGDFIEE8WYh83Lz3IU-RC3MkVlAa_QSQYqBz_PbSRV_3ghO7yH0gvFju-JHqRi_4g2VwJkJFexGkB3-PrguEXlv5X7P9bWxiPICNAQfsSuYL");
+
+                return headers;
+            }
+        };
+
+        Volley.newRequestQueue(mcontext).add(jsonObjectRequest);
+
+
     }
 
 

@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Filters> filterOptions;
     private FilterAdaptor filterAdaptor;
     private ArrayList<String> domains, domains1;
-Bundle bundle;
+    Bundle bundle;
     //to get context of the fragment
     @Override
     public void onAttach(@NonNull Context context) {

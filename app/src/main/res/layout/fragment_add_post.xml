@@ -155,12 +155,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Paid"
-                    android:id="@+id/paid"/>
+                    android:id="@+id/paid" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Unpaid"
-                    android:id="@+id/unpaid"/>
+                    android:id="@+id/unpaid" />
 
             </RadioGroup>
 

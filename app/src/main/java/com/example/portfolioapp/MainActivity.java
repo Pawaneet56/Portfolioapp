@@ -1,7 +1,6 @@
 package com.example.portfolioapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,7 +15,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,13 +23,16 @@ import com.example.portfolioapp.Fragments.BottomFilter;
 import com.example.portfolioapp.Fragments.HomeFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BottomFilter.BottomSheetListner {
 private DrawerLayout drawerLayout;
@@ -91,6 +92,8 @@ private ImageView fimage;
                     }
                 });
 
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+
     }
 
 
@@ -140,6 +143,13 @@ private ImageView fimage;
                 });
                 builder.show();
                 break;
+
+            /*case R.id.notification:
+                Toast.makeText(this, "Notifications", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
+                        new NotificationFragment()).commit();
+                break;*/
+
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -164,14 +174,32 @@ private ImageView fimage;
         {
             startActivity(new Intent(MainActivity.this,Startactivity.class));
         }
+        else
+        {
+            SharedPreferences sp = getSharedPreferences("Sp_USER",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("current_uid",f.getCurrentUser().getUid());
+            editor.apply();
+        }
     }
 
     @Override
     public void onButtonClicked(String text) {
-        Toast.makeText(this,text+" filter was clicked",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,text+" filter was clicked",Toast.LENGTH_SHORT).show();
     }
 
+    public void updateToken(String token)
+    {
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("token",token);
 
+        fstore.collection("Tokens").document(Objects.requireNonNull(f.getCurrentUser()).getUid()).set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+    }
 
 
 
