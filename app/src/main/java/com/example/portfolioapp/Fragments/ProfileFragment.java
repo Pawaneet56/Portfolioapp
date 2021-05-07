@@ -118,6 +118,10 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_profile,container,false);
+        getActivity().setTitle("Profile");
+
+
+
         Edit=v.findViewById(R.id.editbutton);
         edittext=v.findViewById(R.id.edittext);
         Name=v.findViewById(R.id.name);

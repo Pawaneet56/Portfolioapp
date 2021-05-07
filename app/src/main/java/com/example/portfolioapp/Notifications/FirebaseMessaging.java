@@ -30,7 +30,9 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Random;
 
-public class FirebaseMessaging extends FirebaseMessagingService {
+public class  FirebaseMessaging extends FirebaseMessagingService {
+
+
     private static final String ADMIN_CHANNEL_ID = "admin_channel";
 
 
@@ -38,7 +40,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        SharedPreferences sp = getSharedPreferences("SP_USER",MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("Sp_USER",MODE_PRIVATE);
         String currentUser = sp.getString("current_uid","None");
 
         String pid = remoteMessage.getData().get("pid");
@@ -46,6 +48,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("nTitle");
         String description = remoteMessage.getData().get("pDescription");
 
+        assert sender != null;
         if(!sender.equals(currentUser))
         {
             showPostNotification(pid,title,description);
@@ -63,7 +66,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         }
 
         Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("Fragment_Name","HomeFragment");
+        //intent.putExtra("Fragment_Name","HomeFragment");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 

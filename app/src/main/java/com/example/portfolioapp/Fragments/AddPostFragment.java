@@ -41,6 +41,8 @@ import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.portfolioapp.Adaptors.PostAdaptor;
 import com.example.portfolioapp.MainActivity;
+import com.example.portfolioapp.Notifications.APIService;
+import com.example.portfolioapp.Notifications.Client;
 import com.example.portfolioapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,8 +50,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -110,6 +114,9 @@ public class AddPostFragment extends Fragment {
     private Boolean isposttitle=false,ispostdetail=false,ispaymentmode=false,istypeofpost=false,isdomain=false;
     private TextView errorpaymentmode,errortypeofproject,errordomain;
 
+
+    private APIService apiservice;
+
     public AddPostFragment() {
     }
 
@@ -147,6 +154,7 @@ public class AddPostFragment extends Fragment {
         imagereference = FirebaseStorage.getInstance().getReference("Posts");
         loadingbar = new ProgressDialog(mcontext);
         timestamp = String.valueOf(System.currentTimeMillis());
+        apiservice = Client.getRetrofit("https://fcm.googlepis.com").create(APIService.class);
 
         item=new ArrayList<>();
 
@@ -707,8 +715,6 @@ public class AddPostFragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
-                                                new HomeFragment()).commit();
                                         Toast.makeText(mcontext,"Project Uploaded Successfully",Toast.LENGTH_SHORT).show();
 
 
@@ -716,9 +722,17 @@ public class AddPostFragment extends Fragment {
                                                 current_id+timestamp,
                                                 usname+" added new Post",
                                                 ""+Post_name+"\n"+Post_detail,
-                                                "Post");
+                                                "POST");
+
+                                        addtonotification(
+                                                current_id,
+                                                current_id+timestamp,
+                                                usname+" added new Post\n"+Post_name+"\n"+Post_detail);
 
 
+
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
+                                                new HomeFragment()).commit();
 
                                         loadingbar.dismiss();
                                     }
@@ -774,13 +788,9 @@ public class AddPostFragment extends Fragment {
     private void prepareNotification(String pid,String title,String description,String notificationTopic)
     {
 
-        String current_id = fauth.getCurrentUser().getUid();
+        String current_id = Objects.requireNonNull(fauth.getCurrentUser()).getUid();
 
         String Notification_Topic = "/topics/" + notificationTopic;
-
-        String Notification_Title = title;
-
-        String Notification_msg = description;
 
         JSONObject notify = new JSONObject();
 
@@ -789,14 +799,22 @@ public class AddPostFragment extends Fragment {
         try {
             notifybody.put("sender",current_id);
             notifybody.put("pid",pid);
-            notifybody.put("nTitle",Notification_Title);
-            notifybody.put("pDescription",Notification_msg);
+            notifybody.put("nTitle", title);
+            notifybody.put("pDescription", description);
 
             notify.put("to",Notification_Topic);
             notify.put("data",notifybody);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        sendPostNotification(notify);
+
+
+
+    }
+
+    private void sendPostNotification(JSONObject notify) {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notify,
                 new Response.Listener<JSONObject>() {
@@ -815,7 +833,7 @@ public class AddPostFragment extends Fragment {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> headers = new HashMap<>();
 
-                headers.put("Content_type","application/json");
+                headers.put("Content-Type","application/json");
                 headers.put("Authorization","key=AAAAZLL_RcE:APA91bGAkYrpMAzawhZokXtLL4Hn1bCYaGDFIEE8WYh83Lz3IU-RC3MkVlAa_QSQYqBz_PbSRV_3ghO7yH0gvFju-JHqRi_4g2VwJkJFexGkB3-PrguEXlv5X7P9bWxiPICNAQfsSuYL");
 
                 return headers;
@@ -823,9 +841,31 @@ public class AddPostFragment extends Fragment {
         };
 
         Volley.newRequestQueue(mcontext).add(jsonObjectRequest);
+    }
+
+
+
+    private void addtonotification(String hisuid,String pid,String notification)
+    {
+        String timestamp = ""+System.currentTimeMillis();
+
+        HashMap<Object,String> hashMap = new HashMap<>();
+        hashMap.put("pid",pid);
+        hashMap.put("timestamp",timestamp);
+        hashMap.put("puid",hisuid);
+        hashMap.put("notification",notification);
+
+        fstore.collection("Notifications").document(pid)
+                .set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+            }
+        });
 
 
     }
+
 
 
 

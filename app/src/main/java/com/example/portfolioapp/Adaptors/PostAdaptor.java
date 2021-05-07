@@ -186,6 +186,9 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                                 holder.like.setText(Integer.toString(plikes[0])+" Likes");
                             }
 
+
+                            addtonotification(uid,pid,"Liked Your Post");
+
                         }
                         else
                         {
@@ -251,6 +254,32 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         });
 
     }
+
+
+    private void addtonotification(String hisuid,String pid,String notification)
+    {
+        String timestamp = ""+System.currentTimeMillis();
+
+        HashMap<Object,String> hashMap = new HashMap<>();
+        hashMap.put("pid",pid);
+        hashMap.put("timestamp",timestamp);
+        hashMap.put("puid",hisuid);
+        hashMap.put("notification",notification);
+        hashMap.put("suid",myuid);
+        hashMap.put("type","like");
+
+        fstore.collection("Notifications").document(hisuid).collection("like").document(hisuid+myuid)
+                .set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+            }
+        });
+
+    }
+
+
+
 
     //to set the field of like
     private void setlikes(myViewHolder holder, String pid,int[] plikes) {

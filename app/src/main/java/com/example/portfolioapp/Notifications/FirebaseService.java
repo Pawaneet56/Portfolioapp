@@ -1,5 +1,7 @@
 package com.example.portfolioapp.Notifications;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -9,20 +11,21 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class FirebaseService extends FirebaseInstanceIdService {
+public class FirebaseService extends FirebaseMessaging {
 
     @Override
-    public void onTokenRefresh() {
-        super.onTokenRefresh();
+    public void onNewToken(@NonNull @NotNull String s) {
+        super.onNewToken(s);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String tokenrefresh = FirebaseInstanceId.getInstance().getToken();
 
         if(user!=null)
         {
-            updateToken(tokenrefresh);
+            updateToken(s);
         }
     }
 
@@ -32,10 +35,7 @@ public class FirebaseService extends FirebaseInstanceIdService {
         CollectionReference ref = FirebaseFirestore.getInstance().collection("Tokens");
         Token token = new Token(tokenrefresh);
 
-        HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("token",token);
-
-        ref.document(String.valueOf(user)).set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        ref.document(String.valueOf(user)).update("token",token).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,11 +26,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.installations.InstallationTokenResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +56,8 @@ public class HomeFragment extends Fragment {
     private FilterAdaptor filterAdaptor;
     private ArrayList<String> domains, domains1;
     Bundle bundle;
+
+    String token;
     //to get context of the fragment
     @Override
     public void onAttach(@NonNull Context context) {
@@ -112,7 +121,44 @@ public class HomeFragment extends Fragment {
 
         return v;
     }
-private void fetchdata2(){
+
+
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+        FirebaseInstallations.getInstance().getToken(true).addOnSuccessListener(new OnSuccessListener<InstallationTokenResult>() {
+            @Override
+            public void onSuccess(InstallationTokenResult installationTokenResult) {
+                token  = installationTokenResult.getToken();
+                Savetoken(token);
+            }
+        });
+
+
+    }
+
+    private void Savetoken(String token) {
+
+
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("Token",token);
+
+        fstore.collection("Tokens").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                });
+
+
+    }
+
+    private void fetchdata2(){
         fstore.collection("filter").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
