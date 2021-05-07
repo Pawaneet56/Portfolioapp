@@ -854,8 +854,10 @@ public class AddPostFragment extends Fragment {
         hashMap.put("timestamp",timestamp);
         hashMap.put("puid",hisuid);
         hashMap.put("notification",notification);
+        hashMap.put("suid",hisuid);
+        hashMap.put("type","post");
 
-        fstore.collection("Notifications").document(pid)
+        fstore.collection("Notifications").document(pid+"post")
                 .set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

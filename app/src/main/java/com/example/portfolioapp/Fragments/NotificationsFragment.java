@@ -67,7 +67,7 @@ public class NotificationsFragment extends Fragment {
 
         nadaptor = new NotificationAdaptor(mcontext,notify);
 
-        fstore.collection("Notifications").document(fauth.getCurrentUser().getUid()).collection("like").orderBy("timestamp")
+        fstore.collection("Notifications").whereEqualTo("type","like").orderBy("timestamp")
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -78,8 +78,8 @@ public class NotificationsFragment extends Fragment {
                     notify.add(obj);
                 }
 
-                fstore.collection("Notifications").orderBy("timestamp")
-                        .whereNotEqualTo("puid",fauth.getCurrentUser().getUid())
+                fstore.collection("Notifications")
+                        .whereNotEqualTo("puid",fauth.getCurrentUser().getUid()).orderBy("timestamp")
                         .get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override

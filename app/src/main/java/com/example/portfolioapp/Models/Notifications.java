@@ -2,9 +2,9 @@ package com.example.portfolioapp.Models;
 
 public class Notifications {
 
-    String pid,timestamp,puid,notification,suid,sname,semail,simage;
+    String pid,timestamp,puid,notification,suid,sname,semail,simage,type;
 
-    public Notifications(String pid, String timestamp, String puid, String notification, String suid, String sname, String semail, String simage) {
+    public Notifications(String pid, String timestamp, String puid, String notification, String suid, String sname, String semail, String simage,String type) {
         this.pid = pid;
         this.timestamp = timestamp;
         this.puid = puid;
@@ -13,6 +13,7 @@ public class Notifications {
         this.sname = sname;
         this.semail = semail;
         this.simage = simage;
+        this.type = type;
     }
 
     public Notifications() {
@@ -81,5 +82,13 @@ public class Notifications {
 
     public void setSimage(String simage) {
         this.simage = simage;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

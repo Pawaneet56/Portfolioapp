@@ -268,7 +268,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         hashMap.put("suid",myuid);
         hashMap.put("type","like");
 
-        fstore.collection("Notifications").document(hisuid).collection("like").document(hisuid+myuid)
+        fstore.collection("Notifications").document(pid+"like")
                 .set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

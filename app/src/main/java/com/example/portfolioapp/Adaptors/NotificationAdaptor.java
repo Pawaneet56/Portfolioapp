@@ -1,19 +1,30 @@
 package com.example.portfolioapp.Adaptors;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.portfolioapp.Fragments.HomeFragment;
+import com.example.portfolioapp.Fragments.ProfileFragment;
+import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.Models.Notifications;
 import com.example.portfolioapp.R;
+import com.example.portfolioapp.Startactivity;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -90,6 +101,60 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment,new HomeFragment());
+                fragmentTransaction.addToBackStack(null).commit();
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you want to delete ?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        fstore.collection("Notifications").document(notifications.get(position).getPid()+notifications.get(position).getType())
+                                .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(context,"Notification is deleted",Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull @NotNull Exception e) {
+                                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+
+
+                    }
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+
+
+                return false;
+            }
+        });
+
 
     }
 
