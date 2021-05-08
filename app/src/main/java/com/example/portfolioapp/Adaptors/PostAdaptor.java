@@ -187,7 +187,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                             }
 
 
-                            addtonotification(uid,pid,"Liked Your Post");
+                            addtonotification(uid,pid,"Liked Your Post",uimage,uname);
 
                         }
                         else
@@ -256,7 +256,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
     }
 
 
-    private void addtonotification(String hisuid,String pid,String notification)
+    private void addtonotification(String hisuid,String pid,String notification,String image,String name)
     {
         String timestamp = ""+System.currentTimeMillis();
 
@@ -266,6 +266,8 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         hashMap.put("puid",hisuid);
         hashMap.put("notification",notification);
         hashMap.put("suid",myuid);
+        hashMap.put("sname",name);
+        hashMap.put("simage",image);
         hashMap.put("type","like");
 
         fstore.collection("Notifications").document(pid+"like")

@@ -727,7 +727,9 @@ public class AddPostFragment extends Fragment {
                                         addtonotification(
                                                 current_id,
                                                 current_id+timestamp,
-                                                usname+" added new Post\n"+Post_name+"\n"+Post_detail);
+                                                "added new Post\n"+Post_name+"\n"+Post_detail,
+                                                usname,
+                                                upic);
 
 
 
@@ -845,7 +847,7 @@ public class AddPostFragment extends Fragment {
 
 
 
-    private void addtonotification(String hisuid,String pid,String notification)
+    private void addtonotification(String hisuid,String pid,String notification,String name,String image)
     {
         String timestamp = ""+System.currentTimeMillis();
 
@@ -855,6 +857,8 @@ public class AddPostFragment extends Fragment {
         hashMap.put("puid",hisuid);
         hashMap.put("notification",notification);
         hashMap.put("suid",hisuid);
+        hashMap.put("sname",name);
+        hashMap.put("simage",image);
         hashMap.put("type","post");
 
         fstore.collection("Notifications").document(pid+"post")

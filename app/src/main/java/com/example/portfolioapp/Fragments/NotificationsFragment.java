@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.portfolioapp.Adaptors.NotificationAdaptor;
 import com.example.portfolioapp.Models.Notifications;
 import com.example.portfolioapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -58,6 +60,7 @@ public class NotificationsFragment extends Fragment {
         fauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         notify = new ArrayList<>();
+        String current_user = fauth.getCurrentUser().getUid();
 
         LinearLayoutManager ll = new LinearLayoutManager(mcontext);
         ll.setStackFromEnd(true);
@@ -67,7 +70,8 @@ public class NotificationsFragment extends Fragment {
 
         nadaptor = new NotificationAdaptor(mcontext,notify);
 
-        fstore.collection("Notifications").whereEqualTo("type","like").orderBy("timestamp")
+        fstore.collection("Notifications")
+                .whereEqualTo("type","like").whereEqualTo("puid",current_user).orderBy("timestamp")
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -78,26 +82,44 @@ public class NotificationsFragment extends Fragment {
                     notify.add(obj);
                 }
 
-                fstore.collection("Notifications")
-                        .whereNotEqualTo("puid",fauth.getCurrentUser().getUid()).orderBy("timestamp")
-                        .get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                                for(DocumentSnapshot d:list)
-                                {
-                                    Notifications obj = d.toObject(Notifications.class);
-                                    notify.add(obj);
-                                }
+                notify_rec.setAdapter(nadaptor);
+                nadaptor.notifyDataSetChanged();
 
-
-                                notify_rec.setAdapter(nadaptor);
-                                nadaptor.notifyDataSetChanged();
-                            }
-                        });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Toast.makeText(mcontext,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        fstore.collection("Notifications")
+                .whereEqualTo("type","post")
+                .whereNotEqualTo("puid",current_user)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                        for(DocumentSnapshot d:list)
+                        {
+                            Notifications obj = d.toObject(Notifications.class);
+                            notify.add(obj);
+                        }
+                        notify_rec.setAdapter(nadaptor);
+                        nadaptor.notifyDataSetChanged();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Toast.makeText(mcontext,e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
 
         return v;
     }
