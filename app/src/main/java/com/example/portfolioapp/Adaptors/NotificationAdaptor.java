@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfolioapp.Fragments.HomeFragment;
+import com.example.portfolioapp.Fragments.NotificationsFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.Models.Notifications;
@@ -99,7 +100,8 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
             Picasso.get().load(notifications.get(position).getSimage()).into(holder.simage);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8")
+                .into(holder.simage);
         }
 
 
@@ -129,6 +131,10 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(context,"Notification is deleted",Toast.LENGTH_SHORT).show();
+
+                                notifications.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position,notifications.size());
                             }
                         })
                                 .addOnFailureListener(new OnFailureListener() {

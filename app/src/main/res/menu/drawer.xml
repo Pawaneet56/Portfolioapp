@@ -15,13 +15,14 @@
             android:icon="@drawable/ic_add_post"
             android:title="Add Project"/>
 
+        <item android:id="@+id/notification"
+            android:icon="@drawable/ic_notification"
+            android:title="Notification"/>
+
         <item android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="Logout"/>
 
-        <item android:id="@+id/notification"
-            android:icon="@drawable/ic_notification"
-            android:title="Notification"/>
 
     </group>
 </menu>

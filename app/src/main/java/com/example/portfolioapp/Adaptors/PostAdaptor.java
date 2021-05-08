@@ -153,7 +153,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                 @Override
                 public void onClick(View v) {
 
-                    showoptions(holder.threedot,uid,pid,pimage,myuid);
+                    showoptions(holder.threedot,uid,pid,pimage,myuid,position);
                 }
             });
 
@@ -320,7 +320,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
 
 //options when you click on the threedot
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void showoptions(ImageButton threedot, String uid, String pid, String pimage, String myuid) {
+    private void showoptions(ImageButton threedot, String uid, String pid, String pimage, String myuid, int position) {
 
         PopupMenu pop  = new PopupMenu(mcontext,threedot, Gravity.END);
 
@@ -340,7 +340,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
 
                 if(id==0)
                 {
-                    begindelete(pid,pimage);
+                    begindelete(pid,pimage,detalist,position);
                 }
                 else
                 {
@@ -382,7 +382,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
 
 
 
-    private void begindelete(String pid, String pimage) {
+    private void begindelete(String pid, String pimage,ArrayList<Posts> data,int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
         builder.setMessage("Are you sure you want to DELETE this Project ?");
         builder.setCancelable(false);
@@ -396,7 +396,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
 
                 if(pimage.equals("noImage"))
                 {
-                    deletepost(pid);
+                    deletepost(pid,data,position);
                 }
                 else
                 {
@@ -405,7 +405,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    deletepost(pid);
+                                    deletepost(pid,data,position);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -430,18 +430,16 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
     }
 
 
-    private void deletepost(String pid) {
+    private void deletepost(String pid,ArrayList<Posts> data,int position) {
         FirebaseFirestore.getInstance().collection("Posts").document(pid).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         pd.dismiss();
                         Toast.makeText(mcontext,"Project Deleted Successfully",Toast.LENGTH_SHORT).show();
-                        MainActivity act = (MainActivity)mcontext;
-                        Fragment f = new HomeFragment();
-                        act.getSupportFragmentManager().beginTransaction().replace(R.id.fragment,f).addToBackStack(null).commit();
-
-
+                        data.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position,data.size());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

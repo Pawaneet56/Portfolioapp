@@ -56,6 +56,8 @@ private ImageView fimage;
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer);
+
+
         SharedPreferences shared = getSharedPreferences("MyPREFERENCES", MODE_PRIVATE);
         String key=shared.getString("Key","");
         String name = (shared.getString("Name",""));
