@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +21,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
@@ -71,52 +75,84 @@ public class NotificationsFragment extends Fragment {
         nadaptor = new NotificationAdaptor(mcontext,notify);
 
         fstore.collection("Notifications")
-                .whereEqualTo("type","like").whereEqualTo("puid",current_user).orderBy("timestamp")
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                for(DocumentSnapshot d:list)
-                {
-                    Notifications obj = d.toObject(Notifications.class);
-                    notify.add(obj);
-                }
+                .whereEqualTo("type","like").whereEqualTo("puid",current_user)
+                .whereNotEqualTo("suid",current_user)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
 
-                notify_rec.setAdapter(nadaptor);
-                nadaptor.notifyDataSetChanged();
+                        if(!value.isEmpty())
+                        {
+                            List<DocumentSnapshot> list = value.getDocuments();
+                            for(DocumentSnapshot d:list)
+                            {
+                                Notifications obj = d.toObject(Notifications.class);
+                                notify.add(obj);
+                            }
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                Toast.makeText(mcontext,e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
+                            notify_rec.setAdapter(nadaptor);
+                            nadaptor.notifyDataSetChanged();
+                        }
+                        else
+                        {
+                           // assert error != null;
+                           // Toast.makeText(mcontext,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
 
 
         fstore.collection("Notifications")
                 .whereEqualTo("type","post")
                 .whereNotEqualTo("puid",current_user)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                        for(DocumentSnapshot d:list)
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                        if(value!=null)
                         {
-                            Notifications obj = d.toObject(Notifications.class);
-                            notify.add(obj);
-                        }
-                        notify_rec.setAdapter(nadaptor);
-                        nadaptor.notifyDataSetChanged();
+                            List<DocumentSnapshot> list = value.getDocuments();
+                            for(DocumentSnapshot d:list)
+                            {
+                                Notifications obj = d.toObject(Notifications.class);
+                                notify.add(obj);
+                            }
 
+                            notify_rec.setAdapter(nadaptor);
+                            nadaptor.notifyDataSetChanged();
+                        }
+                        else
+                        {
+                            //Toast.makeText(mcontext,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                Toast.makeText(mcontext,e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
+                });
+
+
+        fstore.collection("Notifications")
+                .whereEqualTo("type","comment")
+                .whereEqualTo("puid",current_user)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                        if(value!=null)
+                        {
+                            List<DocumentSnapshot> list = value.getDocuments();
+                            for(DocumentSnapshot d:list)
+                            {
+                                Notifications obj = d.toObject(Notifications.class);
+                                notify.add(obj);
+                            }
+
+                            notify_rec.setAdapter(nadaptor);
+                            nadaptor.notifyDataSetChanged();
+                        }
+                        else
+                        {
+                            //Toast.makeText(mcontext,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
 
 

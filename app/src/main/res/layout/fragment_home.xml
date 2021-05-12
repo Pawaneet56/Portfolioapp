@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/filterrecycler"
             android:orientation="horizontal"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp" />
 
         </LinearLayout>
 
@@ -27,7 +27,8 @@
             android:id="@+id/recview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/l1"/>
+            android:layout_below="@id/l1"
+            tools:listitem="@layout/list_item"/>
 
 
 

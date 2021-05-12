@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -26,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -35,6 +39,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfolioapp.Fragments.AddPostFragment;
+import com.example.portfolioapp.Fragments.CommentFragment;
 import com.example.portfolioapp.Fragments.HomeFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.example.portfolioapp.MainActivity;
@@ -58,6 +63,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -219,7 +226,15 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mcontext,"comment",Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("pid",pid);
+                bundle.putString("useruid",myuid);
+                CommentFragment fragment  = new CommentFragment();
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment,fragment);
+                fragmentTransaction.addToBackStack(null).commit();
             }
         });
 
@@ -228,12 +243,56 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uimage = detalist.get(position).getUserImage();
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT,uimage);
-                intent.setType("");
-                mcontext.startActivity(Intent.createChooser(intent, "Send To"));
-                           }
+
+                if(pimage.equals("noImage"))
+                {
+                    String sharebody = ptitle+"\n"+pdetails;
+
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
+                    i.putExtra(Intent.EXTRA_TEXT,sharebody);
+                    mcontext.startActivity(Intent.createChooser(i,"Share Via"));
+                }
+                else
+                {
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable)holder.projectpic.getDrawable();
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                    String sharebody = ptitle+"\n"+pdetails;
+
+                    File imageFolder = new File(mcontext.getCacheDir(),"images");
+                    Uri uri = null;
+
+                    try{
+                        imageFolder.mkdirs();
+
+                        File file = new File(imageFolder,"shared_image.png");
+                        FileOutputStream stream = new FileOutputStream(file);
+
+                        bitmap.compress(Bitmap.CompressFormat.PNG,90,stream);
+                        stream.flush();
+                        stream.close();
+
+                        uri = FileProvider.getUriForFile(mcontext,"com.example.portfolioapp.fileprovider",file);
+
+                    }catch (Exception e)
+                    {
+
+                    }
+
+
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.putExtra(Intent.EXTRA_STREAM,uri);
+                    i.putExtra(Intent.EXTRA_TEXT,sharebody);
+                    i.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
+                    i.setType("image/png");
+
+                    mcontext.startActivity(Intent.createChooser(i,"Share Via"));
+
+                }
+
+            }
         });
 
         holder.userpic.setOnClickListener(new View.OnClickListener() {
@@ -241,7 +300,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("TheirProfile","true");
-                bundle.putString("uid",uid);
+                bundle.putString("uid",myuid);
 
                 ProfileFragment fragment = new ProfileFragment();
                 fragment.setArguments(bundle);
@@ -254,7 +313,6 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         });
 
     }
-
 
     private void addtonotification(String hisuid,String pid,String notification,String image,String name)
     {
@@ -270,7 +328,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
         hashMap.put("simage",image);
         hashMap.put("type","like");
 
-        fstore.collection("Notifications").document(pid+"like")
+        fstore.collection("Notifications").document(pid+"like"+timestamp)
                 .set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
