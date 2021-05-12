@@ -300,7 +300,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("TheirProfile","true");
-                bundle.putString("uid",myuid);
+                bundle.putString("uid",uid);
 
                 ProfileFragment fragment = new ProfileFragment();
                 fragment.setArguments(bundle);

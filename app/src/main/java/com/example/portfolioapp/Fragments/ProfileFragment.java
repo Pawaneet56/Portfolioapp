@@ -57,7 +57,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -81,6 +83,7 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     private Button Edit;
+    private TextView Posts;
     private EditText Name;
     private NumberPicker Year;
     private Spinner spinner;
@@ -93,9 +96,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private Context mcontext;
     private TextView edittext;
     private TextView Name1,Email1,Bio1;
-    String name,bio,image,email;
-    int year;
-    String college;
      String downloadurl;
      String urli;
      private TextView headname;
@@ -121,7 +121,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         getActivity().setTitle("Profile");
 
 
-
+Posts=v.findViewById(R.id.viewpostbyme);
         Edit=v.findViewById(R.id.editbutton);
         edittext=v.findViewById(R.id.edittext);
         Name=v.findViewById(R.id.name);
@@ -204,13 +204,15 @@ save.setOnClickListener(new View.OnClickListener() {
         Bio1.setText(bio);
         Year1.setText(""+year);
         post.setVisibility(View.VISIBLE);
+        Posts.setVisibility(View.VISIBLE);
 
     }
 });
 Edit.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-
+post.setVisibility(View.GONE);
+Posts.setVisibility(View.GONE);
                 if(urli.equals("noImage")){
                     myimage.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -347,11 +349,6 @@ Edit.setVisibility(View.GONE);
                 }
             }
         });
-        SharedPreferences shared = getActivity().getSharedPreferences("MyPREFERENCES",MODE_PRIVATE);
-                SharedPreferences.Editor editor = shared.edit();
-                editor.putString("Key","Key");
-        editor.putString("Name",name);
-        editor.commit();
 
 fstore.collection("users").document(id).update("Full Name",name);
         fstore.collection("users").document(id).update("Bio",bio);
@@ -374,43 +371,32 @@ fstore.collection("users").document(id).update("Full Name",name);
           }
 
     private void showUser(String id ){
-
-        fstore.collection("users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    name = documentSnapshot.getString("Full Name");
-                    email = documentSnapshot.getString("Email");
-                    year=documentSnapshot.getLong("Year").intValue();
-                    college = documentSnapshot.getString("collegeName");
-                    int college1=documentSnapshot.getLong("college").intValue();
-                    bio=documentSnapshot.getString("Bio");
-                    spinner.setSelection(college1);
-                    Email1.setText(email);
-                    Year1.setText(""+year);
-                    Name1.setText(name);
-                    Year.setValue(year);
-                    Name.setText(name);
-                    Bio1.setText(bio);
-                    CollegeName.setText(college);
-                    Bio.setText(bio);
-                    Bio.setVisibility(View.GONE);
-                    spinner.setVisibility(View.GONE);
-                    Year.setVisibility(View.GONE);
-                    Name.setVisibility(View.GONE);
-                    spinner.setVisibility(View.GONE);
-                    myimage.setEnabled(false);
-                    if ( documentSnapshot.getString("Image").equals("noImage")) {
-                        myimage.setImageResource(R.drawable.avatar);
-                    } else {
-                        //Picasso.get().load(documentSnapshot.getString("Image")).into(myimage);
-                        Picasso.get().load(documentSnapshot.getString("Image")).fit().centerCrop(-10).into(myimage);
-                    }
-
-                }
-            }
-        });
-
+fstore.collection("users").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+    @Override
+    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+if(value.exists()){
+    Email1.setText(value.getString("Email"));
+    Name1.setText(value.getString("Full Name"));
+    Name.setText(value.getString("Full Name"));
+spinner.setSelection(value.getLong("college").intValue());
+    Year1.setText(""+value.getLong("Year").intValue());
+    CollegeName.setText(value.getString("collegeName"));
+    Bio.setText(value.getString("Bio"));
+    Bio1.setText(value.getString("Bio"));
+    Year.setValue(value.getLong("Year").intValue());
+    if(value.getString("Image").equals("noImage")){
+        myimage.setImageResource(R.drawable.avatar);
+    }
+    else{
+        Picasso.get().load(value.getString("Image")).fit().centerCrop(-10).into(myimage);
+    }
+}
+    }
+});
+        Name.setVisibility(View.GONE);
+        Year.setVisibility(View.GONE);
+        Bio.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
     }
 
     private void pickImageFromGallery() {

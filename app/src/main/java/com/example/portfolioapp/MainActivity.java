@@ -1,6 +1,7 @@
 package com.example.portfolioapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -28,13 +29,15 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BottomFilter.BottomSheetListner {
 private DrawerLayout drawerLayout;
 private FirebaseAuth f;
-private TextView fname;
+private TextView fname,femail;
 private FirebaseFirestore fstore;
 private ImageView fimage;
 
@@ -51,6 +54,7 @@ private ImageView fimage;
         fstore = FirebaseFirestore.getInstance();
         fname = v.findViewById(R.id.headerfname);
         fimage=v.findViewById(R.id.headerpic);
+        femail=v.findViewById(R.id.headeremail);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,12 +62,6 @@ private ImageView fimage;
         drawerLayout = findViewById(R.id.drawer);
 
 
-        SharedPreferences shared = getSharedPreferences("MyPREFERENCES", MODE_PRIVATE);
-        String key=shared.getString("Key","");
-        String name = (shared.getString("Name",""));
-        if(key.equals("Key")){
-            fname.setText(name);
-        }
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.open,R.string.close);
@@ -74,23 +72,21 @@ private ImageView fimage;
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
                     new HomeFragment()).commit();// change to whichever id should be default
         }
-
-        fstore.collection("users").document(f.getCurrentUser().getUid().toString()).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists())
-                        {
-                            fname.setText(documentSnapshot.getString("Full Name"));
-                            if(documentSnapshot.getString("Image").equals("noImage")){
-                                fimage.setImageResource(R.drawable.avatar);
-                            }
-                            else{
-                            Picasso.get().load(documentSnapshot.getString("Image")).fit().centerCrop(-10).into(fimage);
-                        }}
-                    }
-                });
-
+fstore.collection("users").document(f.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+    @Override
+    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+        if(value.exists()){
+            fname.setText(value.getString("Full Name"));
+            femail.setText(value.getString("Email"));
+            if(value.getString("Image").equals("noImage")){
+                fimage.setImageResource(R.drawable.avatar);
+            }
+            else{
+                Picasso.get().load(value.getString("Image")).fit().centerCrop(-10).into(fimage);
+            }
+        }
+    }
+});
 
     }
 
