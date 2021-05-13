@@ -95,11 +95,12 @@ public class CommentFragment extends Fragment {
 
                 postComment();
 
+
             }
         });
-
-
         loadcomment();
+
+
 
         return v;
     }
@@ -172,9 +173,6 @@ public class CommentFragment extends Fragment {
 
     private void loadcomment() {
 
-        //if(comment_list!=null)
-        //  comment_list.clear();
-
         comment_list = new ArrayList<>();
 
 
@@ -193,6 +191,7 @@ public class CommentFragment extends Fragment {
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
                         if(!value.isEmpty())
                         {
+                            comment_list.clear();
                             List<DocumentSnapshot> list = value.getDocuments();
                             for(DocumentSnapshot d:list)
                             {

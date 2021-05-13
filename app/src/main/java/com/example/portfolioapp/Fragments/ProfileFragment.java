@@ -98,8 +98,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private TextView Name1,Email1,Bio1;
      String downloadurl;
      String urli;
-     private TextView headname;
-     private ImageView headimage;
     private static final int Gallery_pick = 1000;
     private static final int Permission_code = 1001;
     FirebaseStorage storage;
@@ -152,7 +150,7 @@ Posts=v.findViewById(R.id.viewpostbyme);
                 urli=documentSnapshot.getString("Image");
             }
         });
-        String id=fauth.getCurrentUser().getUid().toString();
+        String id=fauth.getCurrentUser().getUid();
         Bundle bundle=getArguments();
         if(bundle!=null){
         Profile=bundle.getString("TheirProfile");
