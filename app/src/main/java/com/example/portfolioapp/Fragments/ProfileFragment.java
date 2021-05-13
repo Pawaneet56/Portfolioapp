@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private TextView Year1,CollegeName;
     private Uri filepath;
     private Context mcontext;
-    private TextView edittext;
+    private TextView edittext,postbyme;
     private TextView Name1,Email1,Bio1;
      String downloadurl;
      String urli;
@@ -124,6 +124,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 Posts=v.findViewById(R.id.viewpostbyme);
         Edit=v.findViewById(R.id.editbutton);
         edittext=v.findViewById(R.id.edittext);
+        postbyme=v.findViewById(R.id.viewpostbyme);
         Name=v.findViewById(R.id.name);
         Bio1=v.findViewById(R.id.bio1);
         Year=v.findViewById(R.id.year);
@@ -141,6 +142,7 @@ Posts=v.findViewById(R.id.viewpostbyme);
         fauth=FirebaseAuth.getInstance();
         fstore=FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
+
 
 
         storageReference = storage.getReference();
@@ -205,6 +207,7 @@ save.setOnClickListener(new View.OnClickListener() {
         Year1.setText(""+year);
         post.setVisibility(View.VISIBLE);
         Posts.setVisibility(View.VISIBLE);
+        postbyme.setVisibility(View.VISIBLE);
 
     }
 });
@@ -279,6 +282,7 @@ Edit.setVisibility(View.GONE);
         save.setVisibility(View.VISIBLE);
         spinner.setVisibility(View.VISIBLE);
         CollegeName.setVisibility(View.GONE);
+        postbyme.setVisibility(View.GONE);
     }
 });
         myimage.setOnClickListener(new View.OnClickListener() {
@@ -367,6 +371,7 @@ fstore.collection("users").document(id).update("Full Name",name);
         Bio1.setVisibility(View.VISIBLE);
         Edit.setVisibility(View.VISIBLE);
         edittext.setVisibility(View.VISIBLE);
+        postbyme.setVisibility(View.VISIBLE);
 
           }
 

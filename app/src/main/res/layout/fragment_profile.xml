@@ -114,6 +114,7 @@
                 android:layout_marginRight="48dp"
                 android:padding="5dp"
                 android:text="Projects by me"
+                android:layout_alignParentRight="true"
                 android:textAppearance="@style/Bold"
                 android:textColor="@color/black"
                 android:textSize="14dp" />
@@ -318,6 +319,197 @@
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"/>
 
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Experiences"
+                android:drawableLeft="@drawable/ic_baseline_verified_24"
+                android:layout_margin="4dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="14dp"
+                android:paddingRight="100dp"
+                android:textAppearance="@style/Bold"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit1button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/ic_baseline_add_24"
+                app:iconSize="24dp"
+                app:iconPadding="24dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:layout_alignParentRight="true"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/inputs"
+            android:layout_margin="4dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Experiences"
+                android:id="@+id/experience1"
+                android:textSize="17dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
+
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Experiences"
+                android:textSize="17dp"
+                android:id="@+id/experience2"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Skills"
+                android:drawableLeft="@drawable/ic_baseline_check_24"
+                android:layout_margin="4dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="14dp"
+                android:textAppearance="@style/Bold"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editskills"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/ic_baseline_add_24"
+                app:iconSize="24dp"
+                app:iconPadding="24dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:layout_alignParentRight="true"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/inputs"
+            android:layout_margin="4dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Skills"
+                android:id="@+id/skills1"
+                android:textSize="17dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
+
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Skills"
+                android:textSize="17dp"
+                android:id="@+id/skills2"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="ExtraCurricular"
+                android:drawableLeft="@drawable/ic_baseline_music_note_24"
+                android:layout_margin="4dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="14dp"
+                android:textAppearance="@style/Bold"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editExtraCurriculars"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/ic_baseline_add_24"
+                app:iconSize="24dp"
+                app:iconPadding="24dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:layout_alignParentRight="true"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/inputs"
+            android:layout_margin="4dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ExtraCurricular"
+                android:id="@+id/extraCurricular1"
+                android:textSize="17dp"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
+
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ExtraCurricular"
+                android:textSize="17dp"
+                android:id="@+id/extraCurricular2"
+                android:drawablePadding="7dp"
+                android:paddingLeft="10dp"
+                android:layout_margin="4dp"
+                android:textColor="@android:color/black"/>
         </LinearLayout>
 
         <Button
