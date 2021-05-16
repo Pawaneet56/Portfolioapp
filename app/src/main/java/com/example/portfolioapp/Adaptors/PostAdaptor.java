@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -206,7 +207,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
 
                             holder.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like,0,0,0);
                             plikes[0]--;
-                            if(plikes[0]==0 || plikes[0]==1)
+                           if(plikes[0]==0 || plikes[0]==1)
                             {
                                 holder.like.setText(Integer.toString(plikes[0])+" Like");
                             }
@@ -510,10 +511,13 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
 
     }
 
+
     @Override
     public int getItemCount() {
         return detalist.size();
     }
+
+
 
     class myViewHolder extends RecyclerView.ViewHolder{
 

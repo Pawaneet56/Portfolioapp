@@ -3,6 +3,7 @@ package com.example.portfolioapp.Fragments;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -29,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -74,8 +76,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -83,7 +92,9 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     private Button Edit;
-    private TextView Posts;
+    private TextView Posts,Skills,ExtraCurricular;
+    private EditText Experience;
+    private Button skills1,experience1,extracurricular1;
     private EditText Name;
     private NumberPicker Year;
     private Spinner spinner;
@@ -96,6 +107,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private Context mcontext;
     private TextView edittext,postbyme;
     private TextView Name1,Email1,Bio1;
+    private LinearLayout mLayout;
+    String completestring;
      String downloadurl;
      String urli;
     private static final int Gallery_pick = 1000;
@@ -104,6 +117,13 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     StorageReference storageReference;
     private Button save,post;
     String Profile="myProfile",uid;
+    final String[] listItems = new String[]{"C", "C++", "JAVA", "PYTHON","Ruby"};
+    final boolean[] checkedItems = new boolean[listItems.length];
+
+    // copy the items from the main list to the selected item list
+    // for the preview if the item is checked then only the item
+    // should be displayed for the user
+    final List<String> selectedItems = Arrays.asList(listItems);
 
     int pos;
     @Override
@@ -140,9 +160,101 @@ Posts=v.findViewById(R.id.viewpostbyme);
         fauth=FirebaseAuth.getInstance();
         fstore=FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
+        mLayout=v.findViewById(R.id.linearlayout);
+Skills=v.findViewById(R.id.skills1);
+Experience=v.findViewById(R.id.experience1);
+ExtraCurricular=v.findViewById(R.id.extraCurricular1);
+skills1=v.findViewById(R.id.editskills);
+experience1=v.findViewById(R.id.editexperience);
+extracurricular1=v.findViewById(R.id.editExtraCurriculars);
+skills1.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        // initially set the null for the text preview
+        Skills.setText(null);
 
+        // initialise the alert dialog builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
+        // set the title for the alert dialog
+        builder.setTitle("Choose Items");
 
+        // set the icon for the alert dialog
+
+        // now this is the function which sets the alert dialog for multiple item selection ready
+        builder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                checkedItems[which] = isChecked;
+                String currentItem = selectedItems.get(which);
+            }
+        });
+
+        // alert dialog shouldn't be cancellable
+        builder.setCancelable(false);
+
+        // handle the positive button of the dialog
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+completestring="";
+                for (int i = 0; i < checkedItems.length; i++) {
+                    if (checkedItems[i] ) {
+                         completestring+=Skills.getText()+selectedItems.get(i)+",";
+                        //Skills.setText(Skills.getText() + selectedItems.get(i) + ", ");
+                    }
+
+                }
+                completestring=completestring.substring(0,completestring.length()-1);
+                Skills.setText(completestring);
+                //fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("skillArray",checkedItems);
+            }
+        });
+
+        // handle the negative button of the alert dialog
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+
+        // handle the neutral button of the dialog to clear
+        // the selected items boolean checkedItem
+        builder.setNeutralButton("CLEAR ALL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0; i < checkedItems.length; i++) {
+                    checkedItems[i] = false;
+                }
+            }
+        });
+
+        // create the builder
+        builder.create();
+
+        // create the alert dialog with the
+        // alert dialog builder instance
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+});
+experience1.setOnClickListener(onClick());
+/*experience1.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        //Addexperience();
+    }
+});*/
+extracurricular1.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        //Addextracurricular();
+    }
+});
         storageReference = storage.getReference();
         fstore.collection("users").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -326,6 +438,10 @@ Edit.setVisibility(View.GONE);
 
 
     return v;
+    }
+
+    private void AddSkils() {
+
     }
 
     @Override
@@ -545,5 +661,22 @@ private void Savingimage(String url){
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
         return false;
+    }
+    private View.OnClickListener onClick() {
+        return new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mLayout.addView(createNewTextView(Experience.getText().toString()));
+            }
+        };
+    }
+
+    private TextView createNewTextView(String text) {
+        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final TextView textView = new TextView(getContext());
+        textView.setLayoutParams(lparams);
+        textView.setText( text);
+        return textView;
     }
 }

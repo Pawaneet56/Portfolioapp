@@ -341,27 +341,43 @@ public class HomeFragment extends Fragment {
 
         if (Profile.equals("true")) {
             String uid = bundle.getString("uid");
-            fstore.collection("Posts").whereEqualTo("Id", uid).orderBy("pTime").get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot d : list) {
-                                Posts obj = d.toObject(Posts.class);
-                                datalist.add(obj);
-                            }
-                            recyclerView.setAdapter(fadaptor);
-                            fadaptor.notifyDataSetChanged();;
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
+            fstore.collection("Posts").whereEqualTo("Id",uid).orderBy("pTime").addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                    List<DocumentSnapshot>list=value.getDocuments();
+                    datalist.clear();
+                    for(DocumentSnapshot doc: list){
+                        Posts obj=doc.toObject(Posts.class);
+                        datalist.add(obj);
+                    }
+                    recyclerView.setAdapter(fadaptor);
+                    fadaptor.notifyDataSetChanged();
+
                 }
             });
-        } else {fstore.collection("Posts").orderBy("pTime").addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+
+        } else {
+            fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    for (DocumentSnapshot d : list) {
+                        Posts obj = d.toObject(Posts.class);
+                        datalist.add(obj);
+                    }
+                    recyclerView.setAdapter(fadaptor);
+                    fadaptor.notifyDataSetChanged();
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(mContext,e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
+            /*fstore.collection("Posts").orderBy("pTime").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
                 List<DocumentSnapshot>list=value.getDocuments();
@@ -374,7 +390,7 @@ public class HomeFragment extends Fragment {
                 fadaptor.notifyDataSetChanged();
 
             }
-        });
+        });*/
 
         }
 
@@ -386,7 +402,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 setHasOptionsMenu(true);}
 
-   /* @Override
+    @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 getActivity().getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -395,17 +411,21 @@ getActivity().getMenuInflater().inflate(R.menu.main_menu,menu);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchData(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                fadaptor.getFilter().filter(newText);
                 return true;
             }
         });
 
-    }*/
+    }
+
+    private void searchData(String query) {
+
+    }
 
 
 }
