@@ -76,7 +76,6 @@ public class NotificationsFragment extends Fragment {
 
         fstore.collection("Notifications")
                 .whereEqualTo("type","like").whereEqualTo("puid",current_user)
-                .whereNotEqualTo("suid",current_user)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {

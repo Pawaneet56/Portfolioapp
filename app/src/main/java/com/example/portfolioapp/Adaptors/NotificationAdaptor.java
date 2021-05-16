@@ -138,7 +138,6 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                             public void onSuccess(Void unused) {
                                 Toast.makeText(context,"Notification is deleted",Toast.LENGTH_SHORT).show();
 
-                                notifications.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position,notifications.size());
                             }
@@ -168,7 +167,7 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
         });
 
 
-        /*holder.simage.setOnClickListener(new View.OnClickListener() {
+        holder.simage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
@@ -183,7 +182,7 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                 fragmentTransaction.addToBackStack(null).commit();
 
             }
-        });*/
+        });
 
 
 

@@ -77,12 +77,13 @@ public class CommentFragment extends Fragment {
         fuser = fauth.getCurrentUser();
         comment_rec = v.findViewById(R.id.comment_rec);
         comment_list = new ArrayList<>();
+        commenteruid = fuser.getUid();
 
         Bundle bundle = getArguments();
         if(bundle!=null)
         {
             pid = bundle.getString("pid",null);
-            commenteruid = bundle.getString("useruid",null);
+            puid = bundle.getString("useruid",null);
         }
 
 
@@ -144,6 +145,8 @@ public class CommentFragment extends Fragment {
                             @Override
                             public void onSuccess(Void unused) {
                                 comments.setText("");
+
+                                if(!commenteruid.equals(puid))
                                 addtonotification(
                                         commenteruid,
                                         pid,
@@ -216,7 +219,6 @@ public class CommentFragment extends Fragment {
         fstore.collection("Posts").document(pid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                puid = documentSnapshot.getString("Id");
 
 
                 HashMap<Object,String> hashMap = new HashMap<>();

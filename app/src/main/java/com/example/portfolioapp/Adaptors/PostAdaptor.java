@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageButton;
@@ -29,49 +28,36 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfolioapp.Fragments.AddPostFragment;
 import com.example.portfolioapp.Fragments.CommentFragment;
-import com.example.portfolioapp.Fragments.HomeFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.Models.Posts;
+import com.example.portfolioapp.Fragments.PostDetailFragment;
 import com.example.portfolioapp.R;
-import com.example.portfolioapp.Startactivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> {
 
@@ -176,6 +162,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                         .whereArrayContains("Likes",myuid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
                         if(queryDocumentSnapshots.isEmpty())
                         {
                             fstore.collection("Posts").document(pid)
@@ -195,6 +182,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                             }
 
 
+                            if(!uid.equals(myuid))
                             addtonotification(uid,pid,"Liked Your Post",uimage,uname);
 
                         }
@@ -229,7 +217,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("pid",pid);
-                bundle.putString("useruid",myuid);
+                bundle.putString("useruid",uid);
                 CommentFragment fragment  = new CommentFragment();
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
@@ -310,6 +298,27 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                 fragmentTransaction.replace(R.id.fragment,fragment);
                 fragmentTransaction.addToBackStack(null).commit();
 
+            }
+        });
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("pid",pid);
+                bundle.putString("puid",uid);
+                bundle.putString("uname",uname);
+                bundle.putString("uimage",uimage);
+                bundle.putInt("tot_likes",plikes[0]);
+
+                PostDetailFragment f = new PostDetailFragment();
+                f.setArguments(bundle);
+                FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment,f);
+                fragmentTransaction.addToBackStack(null).commit();
             }
         });
 
