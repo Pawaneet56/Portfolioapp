@@ -118,7 +118,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     ArrayList <String> exp=new ArrayList<>();
     String completestring;
      String downloadurl;
-     String urli;
+     String urli,todelete;
+
      RecyclerView rec;
     private static final int Gallery_pick = 1000;
     private static final int Permission_code = 1001;
@@ -452,6 +453,7 @@ Edit.setVisibility(View.GONE);
         skills1.setVisibility(View.VISIBLE);
         extracurricular1.setVisibility(View.VISIBLE);
         ExtraCurricular.setVisibility(View.GONE);
+
     }
 });
         myimage.setOnClickListener(new View.OnClickListener() {
@@ -463,6 +465,17 @@ Edit.setVisibility(View.GONE);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if(!urli.equals("noImage")){
+                    StorageReference picref = FirebaseStorage.getInstance().getReferenceFromUrl(urli);
+                    picref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(getActivity(),"thanks ",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
                 if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                     if(checkSelfPermission(mcontext, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED){
                         String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -543,6 +556,12 @@ fstore.collection("users").document(id).update("Full Name",name);
         Edit.setVisibility(View.VISIBLE);
         edittext.setVisibility(View.VISIBLE);
         postbyme.setVisibility(View.VISIBLE);
+        extracurricular1.setVisibility(View.GONE);
+        Experience.setVisibility(View.GONE);
+        skills1.setVisibility(View.GONE);
+        experience1.setVisibility(View.GONE);
+        extracurricular.setVisibility(View.GONE);
+        ExtraCurricular.setVisibility(View.VISIBLE);
 
           }
 
@@ -561,6 +580,7 @@ spinner.setSelection(value.getLong("college").intValue());
     Bio1.setText(value.getString("Bio"));
     Year.setValue(value.getLong("Year").intValue());
     if(value.getString("Image").equals("noImage")){
+        todelete=value.getString("Image");
         myimage.setImageResource(R.drawable.avatar);
     }
     else{
