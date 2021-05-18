@@ -319,7 +319,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
 
     private void adduser(String name, String emailid) {
         String id = auth.getCurrentUser().getUid().toString();
-
+ArrayList<String>a=new ArrayList<>();
         Map<String,Object> doc = new HashMap<>();
         doc.put("ID",id);
         doc.put("Full Name",name);
@@ -327,10 +327,12 @@ public class Signupactivity<Updated> extends AppCompatActivity {
         doc.put("Year",0000);
         doc.put("Bio","noBio");
         doc.put("Image","noImage");
+        doc.put("skills","noSkills");
+        doc.put("ExtraCurricular","noExtraCurricular");
+        doc.put("experience",a);
         doc.put("college",0);
         doc.put("collegeName","Select your college");
         Map<String,Object>map=new HashMap<>();
-        ArrayList<String> a=new ArrayList<String>();
         map.put("Id",id);
         fstore.collection("filter").document(id).set(doc);
         fstore.collection("filter").document(id).update("Id",id,"paid_unpaid","noFilter","typeofpost","noFilter","domainitems",a);

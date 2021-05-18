@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.String;
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -47,7 +48,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.portfolioapp.Adaptors.experienceadaptor;
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.R;
 import com.example.portfolioapp.Startactivity;
@@ -60,6 +64,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -93,7 +98,7 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     private Button Edit;
     private TextView Posts,Skills,ExtraCurricular;
-    private EditText Experience;
+    private EditText Experience,extracurricular;
     private Button skills1,experience1,extracurricular1;
     private EditText Name;
     private NumberPicker Year;
@@ -108,9 +113,13 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private TextView edittext,postbyme;
     private TextView Name1,Email1,Bio1;
     private LinearLayout mLayout;
+    experienceadaptor experienceadaptor;
+    ArrayList<String>data=new ArrayList<>();
+    ArrayList <String> exp=new ArrayList<>();
     String completestring;
      String downloadurl;
      String urli;
+     RecyclerView rec;
     private static final int Gallery_pick = 1000;
     private static final int Permission_code = 1001;
     FirebaseStorage storage;
@@ -137,8 +146,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_profile,container,false);
         getActivity().setTitle("Profile");
-
-
 Posts=v.findViewById(R.id.viewpostbyme);
         Edit=v.findViewById(R.id.editbutton);
         edittext=v.findViewById(R.id.edittext);
@@ -149,6 +156,7 @@ Posts=v.findViewById(R.id.viewpostbyme);
         Name1=v.findViewById(R.id.name1);
         Email1=v.findViewById(R.id.email1);
         Year.setMinValue(1971);
+        rec=v.findViewById(R.id.recview);
         Year1=v.findViewById(R.id.year1);
         CollegeName=v.findViewById(R.id.college);
         Year.setMaxValue(2020);
@@ -167,92 +175,131 @@ ExtraCurricular=v.findViewById(R.id.extraCurricular1);
 skills1=v.findViewById(R.id.editskills);
 experience1=v.findViewById(R.id.editexperience);
 extracurricular1=v.findViewById(R.id.editExtraCurriculars);
-skills1.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        // initially set the null for the text preview
-        Skills.setText(null);
-
-        // initialise the alert dialog builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        // set the title for the alert dialog
-        builder.setTitle("Choose Items");
-
-        // set the icon for the alert dialog
-
-        // now this is the function which sets the alert dialog for multiple item selection ready
-        builder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+extracurricular=v.findViewById(R.id.extraCurricular);
+        rec.setLayoutManager(new LinearLayoutManager(getContext()));
+        fstore.collection("users").document(fauth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                checkedItems[which] = isChecked;
-                String currentItem = selectedItems.get(which);
-            }
-        });
-
-        // alert dialog shouldn't be cancellable
-        builder.setCancelable(false);
-
-        // handle the positive button of the dialog
-        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-completestring="";
-                for (int i = 0; i < checkedItems.length; i++) {
-                    if (checkedItems[i] ) {
-                         completestring+=Skills.getText()+selectedItems.get(i)+",";
-                        //Skills.setText(Skills.getText() + selectedItems.get(i) + ", ");
+            public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot documentSnapshot, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                data.clear();
+                if(documentSnapshot.exists()){
+                    exp=(ArrayList<String>)documentSnapshot.get("experience");
+                    Skills.setText(documentSnapshot.getString("skills"));
+                    extracurricular.setText(documentSnapshot.getString("ExtraCurricular"));
+                    ExtraCurricular.setText(documentSnapshot.getString("ExtraCurricular"));
+                    for(String d:exp){
+                        String obj=d.toString();
+                        data.add(obj);
                     }
-
-                }
-                completestring=completestring.substring(0,completestring.length()-1);
-                Skills.setText(completestring);
-                //fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("skillArray",checkedItems);
-            }
-        });
-
-        // handle the negative button of the alert dialog
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-            }
-        });
-
-        // handle the neutral button of the dialog to clear
-        // the selected items boolean checkedItem
-        builder.setNeutralButton("CLEAR ALL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                for (int i = 0; i < checkedItems.length; i++) {
-                    checkedItems[i] = false;
+                    rec.setAdapter(experienceadaptor);
+                    experienceadaptor.notifyDataSetChanged();
                 }
             }
         });
+       
 
-        // create the builder
-        builder.create();
+        skills1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // initially set the null for the text preview
+                Skills.setText(null);
 
-        // create the alert dialog with the
-        // alert dialog builder instance
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+                // initialise the alert dialog builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-});
-experience1.setOnClickListener(onClick());
-/*experience1.setOnClickListener(new View.OnClickListener() {
+                // set the title for the alert dialog
+                builder.setTitle("Choose Items");
+
+                // set the icon for the alert dialog
+
+                // now this is the function which sets the alert dialog for multiple item selection ready
+                builder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        checkedItems[which] = isChecked;
+                        String currentItem = selectedItems.get(which);
+                    }
+                });
+
+                // alert dialog shouldn't be cancellable
+                builder.setCancelable(false);
+
+                // handle the positive button of the dialog
+                builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        completestring="";
+                        for (int i = 0; i < checkedItems.length; i++) {
+                            if (checkedItems[i] ) {
+                                completestring+=Skills.getText()+selectedItems.get(i)+",";
+                                //Skills.setText(Skills.getText() + selectedItems.get(i) + ", ");
+                            }
+
+                        }
+                        if(completestring.isEmpty()){
+                            Skills.setText(" ");
+                            fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("skills",completestring);
+                        }
+                        else{
+                            completestring=completestring.substring(0,completestring.length()-1);
+
+                            Skills.setText(completestring);}
+                        fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("skills",completestring);
+                    }
+                });
+
+                // handle the negative button of the alert dialog
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+
+                // handle the neutral button of the dialog to clear
+                // the selected items boolean checkedItem
+                builder.setNeutralButton("CLEAR ALL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < checkedItems.length; i++) {
+                            checkedItems[i] = false;
+                        }
+                    }
+                });
+
+                // create the builder
+                builder.create();
+
+                // create the alert dialog with the
+                // alert dialog builder instance
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+
+        });
+        experienceadaptor=new experienceadaptor(data,getContext());
+
+
+//experience1.setOnClickListener(onClick());
+experience1.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        //Addexperience();
+     if(!Experience.getText().toString().isEmpty()){
+
+
+         fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("experience", FieldValue.arrayUnion(Experience.getText().toString()));
+
+
+
+     }
     }
-});*/
+});
 extracurricular1.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        //Addextracurricular();
+        ExtraCurricular.setText(extracurricular.getText().toString());
+        fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("ExtraCurricular",extracurricular.getText().toString());
     }
 });
         storageReference = storage.getReference();
@@ -318,7 +365,13 @@ save.setOnClickListener(new View.OnClickListener() {
         post.setVisibility(View.VISIBLE);
         Posts.setVisibility(View.VISIBLE);
         postbyme.setVisibility(View.VISIBLE);
-
+        Experience.setVisibility(View.GONE);
+        experience1.setVisibility(View.GONE);
+        extracurricular.setVisibility(View.GONE);
+        skills1.setVisibility(View.GONE);
+        extracurricular1.setVisibility(View.GONE);
+        ExtraCurricular.setVisibility(View.VISIBLE);
+myimage.setEnabled(false);
     }
 });
 Edit.setOnClickListener(new View.OnClickListener() {
@@ -382,6 +435,7 @@ Edit.setVisibility(View.GONE);
                 edittext.setVisibility(View.GONE);
         Name1.setVisibility(View.GONE);
         Name.setVisibility(View.VISIBLE);
+        extracurricular.setVisibility(View.VISIBLE);
         Year.setVisibility(View.VISIBLE);
         spinner.setVisibility(View.VISIBLE);
         Year1.setVisibility(View.GONE);
@@ -393,6 +447,11 @@ Edit.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
         CollegeName.setVisibility(View.GONE);
         postbyme.setVisibility(View.GONE);
+        Experience.setVisibility(View.VISIBLE);
+        experience1.setVisibility(View.VISIBLE);
+        skills1.setVisibility(View.VISIBLE);
+        extracurricular1.setVisibility(View.VISIBLE);
+        ExtraCurricular.setVisibility(View.GONE);
     }
 });
         myimage.setOnClickListener(new View.OnClickListener() {
@@ -440,9 +499,7 @@ Edit.setVisibility(View.GONE);
     return v;
     }
 
-    private void AddSkils() {
 
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -516,6 +573,12 @@ spinner.setSelection(value.getLong("college").intValue());
         Year.setVisibility(View.GONE);
         Bio.setVisibility(View.GONE);
         spinner.setVisibility(View.GONE);
+        myimage.setEnabled(false);
+        Experience.setVisibility(View.GONE);
+        extracurricular.setVisibility(View.GONE);
+        experience1.setVisibility(View.GONE);
+        extracurricular1.setVisibility(View.GONE);
+        skills1.setVisibility(View.GONE);
     }
 
     private void pickImageFromGallery() {
@@ -676,6 +739,8 @@ private void Savingimage(String url){
         final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final TextView textView = new TextView(getContext());
         textView.setLayoutParams(lparams);
+        exp.add(text);
+        fstore.collection("users").document(fauth.getCurrentUser().getUid()).update("experience",exp);
         textView.setText( text);
         return textView;
     }
