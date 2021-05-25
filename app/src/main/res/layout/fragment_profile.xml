@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:backgroundTint="@color/purple_500"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none">
@@ -332,10 +333,11 @@
                 android:paddingRight="100dp"
                 android:textAppearance="@style/Bold"/>
 
-            <com.google.android.material.button.MaterialButton
+            <ImageView
                 android:id="@+id/editexperience"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="28dp"
+                app:srcCompat="@drawable/addbutton"
+                android:layout_height="28dp"
                 app:icon="@drawable/ic_baseline_add_24"
                 app:iconSize="24dp"
                 app:iconPadding="24dp"
@@ -396,10 +398,11 @@
                 android:textAppearance="@style/Bold"/>
 
 
-            <com.google.android.material.button.MaterialButton
+            <ImageView
                 android:id="@+id/editskills"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:srcCompat="@drawable/addbutton"
                 app:icon="@drawable/ic_baseline_add_24"
                 app:iconSize="24dp"
                 app:iconPadding="24dp"
@@ -447,10 +450,11 @@
                 android:textAppearance="@style/Bold"/>
 
 
-            <com.google.android.material.button.MaterialButton
+            <ImageView
                 android:id="@+id/editExtraCurriculars"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:srcCompat="@drawable/addbutton"
                 app:icon="@drawable/ic_baseline_add_24"
                 app:iconSize="24dp"
                 app:iconPadding="24dp"

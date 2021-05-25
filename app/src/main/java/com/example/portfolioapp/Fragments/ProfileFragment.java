@@ -99,7 +99,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private Button Edit;
     private TextView Posts,Skills,ExtraCurricular;
     private EditText Experience,extracurricular;
-    private Button skills1,experience1,extracurricular1;
+    private ImageView skills1,experience1,extracurricular1;
     private EditText Name;
     private NumberPicker Year;
     private Spinner spinner;
@@ -326,6 +326,7 @@ extracurricular1.setOnClickListener(new View.OnClickListener() {
             showUser(uid);
             if(!uid.equals(id)){
             Edit.setVisibility(View.GONE);
+            Posts.setText("Posts by them");
             edittext.setVisibility(View.GONE);
             save.setVisibility(View.GONE);}
             else{
