@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingTop="3dp"
         android:background="@color/white"
         android:paddingLeft="24dp"
@@ -35,24 +35,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                app:cardPreventCornerOverlap="false"
-                app:cardCornerRadius="75dp"
-                android:layout_marginBottom="30dp">
-
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/image"
-                    android:clickable="true"
-                    android:background="@drawable/ic_baseline_person_outline_24"
-                    android:scaleType="fitCenter"/>
-
-
-            </androidx.cardview.widget.CardView>
+                android:src="@drawable/avatar"
+                android:id="@+id/image"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:padding="2dp"
+                app:shapeAppearanceOverlay="@style/Circular"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/editbutton"
@@ -122,6 +113,8 @@
 
         </RelativeLayout>
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,12 +149,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:id="@+id/name"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -206,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="Year"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:textAppearance="@style/Bold"
                 android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                 android:layout_margin="4dp"
@@ -247,7 +241,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:textAppearance="@style/Bold"
                 android:text="College"
                 android:drawableLeft="@drawable/ic_baseline_people_24"
@@ -260,7 +254,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputs"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
@@ -299,7 +293,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputs"
                 android:hint="Bio"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/bio1"
@@ -312,19 +306,19 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputs"
                 android:hint="Bio"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/bio"
                 android:layout_margin="4dp"
+                android:visibility="gone"
                 android:textColor="@android:color/black"/>
 
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -366,25 +360,29 @@
                 android:layout_height="wrap_content"
                 android:hint="Experiences"
                 android:id="@+id/experience1"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:visibility="gone"/>
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recview"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                />
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/experienceitems"/>
 
 
 
         </LinearLayout>
 
+
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -415,7 +413,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@drawable/inputs"
             android:layout_margin="4dp" >
 
@@ -424,7 +421,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Skills"
                 android:id="@+id/skills1"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
@@ -436,8 +433,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -447,7 +443,7 @@
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:textAppearance="@style/Bold"/>
 
 
@@ -477,7 +473,7 @@
                 android:layout_height="wrap_content"
                 android:hint="ExtraCurricular"
                 android:id="@+id/extraCurricular1"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
@@ -487,11 +483,12 @@
                 android:layout_height="wrap_content"
                 android:hint="ExtraCurricular"
                 android:id="@+id/extraCurricular"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:visibility="gone"/>
 
 
 
@@ -508,4 +505,6 @@
             android:id="@+id/savebutton"/>
 
     </LinearLayout>
-</ScrollView>
+
+
+</androidx.core.widget.NestedScrollView>

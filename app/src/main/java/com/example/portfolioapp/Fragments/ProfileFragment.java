@@ -170,14 +170,20 @@ Posts=v.findViewById(R.id.viewpostbyme);
         fstore=FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         mLayout=v.findViewById(R.id.linearlayout);
-Skills=v.findViewById(R.id.skills1);
-Experience=v.findViewById(R.id.experience1);
-ExtraCurricular=v.findViewById(R.id.extraCurricular1);
-skills1=v.findViewById(R.id.editskills);
-experience1=v.findViewById(R.id.editexperience);
-extracurricular1=v.findViewById(R.id.editExtraCurriculars);
-extracurricular=v.findViewById(R.id.extraCurricular);
-        rec.setLayoutManager(new LinearLayoutManager(getContext()));
+        Skills=v.findViewById(R.id.skills1);
+        Experience=v.findViewById(R.id.experience1);
+        ExtraCurricular=v.findViewById(R.id.extraCurricular1);
+        skills1=v.findViewById(R.id.editskills);
+        experience1=v.findViewById(R.id.editexperience);
+        extracurricular1=v.findViewById(R.id.editExtraCurriculars);
+        extracurricular=v.findViewById(R.id.extraCurricular);
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setReverseLayout(true);
+        rec.setLayoutManager(linearLayoutManager);
+        rec.setHasFixedSize(true);
         fstore.collection("users").document(fauth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot documentSnapshot, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
@@ -372,14 +378,15 @@ save.setOnClickListener(new View.OnClickListener() {
         skills1.setVisibility(View.GONE);
         extracurricular1.setVisibility(View.GONE);
         ExtraCurricular.setVisibility(View.VISIBLE);
-myimage.setEnabled(false);
-    }
-});
-Edit.setOnClickListener(new View.OnClickListener() {
+        myimage.setEnabled(false);
+        }
+    });
+
+    Edit.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-post.setVisibility(View.GONE);
-Posts.setVisibility(View.GONE);
+    post.setVisibility(View.GONE);
+    Posts.setVisibility(View.GONE);
                 if(urli.equals("noImage")){
                     myimage.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override

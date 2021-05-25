@@ -131,7 +131,8 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        fstore.collection("Notifications").document(notifications.get(position).getPid()+notifications.get(position).getType()+timestamp)
+                        fstore.collection("Notifications").document(notifications.get(position).getPid()
+                                +notifications.get(position).getType()+timestamp)
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

@@ -128,7 +128,7 @@ public class CommentAdaptor extends RecyclerView.Adapter<CommentAdaptor.myViewHo
         }
 
 
-        /*holder.Userimage.setOnClickListener(new View.OnClickListener() {
+        holder.Userimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
@@ -143,7 +143,7 @@ public class CommentAdaptor extends RecyclerView.Adapter<CommentAdaptor.myViewHo
                 fragmentTransaction.addToBackStack(null).commit();
 
             }
-        });*/
+        });
 
     }
 

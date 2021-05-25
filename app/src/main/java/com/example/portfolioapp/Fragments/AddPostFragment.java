@@ -861,7 +861,7 @@ public class AddPostFragment extends Fragment {
         hashMap.put("simage",image);
         hashMap.put("type","post");
 
-        fstore.collection("Notifications").document(pid+"post")
+        fstore.collection("Notifications").document(pid+"post"+timestamp)
                 .set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

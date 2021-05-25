@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.portfolioapp.LoginActivity;
+import com.example.portfolioapp.MainActivity;
+import com.example.portfolioapp.R;
+import com.example.portfolioapp.Signupactivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +42,7 @@ private FirebaseFirestore fstore;
 
             @Override
             public void onClick(View v){
-                startActivity(new Intent(Startactivity.this,Signupactivity.class));
+                startActivity(new Intent(Startactivity.this, Signupactivity.class));
 
             }
 
@@ -47,7 +51,7 @@ private FirebaseFirestore fstore;
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Startactivity.this,LoginActivity.class));
+                startActivity(new Intent(Startactivity.this, LoginActivity.class));
             }
         });
     }
