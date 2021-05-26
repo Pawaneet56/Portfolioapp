@@ -45,6 +45,9 @@ public class PostDetailFragment extends Fragment {
     String uid = null;
     String currentuid = null;
     String uname,uimage;
+    String UI="noImage",UN="noName";
+
+
 
     FirebaseAuth fauth;
     FirebaseFirestore fstore;
@@ -105,6 +108,39 @@ public class PostDetailFragment extends Fragment {
             Applybtn.setText("Who Applied");
         }
 
+        if(uid.equals(currentuid))
+        {
+            Applybtn.setText("Who Applied");
+        }
+
+        if(Applybtn.getText().toString().equals("Apply")) {
+            Applybtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    WhoApplied();
+                }
+            });
+        }
+        else{
+            Applybtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("pid",pid);
+
+                    AllBidsFragment f = new AllBidsFragment();
+                    f.setArguments(bundle);
+                    FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment,f);
+                    fragmentTransaction.addToBackStack(null).commit();
+                }
+            });
+        }
+
+
         loaddata();
 
         likebtn.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +162,7 @@ public class PostDetailFragment extends Fragment {
 
                             if(tot_likes==1)
                             {
-                               likebtn.setText(Integer.toString(tot_likes)+" Like");
+                                likebtn.setText(Integer.toString(tot_likes)+" Like");
                             }
                             else
                             {
@@ -134,7 +170,7 @@ public class PostDetailFragment extends Fragment {
                             }
 
                             if(!uid.equals(currentuid))
-                            addtonotification(uid,pid,"Liked Your Post");
+                                addtonotification(uid,pid,"Liked Your Post");
 
                         }
                         else
@@ -179,6 +215,43 @@ public class PostDetailFragment extends Fragment {
         return v;
     }
 
+    private void WhoApplied() {
+
+        HashMap<String,Object> doc = new HashMap<>();
+
+        fstore.collection("users").document(currentuid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+
+                assert value != null;
+                if(value.exists())
+                {
+                    UN = value.getString("Full Name");
+                    UI = value.getString("Image");
+
+                    doc.put("applierid",currentuid);
+                    doc.put("Fullname",UN);
+                    doc.put("pid",pid);
+                    if(UI.equals("noImage"))
+                        doc.put("dp","https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8");
+                    else
+                        doc.put("dp",UI);
+
+                    fstore.collection("Posts").document(pid).collection("Apply").document(fauth.getCurrentUser().getUid())
+                            .set(doc).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid){
+                            Toast.makeText(getActivity(),"Applied!",Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
+            }
+        });
+
+
+    }
+
     private void addtonotification(String uid, String pid, String notification) {
 
         String timestamp = ""+System.currentTimeMillis();
@@ -209,80 +282,80 @@ public class PostDetailFragment extends Fragment {
             @Override
             public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
 
-                        if(value.exists())
+                if(value.exists())
+                {
+                    if(value.getString("UserImage").equals("noImage"))
+                    {
+                        try{
+                            Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8").into(userpic);
+                        }catch(Exception e)
                         {
-                            if(value.getString("UserImage").equals("noImage"))
-                            {
-                                try{
-                                    Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8").into(userpic);
-                                }catch(Exception e)
-                                {
-                                }
-                            }
-                            else
-                            {
-                                try{
-                                    Picasso.get().load(value.getString("UserImage")).into(userpic);
-                                }catch(Exception e)
-                                {
-                                    Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8").into(userpic);
-                                }
-                            }
-
-
-
-                            try{
-                                Picasso.get().load(value.getString("PostImage")).into(projectpic);
-                            }catch (Exception e)
-                            {
-                                projectpic.setVisibility(View.GONE);
-                            }
-
-
-                            username.setText(value.getString("FullName"));
-
-
-
-                            String timestamp = value.getString("pTime");
-                            Calendar cal = Calendar.getInstance(Locale.getDefault());
-                            cal.setTimeInMillis(Long.parseLong(timestamp));
-                            String ptime = DateFormat.format("dd/MM/yyyy hh:mm:aa", cal).toString();
-
-
-                            posttime.setText(ptime);
-
-                            projectname.setText(value.getString("ProjectName"));
-
-                            projectdetails.setText(value.getString("Detail"));
-
-                            paid_unpaid.setText(value.getString("Paid_Unpaid"));
-
-                            projecttype.setText(value.getString("Type_of_post"));
-
-                            List<String> domainslist = (List<String>) value.get("Domain");
-
-                            StringBuilder txt_domain= new StringBuilder();
-
-                            for(int i=0;i<domainslist.size();i++)
-                            {
-                                if(i!=domainslist.size()-1)
-                                {
-                                    txt_domain.append(domainslist.get(i)).append(",");
-                                }
-                                else
-                                {
-                                    txt_domain.append(domainslist.get(i));
-                                }
-                            }
-
-                            domain.setText(txt_domain.toString());
-
-                            tot_likes = value.getLong("pLike").intValue();
-
-                            setlikes(tot_likes);
                         }
                     }
-                });
+                    else
+                    {
+                        try{
+                            Picasso.get().load(value.getString("UserImage")).into(userpic);
+                        }catch(Exception e)
+                        {
+                            Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8").into(userpic);
+                        }
+                    }
+
+
+
+                    try{
+                        Picasso.get().load(value.getString("PostImage")).into(projectpic);
+                    }catch (Exception e)
+                    {
+                        projectpic.setVisibility(View.GONE);
+                    }
+
+
+                    username.setText(value.getString("FullName"));
+
+
+
+                    String timestamp = value.getString("pTime");
+                    Calendar cal = Calendar.getInstance(Locale.getDefault());
+                    cal.setTimeInMillis(Long.parseLong(timestamp));
+                    String ptime = DateFormat.format("dd/MM/yyyy hh:mm:aa", cal).toString();
+
+
+                    posttime.setText(ptime);
+
+                    projectname.setText(value.getString("ProjectName"));
+
+                    projectdetails.setText(value.getString("Detail"));
+
+                    paid_unpaid.setText(value.getString("Paid_Unpaid"));
+
+                    projecttype.setText(value.getString("Type_of_post"));
+
+                    List<String> domainslist = (List<String>) value.get("Domain");
+
+                    StringBuilder txt_domain= new StringBuilder();
+
+                    for(int i=0;i<domainslist.size();i++)
+                    {
+                        if(i!=domainslist.size()-1)
+                        {
+                            txt_domain.append(domainslist.get(i)).append(",");
+                        }
+                        else
+                        {
+                            txt_domain.append(domainslist.get(i));
+                        }
+                    }
+
+                    domain.setText(txt_domain.toString());
+
+                    tot_likes = value.getLong("pLike").intValue();
+
+                    setlikes(tot_likes);
+                }
+            }
+        });
 
     }
 
@@ -293,35 +366,35 @@ public class PostDetailFragment extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                        if(queryDocumentSnapshots.isEmpty())
-                        {
-                            likebtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_like,0,0,0);
+                if(queryDocumentSnapshots.isEmpty())
+                {
+                    likebtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_like,0,0,0);
 
-                            if(tot_likes==0 || tot_likes==1)
-                            {
-                                likebtn.setText(Integer.toString(tot_likes)+" Like");
-                            }
-                            else
-                            {
-                                likebtn.setText(Integer.toString(tot_likes)+" Likes");
-                            }
-                        }
-                        else
-                        {
-                            likebtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_liked,0,0,0);
-
-                            if(tot_likes==0 || tot_likes==1)
-                            {
-                                likebtn.setText(Integer.toString(tot_likes)+" Like");
-                            }
-                            else
-                            {
-                                likebtn.setText(Integer.toString(tot_likes)+" Likes");
-                            }
-                        }
-
+                    if(tot_likes==0 || tot_likes==1)
+                    {
+                        likebtn.setText(Integer.toString(tot_likes)+" Like");
                     }
-                });
+                    else
+                    {
+                        likebtn.setText(Integer.toString(tot_likes)+" Likes");
+                    }
+                }
+                else
+                {
+                    likebtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_liked,0,0,0);
+
+                    if(tot_likes==0 || tot_likes==1)
+                    {
+                        likebtn.setText(Integer.toString(tot_likes)+" Like");
+                    }
+                    else
+                    {
+                        likebtn.setText(Integer.toString(tot_likes)+" Likes");
+                    }
+                }
+
+            }
+        });
 
 
     }
