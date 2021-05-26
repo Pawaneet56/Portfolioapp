@@ -184,25 +184,6 @@ Posts=v.findViewById(R.id.viewpostbyme);
         linearLayoutManager.setReverseLayout(true);
         rec.setLayoutManager(linearLayoutManager);
         rec.setHasFixedSize(true);
-        fstore.collection("users").document(fauth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot documentSnapshot, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-                data.clear();
-                if(documentSnapshot.exists()){
-                    exp=(ArrayList<String>)documentSnapshot.get("experience");
-                    Skills.setText(documentSnapshot.getString("skills"));
-                    extracurricular.setText(documentSnapshot.getString("ExtraCurricular"));
-                    ExtraCurricular.setText(documentSnapshot.getString("ExtraCurricular"));
-                    for(String d:exp){
-                        String obj=d.toString();
-                        data.add(obj);
-                    }
-                    rec.setAdapter(experienceadaptor);
-                    experienceadaptor.notifyDataSetChanged();
-                }
-            }
-        });
-       
 
         skills1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -597,6 +578,27 @@ spinner.setSelection(value.getLong("college").intValue());
 }
     }
 });
+        fstore.collection("users").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot documentSnapshot, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                data.clear();
+                assert documentSnapshot != null;
+                if(documentSnapshot.exists()){
+                    exp=(ArrayList<String>)documentSnapshot.get("experience");
+                    Skills.setText(documentSnapshot.getString("skills"));
+                    extracurricular.setText(documentSnapshot.getString("ExtraCurricular"));
+                    ExtraCurricular.setText(documentSnapshot.getString("ExtraCurricular"));
+                    for(String d:exp){
+                        String obj=d.toString();
+                        data.add(obj);
+                    }
+                    rec.setAdapter(experienceadaptor);
+                    experienceadaptor.notifyDataSetChanged();
+                }
+            }
+        });
+
+
         Name.setVisibility(View.GONE);
         Year.setVisibility(View.GONE);
         Bio.setVisibility(View.GONE);

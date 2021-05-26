@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -29,7 +30,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+
 
 public class ApplyAdaptor extends RecyclerView.Adapter<ApplyAdaptor.ApplyViewHolder> {
 
@@ -58,28 +61,20 @@ public class ApplyAdaptor extends RecyclerView.Adapter<ApplyAdaptor.ApplyViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ApplyViewHolder holder, int position) {
-
-        String applierid = Applylist.get(position).getId();
-        String Fullname = Applylist.get(position).getFullName();
-        String dp = Applylist.get(position).getUserImage();
-        String pid = Applylist.get(position).getPid();
-
-
-        holder.username.setText(Applylist.get(position).getFullName());
-
-        try {
-            Picasso.get().load(Applylist.get(position).getUserImage()).into(holder.dp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (dp.equals("noImage")) {
-            try {
-                Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8").into(holder.dp);
-
-            } catch (Exception e) {
-            }
-        }
-
+if(Applylist.size()>0) {
+    String applierid = Applylist.get(position).getId();
+    String Fullname = Applylist.get(position).getFullName();
+    String dp = Applylist.get(position).getdp();
+    String pid = Applylist.get(position).getPid();
+    String currentTime = Applylist.get(position).gettime();
+    Toast.makeText(mcontext,currentTime,Toast.LENGTH_SHORT).show();
+    Picasso.get().load(dp).fit().centerCrop().into(holder.dp);
+    holder.Skills.setText(Applylist.get(position).getSkills());
+    holder.username.setText(Fullname);
+    holder.time.setText(currentTime);
+   /* if(!dp.equals("noImage")){
+        Picasso.get().load(dp).fit().centerCrop(-10).into(holder.dp);
+    }*/
 
 //        holder.dp.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -97,23 +92,27 @@ public class ApplyAdaptor extends RecyclerView.Adapter<ApplyAdaptor.ApplyViewHol
 //                fragmentTransaction.addToBackStack(null).commit();
 //            }
 //        });
+}
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return Applylist.size();
     }
 
     public class ApplyViewHolder extends RecyclerView.ViewHolder{
 
         private TextView username;
         private ImageView dp;
-
+private TextView time;
+private TextView Skills;
 
         public ApplyViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.luname);
             dp = itemView.findViewById(R.id.luserpic);
+            time=itemView.findViewById(R.id.ltime);
+            Skills=itemView.findViewById(R.id.lskills);
         }
     }
 }

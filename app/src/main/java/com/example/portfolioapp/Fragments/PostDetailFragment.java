@@ -37,6 +37,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class PostDetailFragment extends Fragment {
@@ -217,7 +218,7 @@ public class PostDetailFragment extends Fragment {
 
     private void WhoApplied() {
 
-        HashMap<String,Object> doc = new HashMap<>();
+        Map<String,Object> doc = new HashMap<>();
 
         fstore.collection("users").document(currentuid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -228,10 +229,14 @@ public class PostDetailFragment extends Fragment {
                 {
                     UN = value.getString("Full Name");
                     UI = value.getString("Image");
-
+                    String skills=value.getString("skills");
+                    String currentTime = Calendar.getInstance().getTime().toString();
+                    currentTime=currentTime.substring(0,20) +" "+ currentTime.substring(3,34);
                     doc.put("applierid",currentuid);
                     doc.put("Fullname",UN);
                     doc.put("pid",pid);
+                    doc.put("time",currentTime);
+                    doc.put("skills",skills);
                     if(UI.equals("noImage"))
                         doc.put("dp","https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8");
                     else

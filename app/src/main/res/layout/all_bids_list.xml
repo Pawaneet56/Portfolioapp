@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="Time"
                 android:id="@+id/ltime"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="15sp"/>
 
         </LinearLayout>
 

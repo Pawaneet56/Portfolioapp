@@ -70,13 +70,13 @@ public class AllBidsFragment extends Fragment {
 
     public void buildRecyclerView(){
         bidsRecycle.setHasFixedSize(true);
-        bidsRecycle.setAdapter(mAdapter);
+
         bidsRecycle.setLayoutManager(new LinearLayoutManager(mContext));
         mLayoutManager = new LinearLayoutManager(mContext);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+       /* LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.setStackFromEnd(true);
-        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setReverseLayout(true);*/
 
 
 //        bidsRecycle.setAdapter(mAdapter);
@@ -87,16 +87,17 @@ public class AllBidsFragment extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-//                Applylist.clear();
+                Applylist.clear();
                 for (DocumentSnapshot d : list) {
                     Apply obj = d.toObject(Apply.class);
                     Applylist.add(obj);
                 }
-
+                bidsRecycle.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
             }
         });
-        bidsRecycle.setLayoutManager(linearLayoutManager);
-        mAdapter.notifyDataSetChanged();
+
+
     }
 
 }
