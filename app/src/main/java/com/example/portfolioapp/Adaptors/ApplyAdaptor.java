@@ -62,7 +62,7 @@ public class ApplyAdaptor extends RecyclerView.Adapter<ApplyAdaptor.ApplyViewHol
     @Override
     public void onBindViewHolder(@NonNull ApplyViewHolder holder, int position) {
 if(Applylist.size()>0) {
-    String applierid = Applylist.get(position).getId();
+    String id= Applylist.get(position).getId();
     String Fullname = Applylist.get(position).getFullName();
     String dp = Applylist.get(position).getdp();
     String pid = Applylist.get(position).getPid();
@@ -75,23 +75,23 @@ if(Applylist.size()>0) {
    /* if(!dp.equals("noImage")){
         Picasso.get().load(dp).fit().centerCrop(-10).into(holder.dp);
     }*/
+Toast.makeText(mcontext,id,Toast.LENGTH_SHORT).show();
+     holder.dp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-//        holder.dp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putString("TheirProfile","true");
-////                bundle.putString("applierid",applierid);
-//
-//                PostDetailFragment f = new PostDetailFragment();
-//                f.setArguments(bundle);
-//                FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.fragment,f);
-//                fragmentTransaction.addToBackStack(null).commit();
-//            }
-//        });
+                Bundle bundle = new Bundle();
+                bundle.putString("TheirProfile","true");
+                bundle.putString("uid",id);
+
+                ProfileFragment f = new ProfileFragment();
+                f.setArguments(bundle);
+                FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment,f);
+                fragmentTransaction.addToBackStack(null).commit();
+            }
+       });
 }
     }
 

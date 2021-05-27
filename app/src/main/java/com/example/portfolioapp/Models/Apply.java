@@ -1,14 +1,14 @@
 package com.example.portfolioapp.Models;
 
 public class Apply {
-    String Fullname,applierid,dp,pid,time,skills;
+    String Fullname,id,dp,pid,time,skills;
 
     public Apply(){
     }
 
-    public Apply(String Fullname, String applierid,String dp,String pid,String time,String skills){
+    public Apply(String Fullname, String id,String dp,String pid,String time,String skills){
         this.Fullname = Fullname;
-        this.applierid = applierid;
+        this.id = id;
         this.dp = dp;
         this.pid = pid;
         this.time=time;
@@ -24,11 +24,11 @@ public class Apply {
     }
 
     public String getId() {
-        return applierid;
+        return id;
     }
 
-    public void setId(String applierid) {
-        this.applierid = applierid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getdp() {
