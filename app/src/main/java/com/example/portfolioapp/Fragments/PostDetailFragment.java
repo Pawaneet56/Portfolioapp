@@ -232,7 +232,7 @@ public class PostDetailFragment extends Fragment {
                     String skills=value.getString("skills");
                     String currentTime = Calendar.getInstance().getTime().toString();
                     currentTime=currentTime.substring(0,20) +" "+ currentTime.substring(3,34);
-                    doc.put("applierid",currentuid);
+                    doc.put("id",currentuid);
                     doc.put("Fullname",UN);
                     doc.put("pid",pid);
                     doc.put("time",currentTime);
