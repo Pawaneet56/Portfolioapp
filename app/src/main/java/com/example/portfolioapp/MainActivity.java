@@ -75,7 +75,8 @@ private ImageView fimage;
 fstore.collection("users").document(f.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
     @Override
     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-        if(value.exists()){
+        assert value != null;
+
             fname.setText(value.getString("Full Name"));
             femail.setText(value.getString("Email"));
             if(value.getString("Image").equals("noImage")){
@@ -85,7 +86,7 @@ fstore.collection("users").document(f.getCurrentUser().getUid()).addSnapshotList
                 Picasso.get().load(value.getString("Image")).fit().centerCrop(-10).into(fimage);
             }
         }
-    }
+
 });
 
     }

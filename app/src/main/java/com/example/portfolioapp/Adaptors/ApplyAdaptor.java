@@ -72,10 +72,6 @@ if(Applylist.size()>0) {
     holder.Skills.setText(Applylist.get(position).getSkills());
     holder.username.setText(Fullname);
     holder.time.setText(currentTime);
-   /* if(!dp.equals("noImage")){
-        Picasso.get().load(dp).fit().centerCrop(-10).into(holder.dp);
-    }*/
-Toast.makeText(mcontext,id,Toast.LENGTH_SHORT).show();
      holder.dp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

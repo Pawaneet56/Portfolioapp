@@ -33,7 +33,9 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -230,8 +232,10 @@ public class PostDetailFragment extends Fragment {
                     UN = value.getString("Full Name");
                     UI = value.getString("Image");
                     String skills=value.getString("skills");
-                    String currentTime = Calendar.getInstance().getTime().toString();
-                    currentTime=currentTime.substring(0,20) +" "+ currentTime.substring(3,34);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss ");
+                    String currentTime = sdf.format(new Date());
+
+                    //String crptime=currentTime.substring(0,20) +" "+ currentTime.substring(3,34);
                     doc.put("id",currentuid);
                     doc.put("Fullname",UN);
                     doc.put("pid",pid);
