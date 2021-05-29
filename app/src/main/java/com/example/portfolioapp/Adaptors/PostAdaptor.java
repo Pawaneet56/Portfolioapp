@@ -47,6 +47,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -486,6 +487,8 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                 }
 
 
+
+
             }
         });
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -499,24 +502,43 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
 
 
     private void deletepost(String pid,ArrayList<Posts> data,int position) {
-        FirebaseFirestore.getInstance().collection("Posts").document(pid).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        pd.dismiss();
-                        Toast.makeText(mcontext,"Project Deleted Successfully",Toast.LENGTH_SHORT).show();
-                        data.remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position,data.size());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        pd.dismiss();
-                        Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+
+        fstore.collection("Posts").document(pid).collection("Apply")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(QueryDocumentSnapshot snapshot:queryDocumentSnapshots)
+                {
+                    fstore.collection("Posts").document(pid)
+                            .collection("Apply").document(snapshot.getId())
+                            .delete();
+                }
+
+                FirebaseFirestore.getInstance().collection("Posts").document(pid).delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                pd.dismiss();
+                                Toast.makeText(mcontext,"Project Deleted Successfully",Toast.LENGTH_SHORT).show();
+                                data.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position,data.size());
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                pd.dismiss();
+                                Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+            }
+        });
+
 
     }
 

@@ -558,7 +558,9 @@ fstore.collection("users").document(id).update("Full Name",name);
 fstore.collection("users").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
     @Override
     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-if(value.exists()){
+        if(error!=null)
+            return;
+        if(value.exists()){
     Email1.setText(value.getString("Email"));
     Name1.setText(value.getString("Full Name"));
     Name.setText(value.getString("Full Name"));

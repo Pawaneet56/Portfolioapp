@@ -1,18 +1,19 @@
 package com.example.portfolioapp.Models;
 
 public class Apply {
-    String Fullname,id,dp,pid,time,skills;
+    String Fullname,id,dp,pid,time,skills,status;
 
     public Apply(){
     }
 
-    public Apply(String Fullname, String id,String dp,String pid,String time,String skills){
+    public Apply(String Fullname, String id,String dp,String pid,String time,String skills,String status){
         this.Fullname = Fullname;
         this.id = id;
         this.dp = dp;
         this.pid = pid;
         this.time=time;
         this.skills=skills;
+        this.status=status;
     }
 
     public String getFullName() {
@@ -46,16 +47,26 @@ public class Apply {
     public void setPid(String pid) {
         this.pid = pid;
     }
-public String gettime(){
+
+    public String gettime(){
         return time;
 }
-public String getSkills(){
+
+    public String getSkills(){
         return this.skills;
 }
-public void settime(String time){
+
+    public void settime(String time){
         this.time=time;
 }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
 
 

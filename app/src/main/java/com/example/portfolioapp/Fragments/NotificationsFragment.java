@@ -80,6 +80,9 @@ public class NotificationsFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
 
+                        if(error!=null)
+                            return;
+
                         if(!value.isEmpty())
                         {
                             List<DocumentSnapshot> list = value.getDocuments();
@@ -149,6 +152,58 @@ public class NotificationsFragment extends Fragment {
                         else
                         {
                             //Toast.makeText(mcontext,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+        fstore.collection("Notifications")
+                .whereEqualTo("type","apply")
+                .whereEqualTo("puid",current_user)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                        if(error!=null)
+                            return;
+                        if(value!=null)
+                        {
+                            List<DocumentSnapshot> list = value.getDocuments();
+
+                            for(DocumentSnapshot d:list)
+                            {
+                                Notifications obj = d.toObject(Notifications.class);
+                                notify.add(obj);
+                            }
+
+                            notify_rec.setAdapter(nadaptor);
+                            nadaptor.notifyDataSetChanged();
+
+                        }
+                    }
+                });
+
+
+        fstore.collection("Notifications").whereEqualTo("type","accept")
+                .whereEqualTo("suid",current_user)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                        if(error!=null)
+                        {
+                            return;
+                        }
+                        if(value!=null)
+                        {
+                            List<DocumentSnapshot> list = value.getDocuments();
+
+                            for(DocumentSnapshot d:list)
+                            {
+                                Notifications obj = d.toObject(Notifications.class);
+                                notify.add(obj);
+                            }
+
+                            notify_rec.setAdapter(nadaptor);
+                            nadaptor.notifyDataSetChanged();
                         }
                     }
                 });

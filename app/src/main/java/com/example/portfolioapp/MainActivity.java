@@ -34,6 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BottomFilter.BottomSheetListner {
 private DrawerLayout drawerLayout;
 private FirebaseAuth f;
@@ -53,8 +55,8 @@ private ImageView fimage;
         f = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         fname = v.findViewById(R.id.headerfname);
-        fimage=v.findViewById(R.id.headerpic);
-        femail=v.findViewById(R.id.headeremail);
+        fimage = v.findViewById(R.id.headerpic);
+        femail = v.findViewById(R.id.headeremail);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,7 +66,7 @@ private ImageView fimage;
 
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.open,R.string.close);
+                R.string.open, R.string.close);
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -72,25 +74,32 @@ private ImageView fimage;
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
                     new HomeFragment()).commit();// change to whichever id should be default
         }
-fstore.collection("users").document(f.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-    @Override
-    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-        assert value != null;
 
-            fname.setText(value.getString("Full Name"));
-            femail.setText(value.getString("Email"));
-            if(value.getString("Image").equals("noImage")){
-                fimage.setImageResource(R.drawable.avatar);
-            }
-            else{
-                Picasso.get().load(value.getString("Image")).fit().centerCrop(-10).into(fimage);
-            }
-        }
+        fstore.collection("users").document(Objects.requireNonNull(f.getCurrentUser()).getUid())
+            .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
 
-});
+                    if(error!=null)
+                    {
+                        return;
+                    }
+
+                    if (value.exists()) {
+                        fname.setText(value.getString("Full Name"));
+                        femail.setText(value.getString("Email"));
+                        if (value.getString("Image").equals("noImage")) {
+                            fimage.setImageResource(R.drawable.avatar);
+                        } else {
+                            Picasso.get().load(value.getString("Image")).fit().centerCrop(-10).into(fimage);
+                        }
+                    }
+                }
+            });
+
+
 
     }
-
 
 
     @Override

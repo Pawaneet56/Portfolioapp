@@ -30,11 +30,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class AllBidsFragment extends Fragment {
+
     private ArrayList<Apply> Applylist;
     private RecyclerView bidsRecycle;
     private ApplyAdaptor mAdapter;
+
     String pid,applierid;
+
     private RecyclerView.LayoutManager mLayoutManager;
+
     private FirebaseAuth fauth;
     FirebaseUser fuser;
     FirebaseFirestore fstore;
@@ -72,7 +76,6 @@ public class AllBidsFragment extends Fragment {
         bidsRecycle.setHasFixedSize(true);
 
         bidsRecycle.setLayoutManager(new LinearLayoutManager(mContext));
-        mLayoutManager = new LinearLayoutManager(mContext);
        /* LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.setStackFromEnd(true);
@@ -82,7 +85,8 @@ public class AllBidsFragment extends Fragment {
 //        bidsRecycle.setAdapter(mAdapter);
         mAdapter=new ApplyAdaptor(Applylist,mContext);
 
-        fstore.collection("Posts").document(pid).collection("Apply").get()
+        fstore.collection("Posts").document(pid).collection("Apply")
+                .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

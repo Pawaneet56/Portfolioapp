@@ -1,6 +1,9 @@
 package com.example.portfolioapp.Fragments;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,11 +13,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +36,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +60,7 @@ public class PostDetailFragment extends Fragment {
     String currentuid = null;
     String uname,uimage;
     String UI="noImage",UN="noName";
-
+    String projectpicurl;
 
 
     FirebaseAuth fauth;
@@ -57,6 +68,8 @@ public class PostDetailFragment extends Fragment {
 
     ImageView userpic,projectpic;
     TextView username,posttime,projectname,projectdetails,paid_unpaid,projecttype,domain;
+    ImageButton threedot;
+    ProgressDialog pd;
 
     Button Applybtn,likebtn,commentbtn,sharebtn;
 
@@ -91,9 +104,11 @@ public class PostDetailFragment extends Fragment {
         likebtn = v.findViewById(R.id.detail_likebtn);
         commentbtn = v.findViewById(R.id.detail_commentbtn);
         sharebtn = v.findViewById(R.id.detail_sharebtn);
+        threedot = v.findViewById(R.id.pthreedot);
         fauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         currentuid = fauth.getCurrentUser().getUid();
+        pd = new ProgressDialog(mcontext);
 
 
         Bundle bundle = getArguments();
@@ -106,42 +121,80 @@ public class PostDetailFragment extends Fragment {
             tot_likes = bundle.getInt("tot_likes");
         }
 
-        if(uid.equals(currentuid))
-        {
-            Applybtn.setText("Who Applied");
-        }
+        fstore.collection("Posts").document(pid).collection("Apply")
+                .document(currentuid)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                        if(error!=null)
+                            return;
+                        if(value.exists())
+                        {
+                            if(value.getString("status").equals("Pending"))
+                                Applybtn.setText("You Have Applied");
+                            else if(value.getString("status").equals("Accepted"))
+                                Applybtn.setText("You Have Been Selected");
 
-        if(uid.equals(currentuid))
-        {
-            Applybtn.setText("Who Applied");
-        }
+                        }
+                        else
+                        {
+                            if(uid.equals(currentuid))
+                            {
+                                Applybtn.setText("Who Applied");
+                            }
+                        }
 
-        if(Applybtn.getText().toString().equals("Apply")) {
-            Applybtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                        if(Applybtn.getText().toString().equals("Apply")) {
+                            Applybtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
 
-                    WhoApplied();
-                }
-            });
-        }
-        else{
-            Applybtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                                    WhoApplied();
+                                }
+                            });
+                        }
+                        else if(Applybtn.getText().toString().equals("Who Applied")){
+                            Applybtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("pid",pid);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("pid",pid);
 
-                    AllBidsFragment f = new AllBidsFragment();
-                    f.setArguments(bundle);
-                    FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment,f);
-                    fragmentTransaction.addToBackStack(null).commit();
-                }
-            });
-        }
+                                    AllBidsFragment f = new AllBidsFragment();
+                                    f.setArguments(bundle);
+                                    FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.fragment,f);
+                                    fragmentTransaction.addToBackStack(null).commit();
+                                }
+                            });
+                        }
+
+                    }
+                });
+
+
+
+
+
+
+        userpic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("TheirProfile","true");
+                bundle.putString("uid",uid);
+
+                ProfileFragment fragment = new ProfileFragment();
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment,fragment);
+                fragmentTransaction.addToBackStack(null).commit();
+            }
+        });
 
 
         loaddata();
@@ -173,7 +226,7 @@ public class PostDetailFragment extends Fragment {
                             }
 
                             if(!uid.equals(currentuid))
-                                addtonotification(uid,pid,"Liked Your Post");
+                                addtonotification(uid,pid,"Liked Your Post","like");
 
                         }
                         else
@@ -215,7 +268,174 @@ public class PostDetailFragment extends Fragment {
             }
         });
 
+        if(!uid.equals(currentuid))
+            threedot.setVisibility(View.GONE);
+        else
+        {
+            threedot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showoptions(pid,currentuid,uid,projectpicurl);
+                }
+            });
+        }
+
+
+
         return v;
+    }
+
+    private void showoptions(String pid, String currentuid, String uid, String projectpic) {
+
+        PopupMenu pop  = new PopupMenu(mcontext,threedot, Gravity.END);
+
+
+        if(uid.equals(currentuid))
+        {
+            pop.getMenu().add(Menu.NONE,0,0,"Delete");
+            pop.getMenu().add(Menu.NONE,1,0,"Edit");
+
+        }
+
+
+        pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+
+                if(id==0)
+                {
+                    begindelete(pid,projectpic);
+                }
+                else
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
+                    builder.setMessage("Are you sure you want to Edit this project ?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString("key","editPost");
+                            bundle.putString("editPostid",pid);
+
+                            AddPostFragment fragment = new AddPostFragment();
+                            fragment.setArguments(bundle);
+                            FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment,fragment);
+                            fragmentTransaction.addToBackStack(null).commit();
+
+                        }
+                    });
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
+
+                }
+                return false;
+            }
+        });
+
+        pop.show();
+
+    }
+
+    private void begindelete(String pid, String projectpic) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
+        builder.setMessage("Are you sure you want to DELETE this Project ?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                pd.setMessage("Deleting...");
+                pd.setCancelable(false);
+                pd.show();
+
+                if(projectpic.equals("noImage"))
+                {
+                    deletepost(pid);
+                }
+                else
+                {
+                    StorageReference picRef = FirebaseStorage.getInstance().getReferenceFromUrl(projectpic);
+                    picRef.delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    deletepost(pid);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    pd.dismiss();
+                                    Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+
+
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
+    private void deletepost(String pid) {
+
+
+        fstore.collection("Posts").document(pid).collection("Apply")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(QueryDocumentSnapshot snapshot:queryDocumentSnapshots)
+                {
+                    fstore.collection("Posts").document(pid)
+                            .collection("Apply").document(snapshot.getId())
+                            .delete();
+                }
+
+
+
+                FirebaseFirestore.getInstance().collection("Posts").document(pid).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        pd.dismiss();
+                        Toast.makeText(mcontext,"Project Deleted Successfully",Toast.LENGTH_SHORT).show();
+
+                        FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment,new HomeFragment());
+                        fragmentTransaction.addToBackStack(null).commit();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(mcontext,"Error : "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        });
+
     }
 
     private void WhoApplied() {
@@ -226,21 +446,23 @@ public class PostDetailFragment extends Fragment {
             @Override
             public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
 
-                assert value != null;
+                if(error!=null)
+                    return;
                 if(value.exists())
                 {
                     UN = value.getString("Full Name");
                     UI = value.getString("Image");
                     String skills=value.getString("skills");
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss ");
-                    String currentTime = sdf.format(new Date());
+                    String timestamp = String.valueOf(System.currentTimeMillis());
+
 
                     //String crptime=currentTime.substring(0,20) +" "+ currentTime.substring(3,34);
                     doc.put("id",currentuid);
                     doc.put("Fullname",UN);
                     doc.put("pid",pid);
-                    doc.put("time",currentTime);
+                    doc.put("time",timestamp);
                     doc.put("skills",skills);
+                    doc.put("status","Pending");
                     if(UI.equals("noImage"))
                         doc.put("dp","https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8");
                     else
@@ -252,6 +474,8 @@ public class PostDetailFragment extends Fragment {
                         public void onSuccess(Void aVoid){
                             Toast.makeText(getActivity(),"Applied!",Toast.LENGTH_SHORT).show();
 
+                            addtonotification(uid,pid,"Applied for the Project","apply");
+
                         }
                     });
                 }
@@ -261,7 +485,7 @@ public class PostDetailFragment extends Fragment {
 
     }
 
-    private void addtonotification(String uid, String pid, String notification) {
+    private void addtonotification(String uid, String pid, String notification,String type) {
 
         String timestamp = ""+System.currentTimeMillis();
 
@@ -273,9 +497,9 @@ public class PostDetailFragment extends Fragment {
         hashMap.put("suid",currentuid);
         hashMap.put("sname",uname);
         hashMap.put("simage",uimage);
-        hashMap.put("type","like");
+        hashMap.put("type",type);
 
-        fstore.collection("Notifications").document(pid+"like"+timestamp)
+        fstore.collection("Notifications").document(pid+type+timestamp)
                 .set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -290,6 +514,13 @@ public class PostDetailFragment extends Fragment {
         fstore.collection("Posts").document(pid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+
+                if(error!=null)
+                {
+                    return;
+                }
+
+
 
                 if(value.exists())
                 {
@@ -312,6 +543,7 @@ public class PostDetailFragment extends Fragment {
                     }
 
 
+                    projectpicurl=value.getString("PostImage");
 
                     try{
                         Picasso.get().load(value.getString("PostImage")).into(projectpic);

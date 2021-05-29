@@ -80,16 +80,23 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-                        assert value != null;
-                        String name = Objects.requireNonNull(value.get("Full Name")).toString();
-                        String image = value.getString("Image");
-                        String email = value.getString("Email");
+
+                        if(error!=null)
+                        {
+                            return;
+                        }
+                        if(value.exists())
+                        {
+                            String name = Objects.requireNonNull(value.get("Full Name")).toString();
+                            String image = value.getString("Image");
+                            String email = value.getString("Email");
 
 
-                        notifications.get(position).setSname(name);
-                        notifications.get(position).setSimage(image);
-                        notifications.get(position).setSimage(email);
+                            notifications.get(position).setSname(name);
+                            notifications.get(position).setSimage(image);
+                            notifications.get(position).setSimage(email);
 
+                        }
                     }
                 });
 
@@ -138,7 +145,7 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(context,"Notification is deleted",Toast.LENGTH_SHORT).show();
-
+                                notifications.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position,notifications.size());
                             }

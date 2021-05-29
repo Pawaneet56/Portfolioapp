@@ -78,10 +78,10 @@ dialog.dismiss();
     }
 
     public class experienceViewHolder extends RecyclerView.ViewHolder{
-TextView t1;
+        TextView t1;
         public experienceViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-t1=itemView.findViewById(R.id.ex);
+            t1=itemView.findViewById(R.id.ex);
         }
     }
 }
