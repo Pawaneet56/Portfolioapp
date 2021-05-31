@@ -153,6 +153,20 @@ public class BottomFilter extends BottomSheetDialogFragment {
 
 
         }
+        else if(filter_type.equals("Apply")){
+            Bundle bundle2=new Bundle();
+            bundle2.putString("apply","true");
+
+            HomeFragment fragment = new HomeFragment();
+            fragment.setArguments(bundle2);
+            FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment,fragment);
+            fragmentTransaction.addToBackStack(null).commit();
+            bottomSheetListner.onButtonClicked(filter_type);
+            dismiss();
+
+        }
         else{
             domainselection.setVisibility(View.GONE);
             radio1.setVisibility(View.GONE);
@@ -245,6 +259,18 @@ public class BottomFilter extends BottomSheetDialogFragment {
                         fragmentTransaction.addToBackStack(null).commit();
 
                     }
+                }
+                else if(filter_type.equals("Apply")){
+                    Bundle bundle2=new Bundle();
+                    bundle2.putString("apply","true");
+
+                    HomeFragment fragment = new HomeFragment();
+                    fragment.setArguments(bundle2);
+                    FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment,fragment);
+                    fragmentTransaction.addToBackStack(null).commit();
+
                 }
                 else{
 if(project){

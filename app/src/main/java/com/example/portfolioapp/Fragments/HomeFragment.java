@@ -62,7 +62,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView filterrecycler;
     private ArrayList<Filters> filterOptions;
     private FilterAdaptor filterAdaptor;
-    private ArrayList<String> domains, domains1;
+    private String apply="false";
+    private ArrayList<String> applyList=new ArrayList<>(), domains1;
     Bundle bundle;
 
     String token;
@@ -107,9 +108,34 @@ public class HomeFragment extends Fragment {
                  type=bundle.getString("type");
              if(bundle.getString("domain")!=null)
                  domain2=bundle.getString("domain");
+             if(bundle.getString("apply")!=null)
+                 apply=bundle.getString("apply");
 
          }
-         if(paid_unpaid1.equals("true") || type.equals("true") || domain2.equals("true")){
+         if(apply.equals("true")){
+fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+    @Override
+    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+        datalist.clear();
+        List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
+        for(DocumentSnapshot d:list){
+           fstore.collection("Posts").document(d.getString("pid")).collection("Apply").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+               @Override
+               public void onSuccess(DocumentSnapshot documentSnapshot) {
+                   if(documentSnapshot.exists()){
+                       Posts obj=d.toObject(Posts.class);
+                       datalist.add(obj);
+                   }
+                   recyclerView.setAdapter(fadaptor);
+                   fadaptor.notifyDataSetChanged();
+               }
+           });
+        }
+
+    }
+});
+         }
+        else  if(paid_unpaid1.equals("true") || type.equals("true") || domain2.equals("true")){
              fetchdata2();
            }
          else{
@@ -122,6 +148,7 @@ public class HomeFragment extends Fragment {
         filterOptions.add(new Filters("Job Type"));
         filterOptions.add(new Filters("Paid/Unpaid"));
         filterOptions.add(new Filters("Domain"));
+        filterOptions.add(new Filters("Apply"));
 
         filterrecycler.setAdapter(filterAdaptor);
         filterAdaptor.notifyDataSetChanged();
