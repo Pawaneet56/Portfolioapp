@@ -63,7 +63,8 @@ public class HomeFragment extends Fragment {
     private ArrayList<Filters> filterOptions;
     private FilterAdaptor filterAdaptor;
     private String apply="false";
-    private ArrayList<String> applyList=new ArrayList<>(), domains1;
+    private ArrayList<Posts> searchList=new ArrayList<>();
+    private ArrayList  domains1;
     Bundle bundle;
 
     String token;
@@ -435,16 +436,50 @@ setHasOptionsMenu(true);}
 getActivity().getMenuInflater().inflate(R.menu.main_menu,menu);
         MenuItem item=menu.findItem(R.id.action_search);
         SearchView searchView=(SearchView)item.getActionView();
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchData(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return true;
+                if (newText.isEmpty()) {
+
+                    fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            datalist.clear();
+                            for (DocumentSnapshot d : queryDocumentSnapshots) {
+
+                                    Posts obj = d.toObject(Posts.class);
+                                    datalist.add(obj);
+
+                            }
+                            recyclerView.setAdapter(fadaptor);
+                            fadaptor.notifyDataSetChanged();
+                        }
+                    });
+
+                } else{
+
+                    fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            datalist.clear();
+                            for (DocumentSnapshot d : queryDocumentSnapshots) {
+
+                                if (d.getString("FullName").toLowerCase().contains(newText.toLowerCase()) || d.getString("Detail").toLowerCase().contains(newText.toLowerCase()) || d.getString("ProjectName").toLowerCase().contains(newText.toLowerCase())) {
+                                    Posts obj = d.toObject(Posts.class);
+                                    datalist.add(obj);
+                                }
+                            }
+                            recyclerView.setAdapter(fadaptor);
+                            fadaptor.notifyDataSetChanged();
+                        }
+                    });
+            }            return false;
             }
         });
 
