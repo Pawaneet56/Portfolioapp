@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.CommentFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#add8e6">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.6"
+        android:background="@color/white"
         android:orientation="horizontal">
 
 

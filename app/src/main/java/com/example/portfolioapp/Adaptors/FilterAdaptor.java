@@ -55,9 +55,6 @@ public class FilterAdaptor extends RecyclerView.Adapter<FilterAdaptor.myViewHold
 
                 BottomFilter bottomFilter = new BottomFilter();
                 bottomFilter.setArguments(bundle);
-
-                bottomFilter.setCancelable(false);
-
                 bottomFilter.show(((MainActivity)mcontext).getSupportFragmentManager(),bottomFilter.getTag());
             }
         });

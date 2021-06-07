@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="#add8e6"
+    android:gravity="center"
+    android:padding="20dp"
+    android:fitsSystemWindows="true">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        tools:context=".Fragments.PostDetailFragment">
+        android:layout_height="match_parent"
+        tools:context=".Fragments.PostDetailFragment"
+        android:background="@color/white"
+        android:padding="5dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="50dp"
@@ -59,7 +71,8 @@
             android:background="@drawable/ic_threedot"
             android:id="@+id/pthreedot"
             android:layout_alignEnd="@+id/r1"
-            android:layout_alignRight="@+id/r1" />
+            android:layout_alignRight="@+id/r1"
+            android:layout_marginEnd="10dp"/>
 
 
         <TextView
@@ -159,21 +172,22 @@
             android:text="Apply"
             android:fontFamily="@font/montserrat_regular"
             android:id="@+id/Apply_btn"
+            android:background="@drawable/btn_customs"
             android:textSize="@dimen/font_size20"/>
 
         <View
             android:layout_below="@+id/Apply_btn"
             android:layout_width="wrap_content"
             android:layout_height="0.5dp"
-            android:background="@color/colorAccent"/>
+            android:layout_marginTop="20dp"
+            android:background="@color/colorAccent"
+            android:id="@+id/view"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
-            android:layout_below="@+id/Apply_btn">
+            android:layout_below="@+id/view">
 
             <Button
                 android:layout_width="wrap_content"
@@ -186,7 +200,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_regular"
                 android:id="@+id/detail_likebtn"
-                android:textSize="@dimen/font_size10"/>
+                android:textSize="8sp"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -198,7 +212,7 @@
                 android:text="COMMENT"
                 android:textColor="@color/black"
                 android:id="@+id/detail_commentbtn"
-                android:textSize="@dimen/font_size10"
+                android:textSize="8sp"
                 android:fontFamily="@font/montserrat_regular"
                 />
 
@@ -213,7 +227,7 @@
                 android:drawablePadding="5dp"
                 android:textColor="@color/black"
                 android:id="@+id/detail_sharebtn"
-                android:textSize="@dimen/font_size10"/>
+                android:textSize="8sp"/>
 
         </LinearLayout>
 
@@ -222,6 +236,7 @@
 
     </RelativeLayout>
 
+    </ScrollView>
 
 
-</ScrollView>
+</RelativeLayout>

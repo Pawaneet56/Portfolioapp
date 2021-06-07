@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white"
     app:cardUseCompatPadding="true"
-    app:cardCornerRadius="2dp"
+    app:cardCornerRadius="25dp"
     app:cardElevation="2dp"
     android:background="@color/gray"
     app:contentPadding="3dp">
@@ -27,6 +27,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:orientation="vertical">
 
             <TextView

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="176dp"
-    android:background="@color/gray"
+    android:background="#add8e6"
     android:gravity="bottom"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -31,7 +31,7 @@
         android:paddingTop="3dp"
         android:layout_marginLeft="10dp"
         android:text="ABC"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     <TextView
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
         android:paddingTop="3dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:layout_marginLeft="10dp"
         android:text="ABC@gmail.com"
         android:textSize="14sp"

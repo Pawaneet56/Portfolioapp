@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="35dp"
+    android:padding="30dp"
     android:gravity="center"
+    android:background="#add8e6"
     android:fitsSystemWindows="true">
 
     <ScrollView
@@ -19,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="5dp"
             tools:context=".AddPostFragment">
 
             <TextView
@@ -202,13 +205,15 @@
                 android:textColor="@color/red"
                 android:visibility="gone"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:layout_marginTop="20dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 android:background="@drawable/btn_customs"
                 android:text="Upload Project"/>
 

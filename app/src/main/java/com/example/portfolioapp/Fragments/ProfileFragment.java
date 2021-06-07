@@ -111,7 +111,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private Uri filepath;
     private Context mcontext;
     private TextView edittext,postbyme;
-    private TextView Name1,Email1,Bio1;
+    private TextView Name1,Email1,Bio1,profile_title;
     private LinearLayout mLayout;
     experienceadaptor experienceadaptor;
     ArrayList<String>data=new ArrayList<>();
@@ -179,6 +179,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         experience1=v.findViewById(R.id.editexperience);
         extracurricular1=v.findViewById(R.id.editExtraCurriculars);
         extracurricular=v.findViewById(R.id.extraCurricular);
+        profile_title=v.findViewById(R.id.profile_title);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -310,6 +311,7 @@ extracurricular1.setOnClickListener(new View.OnClickListener() {
             if(!uid.equals(id)){
             Edit.setVisibility(View.GONE);
             Posts.setText("Posts by them");
+            profile_title.setText("Profile");
             edittext.setVisibility(View.GONE);
             save.setVisibility(View.GONE);}
             else{

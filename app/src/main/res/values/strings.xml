@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Portfolio app</string>
+    <string name="app_name">Connectify</string>
     <string name="link">Hyperlink TextView</string>
     <string name="open">Open navigation drawer</string>
     <string name="close">Close navigation drawer</string>

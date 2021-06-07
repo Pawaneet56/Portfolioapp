@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:backgroundTint="@color/purple_500"
+    android:background="#add8e6"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none">
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="3dp"
-        android:background="@color/white"
+        android:background="#add8e6"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         tools:context=".ProfileFragment"
@@ -25,7 +25,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Profile"
+            android:text="Your Profile"
+            android:id="@+id/profile_title"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/black"
             android:textSize="@dimen/font_size20"
@@ -537,13 +538,15 @@
 
         </LinearLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:text="Save Profile"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_customs"
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/white"
             android:fontFamily="@font/montserrat_regular"
             android:id="@+id/savebutton"/>
 

@@ -7,7 +7,7 @@
     android:layout_marginTop="3dp"
     android:layout_marginBottom="3dp"
     android:orientation="vertical"
-    app:cardCornerRadius="2dp"
+    app:cardCornerRadius="25dp"
     app:contentPadding="5dp"
     app:cardUseCompatPadding="true"
     app:cardElevation="1dp">
@@ -62,7 +62,8 @@
             android:background="@drawable/ic_threedot"
             android:id="@+id/lthreedot"
             android:layout_alignEnd="@+id/r1"
-            android:layout_alignRight="@+id/r1" />
+            android:layout_alignRight="@+id/r1"
+            android:layout_marginEnd="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -105,9 +106,9 @@
 
         <View
             android:layout_below="@+id/ldeatils"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/colorAccent"/>
+            android:background="#2B65EC"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -127,7 +128,7 @@
             android:textColor="@color/black"
             android:id="@+id/likebtn"
             android:fontFamily="@font/montserrat_regular"
-            android:textSize="10dp"/>
+            android:textSize="9sp"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -140,7 +141,7 @@
             android:textColor="@color/black"
             android:fontFamily="@font/montserrat_regular"
             android:id="@+id/commentbtn"
-            android:textSize="10dp" />
+            android:textSize="9sp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -153,7 +154,7 @@
             android:drawablePadding="5dp"
             android:textColor="@color/black"
             android:id="@+id/sharebtn"
-            android:textSize="10dp"/>
+            android:textSize="9sp"/>
 
     </LinearLayout>
 
