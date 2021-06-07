@@ -75,14 +75,31 @@
             android:layout_marginLeft="50dp"/>
 
     </RadioGroup>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <Button
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="close"
+        android:layout_gravity="left"
+        android:text="Apply"
+        android:layout_marginLeft="40dp"
         android:fontFamily="@font/montserrat_regular"
         android:id="@+id/bottom_close"
         android:layout_marginBottom="50dp"/>
+        <Button
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:layout_toRightOf="@+id/bottom_close"
+            android:layout_marginLeft="100dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:id="@+id/bottom_apply"
+            android:layout_marginBottom="50dp"/>
+
+
+    </RelativeLayout>
 
 </LinearLayout>
