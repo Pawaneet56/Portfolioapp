@@ -447,7 +447,7 @@ getActivity().getMenuInflater().inflate(R.menu.main_menu,menu);
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
 
-                    fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             datalist.clear();
@@ -464,7 +464,7 @@ getActivity().getMenuInflater().inflate(R.menu.main_menu,menu);
 
                 } else{
 
-                    fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             datalist.clear();
