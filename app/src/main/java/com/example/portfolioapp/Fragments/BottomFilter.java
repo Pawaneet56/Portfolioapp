@@ -42,6 +42,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
     private List<String>item;
     private FirebaseFirestore fstore;
     private FirebaseAuth fauth;
+    private Button Apply;
     private boolean paid=false,unpaid=false,project=false,parttime=false,internships=false;
     private final ArrayList<String> itemsindomain=new ArrayList<>();
     RadioGroup radiogroup;
@@ -61,6 +62,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
         radio3=v.findViewById(R.id.r3);
         radio4=v.findViewById(R.id.r4);
         radio5=v.findViewById(R.id.r5);
+        Apply=v.findViewById(R.id.bottom_apply);
         radiogroup=v.findViewById(R.id.rg);
         fstore=FirebaseFirestore.getInstance();
         fauth=FirebaseAuth.getInstance();
@@ -246,7 +248,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
                         fragmentTransaction.addToBackStack(null).commit();
 
                     }
-                    else{
+                    else if(unpaid){
                         Bundle bundle2=new Bundle();
                         bundle2.putString("paid/unpaid","true");
                         fstore.collection("filter").document(fauth.getCurrentUser().getUid()).update("paid_unpaid","Unpaid");
@@ -322,6 +324,19 @@ else if(internships){
 
         filter_text.setText(filter_type);
 
+Apply.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        HomeFragment fragment = new HomeFragment();
+        FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment,fragment);
+        fragmentTransaction.addToBackStack(null).commit();
+        bottomSheetListner.onButtonClicked(filter_type);
+        dismiss();
+
+    }
+});
         return v;
     }
 
