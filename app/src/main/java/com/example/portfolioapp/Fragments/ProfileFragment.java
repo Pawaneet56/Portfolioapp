@@ -55,7 +55,6 @@ import com.example.portfolioapp.Adaptors.experienceadaptor;
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.R;
 import com.example.portfolioapp.Startactivity;
-import com.firebase.ui.auth.ui.accountlink.WelcomeBackPasswordPrompt;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -89,6 +88,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -147,8 +147,9 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_profile,container,false);
-        getActivity().setTitle("Profile");
-Posts=v.findViewById(R.id.viewpostbyme);
+        requireActivity().setTitle("Profile");
+
+        Posts=v.findViewById(R.id.viewpostbyme);
         Edit=v.findViewById(R.id.editbutton);
         edittext=v.findViewById(R.id.edittext);
         postbyme=v.findViewById(R.id.viewpostbyme);
@@ -369,7 +370,7 @@ save.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
     post.setVisibility(View.GONE);
-    Posts.setVisibility(View.GONE);
+    postbyme.setVisibility(View.GONE);
                 if(urli.equals("noImage")){
                     myimage.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override

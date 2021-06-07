@@ -159,11 +159,9 @@ fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<Quer
     }
 
 
-
-
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
 
         FirebaseInstallations.getInstance().getToken(true).addOnSuccessListener(new OnSuccessListener<InstallationTokenResult>() {
@@ -173,8 +171,6 @@ fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<Quer
                 Savetoken(token);
             }
         });
-
-
     }
 
     private void Savetoken(String token) {

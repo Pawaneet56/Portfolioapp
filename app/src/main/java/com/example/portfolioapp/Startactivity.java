@@ -34,7 +34,9 @@ private FirebaseFirestore fstore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_PortfolioApp);
         setContentView(R.layout.activity_start);
+
         signup=findViewById(R.id.signup);
         login=findViewById(R.id.login);
         fstore=FirebaseFirestore.getInstance();

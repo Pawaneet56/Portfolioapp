@@ -122,7 +122,8 @@ public class CommentFragment extends Fragment {
                 @Override
                 public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
 
-                    assert value != null;
+                    if(error!=null)
+                        return;
                     if(value.exists())
                     {
                         username = value.getString("Full Name");

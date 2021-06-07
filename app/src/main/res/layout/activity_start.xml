@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back1"
+    android:background="@color/white"
     tools:context=".Startactivity">
 
 
@@ -15,30 +15,31 @@
         android:fontFamily="@font/dakota_artha"
         android:gravity="center"
         android:padding="5dp"
-        android:text="OrangeApple"
-        android:textColor="@color/magenta"
+        android:text="Connectify"
+        android:textColor="@color/blue2"
         android:textSize="65dp"
+        android:layout_marginTop="60dp"
         />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginLeft="110dp"
         android:layout_marginTop="180dp"
-        android:src="@drawable/ic_portfolio" />
+        android:src="@drawable/logo" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="400dp"
         android:layout_marginLeft="80dp"
         android:text="Signup"
         android:id="@+id/signup"
-         />
+        android:background="@drawable/btn_customs"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -46,6 +47,7 @@
         android:text="Login"
         android:id="@+id/login"
         android:layout_below="@id/signup"
+        android:background="@drawable/btn_customs"
         />
 
 </RelativeLayout>

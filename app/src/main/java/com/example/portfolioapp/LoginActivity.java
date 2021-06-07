@@ -41,6 +41,8 @@ private TextInputLayout erroremail,errorpassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTheme(R.style.Theme_PortfolioApp);
         setContentView(R.layout.activity_login);
 
         emailid=findViewById(R.id.emailid);

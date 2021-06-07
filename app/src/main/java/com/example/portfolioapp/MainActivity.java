@@ -46,6 +46,8 @@ private ImageView fimage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTheme(R.style.Theme_PortfolioApp);
         setContentView(R.layout.activity_main);
         NavigationView navigationView = findViewById(R.id.nav_view);
 

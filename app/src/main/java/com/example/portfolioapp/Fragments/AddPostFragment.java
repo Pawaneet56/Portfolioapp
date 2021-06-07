@@ -41,8 +41,6 @@ import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.portfolioapp.Adaptors.PostAdaptor;
 import com.example.portfolioapp.MainActivity;
-import com.example.portfolioapp.Notifications.APIService;
-import com.example.portfolioapp.Notifications.Client;
 import com.example.portfolioapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -115,7 +113,6 @@ public class AddPostFragment extends Fragment {
     private TextView errorpaymentmode,errortypeofproject,errordomain;
 
 
-    private APIService apiservice;
 
     public AddPostFragment() {
     }
@@ -154,7 +151,6 @@ public class AddPostFragment extends Fragment {
         imagereference = FirebaseStorage.getInstance().getReference("Posts");
         loadingbar = new ProgressDialog(mcontext);
         timestamp = String.valueOf(System.currentTimeMillis());
-        apiservice = Client.getRetrofit("https://fcm.googlepis.com").create(APIService.class);
 
         item=new ArrayList<>();
 

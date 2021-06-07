@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PortfolioApp">
+        <activity android:name=".SplashActivity" />
         <activity
             android:name=".MainActivity"
             android:label="Homepage"
@@ -21,7 +22,7 @@
             android:label="Signup" />
         <activity
             android:name=".LoginActivity"
-            android:label="Login"/>
+            android:label="Login" />
         <activity android:name=".Startactivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,43 +32,15 @@
         </activity>
 
 
-        <service android:name=".Notifications.FirebaseMessaging"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="TODO">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-
-        <service android:name=".Notifications.FirebaseService"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="TODO">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_SERVICE"/>
-            </intent-filter>
-
-        </service>
-
-
-
         <provider
-            android:authorities="com.example.portfolioapp.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.portfolioapp.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/paths"/>
-
-
+                android:resource="@xml/paths" />
         </provider>
-
     </application>
-
-
-
 
 </manifest>

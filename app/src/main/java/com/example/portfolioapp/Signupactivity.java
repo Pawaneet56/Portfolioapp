@@ -72,6 +72,7 @@ public class Signupactivity<Updated> extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_PortfolioApp);
         setContentView(R.layout.activity_signupactivity);
         emailid=findViewById(R.id.emailid);
         password=findViewById(R.id.password);

@@ -4,10 +4,10 @@
         <shape>
             <corners android:radius="25dp"/>
             <solid
-                android:color="#9c4dcc"/>
+                android:color="#649CFF"/>
             <stroke
                 android:width="2dp"
-                android:color="#9c4dcc"/>
+                android:color="#649CFF"/>
             <corners
                 android:radius="6dp"/>
             <padding
@@ -22,11 +22,11 @@
         <shape>
             <gradient
                 android:angle="270"
-                android:endColor="#9c4dcc"
-                android:startColor="#9c4dcc"/>
+                android:endColor="#649CFF"
+                android:startColor="#649CFF"/>
             <stroke
                 android:width="4dp"
-                android:color="#9c4dcc"/>
+                android:color="#649CFF"/>
             <corners
                 android:radius="7dp"/>
             <padding

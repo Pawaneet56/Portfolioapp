@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.portfolioapp.Fragments.HomeFragment;
 import com.example.portfolioapp.Fragments.NotificationsFragment;
+import com.example.portfolioapp.Fragments.PostDetailFragment;
 import com.example.portfolioapp.Fragments.ProfileFragment;
 import com.example.portfolioapp.MainActivity;
 import com.example.portfolioapp.Models.Notifications;
@@ -92,9 +93,18 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                             String email = value.getString("Email");
 
 
-                            notifications.get(position).setSname(name);
-                            notifications.get(position).setSimage(image);
-                            notifications.get(position).setSimage(email);
+                            holder.sname.setText(name);
+                            holder.snotification.setText(notifications.get(position).getNotification());
+
+                            try{
+
+                                Picasso.get().load(image).into(holder.simage);
+
+                            } catch (Exception e) {
+                                Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8")
+                                        .into(holder.simage);
+                            }
+
 
                         }
                     }
@@ -102,29 +112,41 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
 
 
 
-        holder.sname.setText(notifications.get(position).getSname());
-        holder.snotification.setText(notifications.get(position).getNotification());
+
+
         holder.time.setText(ptime);
 
 
-        try{
-
-            Picasso.get().load(notifications.get(position).getSimage()).into(holder.simage);
-
-        } catch (Exception e) {
-            Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8")
-                .into(holder.simage);
-        }
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
+                Bundle bundle = new Bundle();
+                bundle.putString("pid",notifications.get(position).getPid());
+                bundle.putString("puid",notifications.get(position).getPuid());
+                bundle.putString("uname",notifications.get(position).getSname());
+                bundle.putString("uimage",notifications.get(position).getSimage());
+
+                fstore.collection("Posts").document(notifications.get(position).getPid()).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                int plikes = (int) documentSnapshot.get("pLike");
+
+                                bundle.putInt("tot_likes",plikes);
+                            }
+                        });
+
+                PostDetailFragment f = new PostDetailFragment();
+                f.setArguments(bundle);
                 FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment,new HomeFragment());
+                fragmentTransaction.replace(R.id.fragment,f);
                 fragmentTransaction.addToBackStack(null).commit();
+
             }
         });
 

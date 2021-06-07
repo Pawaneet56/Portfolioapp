@@ -26,6 +26,9 @@
     <color name="strong">#FCCA3F</color>
     <color name="bulletproof">#00c853</color>
     <color name="blue">#00F5FB</color>
+
     <color name="gray">#eeeeee</color>
 
+
+    <color name="blue2">#649CFF</color>
 </resources>
