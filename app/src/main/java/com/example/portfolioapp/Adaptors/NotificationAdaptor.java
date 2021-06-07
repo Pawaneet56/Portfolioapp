@@ -134,9 +134,9 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                int plikes = (int) documentSnapshot.get("pLike");
+                                long plikes = (long) documentSnapshot.get("pLike");
 
-                                bundle.putInt("tot_likes",plikes);
+                                bundle.putLong("tot_likes",plikes);
                             }
                         });
 
