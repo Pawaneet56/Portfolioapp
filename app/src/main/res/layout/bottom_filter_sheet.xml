@@ -9,10 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:textSize="24sp"
+        android:textSize="@dimen/font_size20"
         android:layout_gravity="center"
         android:text="ABC"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black"
         android:id="@+id/bottomsheetfilter"/>
+
     <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
         android:id="@+id/searchMultiSpinner"
         android:layout_width="fill_parent"
@@ -31,6 +34,7 @@
     android:id="@+id/r1"
     android:layout_margin="30dp"
     android:text="Paid"
+    android:fontFamily="@font/montserrat_regular"
     android:onClick="onRadioButtonClicked"
     android:layout_marginLeft="50dp"/>
     <RadioButton
@@ -38,6 +42,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/r2"
         android:layout_margin="30dp"
+        android:fontFamily="@font/montserrat_regular"
         android:text="Unpaid"
         android:onClick="onRadioButtonClicked"
         android:layout_marginLeft="50dp"/>
@@ -47,6 +52,7 @@
         android:onClick="onRadioButtonClicked"
         android:id="@+id/r3"
         android:text="Projects"
+        android:fontFamily="@font/montserrat_regular"
         android:layout_margin="30dp"
         android:layout_marginLeft="50dp"/>
         <RadioButton
@@ -54,12 +60,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/r4"
             android:layout_margin="30dp"
+            android:fontFamily="@font/montserrat_regular"
             android:text="Part Time Jobs "
             android:onClick="onRadioButtonClicked"
             android:layout_marginLeft="50dp"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:id="@+id/r5"
             android:layout_margin="30dp"
             android:text="Internships"
@@ -73,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="close"
+        android:fontFamily="@font/montserrat_regular"
         android:id="@+id/bottom_close"
         android:layout_marginBottom="50dp"/>
 

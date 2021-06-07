@@ -2,10 +2,11 @@
 <TextView android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="2dp"
-    android:textColor="@color/purple_500"
+    android:textColor="@color/black"
     android:id="@+id/ex"
-    android:textSize="15sp"
+    android:textSize="@dimen/font_size15"
     android:text="Nothing"
+    android:fontFamily="@font/montserrat_regular"
     android:layout_marginLeft="10dp"
     android:layout_marginBottom="3dp"
     xmlns:android="http://schemas.android.com/apk/res/android" />

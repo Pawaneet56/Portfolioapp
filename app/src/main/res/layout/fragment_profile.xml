@@ -26,8 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create Profile"
+            android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/font_size20"
             android:textAlignment="center"
             android:gravity="center_horizontal"
             android:layout_margin="10dp"/>
@@ -46,10 +47,28 @@
                 android:padding="2dp"
                 app:shapeAppearanceOverlay="@style/Circular"/>
 
-            <com.google.android.material.button.MaterialButton
+
+
+<!--            <ImageView-->
+<!--                android:layout_width="28dp"-->
+<!--                android:layout_height="28dp"-->
+<!--                app:srcCompat="@drawable/addbutton"-->
+<!--                app:icon="@drawable/ic_baseline_add_24"-->
+<!--                app:iconSize="24dp"-->
+<!--                app:iconPadding="24dp"-->
+<!--                android:insetLeft="0dp"-->
+<!--                android:insetTop="0dp"-->
+<!--                android:insetRight="0dp"-->
+<!--                android:insetBottom="0dp"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"/>-->
+            <ImageView
                 android:id="@+id/editbutton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="@dimen/font_size10"
+                app:srcCompat="@drawable/editbutton"
                 app:icon="@drawable/ic_baseline_border_color_24"
                 app:iconSize="24dp"
                 app:iconPadding="24dp"
@@ -70,30 +89,28 @@
                 android:layout_marginBottom="-34dp"
                 android:layout_marginRight="48dp"
                 android:padding="5dp"
-                android:text="EditProfile"
+                android:text="Edit Profile"
+                android:fontFamily="@font/montserrat_regular"
                 android:textAppearance="@style/Bold"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/font_size13" />
 
-            <com.google.android.material.button.MaterialButton
+            <ImageView
                 android:id="@+id/posts"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/inputs"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:drawablePadding="7dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/editbutton"
-                android:paddingLeft="10dp"
-                app:icon="@drawable/ic_add_post"
-                app:iconSize="26dp"
+                android:layout_marginTop="13dp"
+                app:srcCompat="@drawable/projectsbyme"
+                app:iconSize="24dp"
                 app:iconPadding="24dp"
                 android:insetLeft="0dp"
                 android:insetTop="0dp"
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
+                android:layout_below="@+id/editbutton"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
-                android:textSize="30dp" />
+                />
 
             <TextView
                 android:id="@+id/viewpostbyme"
@@ -109,7 +126,8 @@
                 android:layout_alignParentRight="true"
                 android:textAppearance="@style/Bold"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/font_size13"
+                android:fontFamily="@font/montserrat_regular"/>
 
 
         </RelativeLayout>
@@ -126,19 +144,21 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="Name"
+                android:fontFamily="@font/montserrat_regular"
                 android:drawableLeft="@drawable/ic_baseline_person_24"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="14dp"
+                android:textSize="@dimen/font_size13"
                 android:textAppearance="@style/Bold"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
                 android:id="@+id/name1"
-                android:textSize="17dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="@dimen/font_size17"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
@@ -154,6 +174,7 @@
                 android:id="@+id/name"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_margin="4dp"
                 android:textColor="@android:color/black"
                 android:visibility="gone"/>
@@ -171,10 +192,11 @@
                 android:text="Email"
                 android:drawableLeft="@drawable/ic_baseline_email_24"
                 android:layout_margin="4dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="14dp"
+                android:textSize="@dimen/font_size15"
                 android:textAppearance="@style/Bold"/>
 
             <TextView
@@ -185,9 +207,10 @@
                 android:background="@drawable/inputs"
                 android:drawablePadding="7dp"
                 android:hint="Email"
+                android:fontFamily="@font/montserrat_regular"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="17sp" />
+                android:textSize="@dimen/font_size17" />
         </LinearLayout>
 
         <LinearLayout
@@ -201,7 +224,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="Year"
-                android:textSize="14sp"
+                android:textSize="@dimen/font_size15"
+                android:fontFamily="@font/montserrat_regular"
                 android:textAppearance="@style/Bold"
                 android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                 android:layout_margin="4dp"
@@ -225,7 +249,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="15sp"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
@@ -242,9 +267,10 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textAppearance="@style/Bold"
                 android:text="College"
+                android:fontFamily="@font/montserrat_regular"
                 android:drawableLeft="@drawable/ic_baseline_people_24"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
@@ -258,6 +284,7 @@
                 android:textSize="17sp"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
                 android:id="@+id/college"/>
@@ -281,9 +308,10 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textSize="14dp"
+                android:textSize="15dp"
                 android:textAppearance="@style/Bold"
                 android:text="Bio"
+                android:fontFamily="@font/montserrat_regular"
                 android:drawableLeft="@drawable/ic_baseline_people_24"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
@@ -294,6 +322,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputs"
                 android:hint="Bio"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
@@ -307,6 +336,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputs"
                 android:hint="Bio"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
@@ -324,12 +354,13 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Experiences"
+                android:fontFamily="@font/montserrat_regular"
                 android:drawableLeft="@drawable/ic_baseline_verified_24"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="14dp"
+                android:textSize="15dp"
                 android:paddingRight="100dp"
                 android:textAppearance="@style/Bold"/>
 
@@ -361,6 +392,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Experiences"
+                android:fontFamily="@font/montserrat_regular"
                 android:id="@+id/experience1"
                 android:textSize="17sp"
                 android:drawablePadding="7dp"
@@ -392,9 +424,10 @@
                 android:drawableLeft="@drawable/ic_baseline_check_24"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="14dp"
+                android:textSize="15dp"
                 android:textAppearance="@style/Bold"/>
 
 
@@ -424,6 +457,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Skills"
                 android:id="@+id/skills1"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="17sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
@@ -446,7 +480,8 @@
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="14sp"
+                android:textSize="15sp"
+                android:fontFamily="@font/montserrat_regular"
                 android:textAppearance="@style/Bold"/>
 
 
@@ -477,7 +512,8 @@
                 android:layout_height="wrap_content"
                 android:hint="ExtraCurricular"
                 android:id="@+id/extraCurricular1"
-                android:textSize="17sp"
+                android:textSize="15sp"
+                android:fontFamily="@font/montserrat_regular"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
@@ -486,6 +522,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="ExtraCurricular"
+                android:fontFamily="@font/montserrat_regular"
                 android:id="@+id/extraCurricular"
                 android:textSize="17sp"
                 android:drawablePadding="7dp"
@@ -506,6 +543,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_customs"
             android:layout_marginTop="20sp"
+            android:fontFamily="@font/montserrat_regular"
             android:id="@+id/savebutton"/>
 
     </LinearLayout>

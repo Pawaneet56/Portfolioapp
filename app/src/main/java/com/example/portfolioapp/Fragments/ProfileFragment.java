@@ -96,7 +96,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
-    private Button Edit;
+    private ImageView Edit;
     private TextView Posts,Skills,ExtraCurricular;
     private EditText Experience,extracurricular;
     private ImageView skills1,experience1,extracurricular1;
@@ -125,7 +125,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private static final int Permission_code = 1001;
     FirebaseStorage storage;
     StorageReference storageReference;
-    private Button save,post;
+    private Button save;
+    private ImageView post;
     String Profile="myProfile",uid;
     final String[] listItems = new String[]{"C", "C++", "JAVA", "PYTHON","Ruby"};
     final boolean[] checkedItems = new boolean[listItems.length];

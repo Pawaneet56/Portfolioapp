@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="35dp"
-    android:background="@drawable/background"
+    android:background="@color/colorAccent"
     android:gravity="center"
     android:fitsSystemWindows="true">
 
@@ -49,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:text= "ENTER YOUR NAME:"
                 style="@style/RegularMono"
-                android:textSize="@dimen/font_size_small"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="@dimen/font_size13"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="8dp"
                 android:padding="5dp"
@@ -63,8 +64,10 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:id="@+id/name"
+                android:textSize="@dimen/font_size13"
                 android:hint="Enter Full Name"
                 android:textColor="@color/black"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -75,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:text= "EMAIL:"
                 style="@style/RegularMono"
-                android:textSize="@dimen/font_size_small"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="@dimen/font_size13"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="8dp"
                 android:padding="5dp"
@@ -90,8 +94,10 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/emailid"
+                android:textSize="@dimen/font_size13"
+                android:fontFamily="@font/montserrat_regular"
                 android:hint="Enter Email ID"
                 android:textColor="@color/black"
                 android:inputType="textEmailAddress"/>
@@ -102,7 +108,8 @@
                 android:layout_height="wrap_content"
                 android:text= "PASSWORD:"
                 style="@style/RegularMono"
-                android:textSize="@dimen/font_size_small"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="@dimen/font_size13"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="8dp"
                 android:padding="5dp"
@@ -119,10 +126,12 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:hint="Enter password"
                     android:id="@+id/password"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="@dimen/font_size13"
                     android:textColor="@color/black"/>
 
 </com.google.android.material.textfield.TextInputLayout>
@@ -158,9 +167,10 @@
                 android:layout_height="wrap_content"
                 android:text= "CONFIRM PASSWORD:"
                 style="@style/RegularMono"
-                android:textSize="@dimen/font_size_small"
+                android:textSize="@dimen/font_size13"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="8dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:padding="5dp"
                 android:layout_marginRight="0dp"
                 android:textColor="@color/black"/>
@@ -175,7 +185,9 @@
                     app:errorIconDrawable="@null">
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_size13"
+                    android:fontFamily="@font/montserrat_regular"
                     android:id="@+id/cpassword"
                     android:hint="Enter password again"
                     android:textColor="@color/black"
@@ -190,6 +202,8 @@
                 android:layout_margin="10dp"
                 android:layout_gravity="center"
                 android:background="@drawable/btn_customs"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="@dimen/font_size15"
                 style="@style/Regular"
                 android:text="SIGNUP"
                 android:id="@+id/signup"/>
@@ -208,18 +222,20 @@
             style="@style/Regular"
             android:textColor="@color/black"
             android:gravity="center"
-            android:textSize = "14dp"/>
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize = "@dimen/font_size13"/>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
+        android:layout_marginLeft="17dp"
         android:text = "Login"
         android:id="@+id/login"
         style="@style/Regular"
-        android:textColor="@color/purple_700"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/colorAccent"
         android:gravity="center"
-        android:textSize = "14dp"/>
+        android:textSize = "@dimen/font_size13"/>
 </LinearLayout>
     </LinearLayout>
 

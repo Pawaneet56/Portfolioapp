@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="35dp"
-    android:background="@drawable/background"
+    android:background="@color/colorAccent"
     android:gravity="center"
     tools:context=".LoginActivity"
     android:fitsSystemWindows="true">
@@ -48,7 +48,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="5dp"
-            android:textSize="@dimen/font_size_medium"
+            android:textSize="@dimen/font_size15"
+            android:fontFamily="@font/montserrat_bold"
             style="@style/RegularMono"
             android:textColor="@color/black"
             android:text = "WELCOME BACK!"
@@ -68,7 +69,8 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="5dp"
-                android:textSize="@dimen/font_size_small"
+                android:textSize="@dimen/font_size13"
+                android:fontFamily="@font/montserrat_regular"
                 style="@style/RegularMono"
                 android:textColor="@color/black"
                 android:text = "Login through Email" />
@@ -82,9 +84,10 @@
             android:layout_height="wrap_content"
             android:text= "EMAIL:"
             style="@style/RegularMono"
-            android:textSize="@dimen/font_size_small"
+            android:textSize="@dimen/font_size13"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/montserrat_regular"
             android:padding="5dp"
             android:layout_marginRight="0dp"
             android:textColor="@color/black"
@@ -103,6 +106,8 @@
             android:inputType="textEmailAddress"
             android:textColor="@color/black"
             android:hint="Enter Email ID"
+            android:textSize="@dimen/font_size15"
+            android:fontFamily="@font/montserrat_regular"
             android:id="@+id/emailid"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -112,7 +117,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:textSize="@dimen/font_size_small"
+            android:textSize="@dimen/font_size15"
+            android:fontFamily="@font/montserrat_regular"
             style="@style/RegularMono"
             android:padding="5dp"
             android:textColor="@color/black"
@@ -139,6 +145,8 @@
             android:layout_marginBottom="10dp"
             android:textColor="@color/black"
             android:hint="Enter password"
+            android:textSize="@dimen/font_size15"
+            android:fontFamily="@font/montserrat_regular"
             android:inputType="textPassword"
             android:id="@+id/password" />
 
@@ -152,6 +160,8 @@
             android:layout_margin="10dp"
             android:layout_gravity="center"
             android:background="@drawable/btn_customs"
+            android:textSize="@dimen/font_size15"
+            android:fontFamily="@font/montserrat_bold"
             style="@style/Regular"
             android:text="Login"
             android:id="@+id/login"/>
@@ -162,8 +172,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textSize="@dimen/font_size13"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Forgot Password?"
-                android:textColor="@color/purple_700" />
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
 
@@ -190,20 +202,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
+                android:textSize="@dimen/font_size13"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="No Account yet?"
-                android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/Signup1"
                 style="@style/Regular"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
+                android:layout_marginLeft="17dp"
                 android:gravity="center"
+                android:textSize="@dimen/font_size13"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Create One"
-                android:textColor="@color/purple_700"
-                android:textSize="14dp" />
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
 

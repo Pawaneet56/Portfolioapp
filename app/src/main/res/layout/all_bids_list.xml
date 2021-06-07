@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="3dp"
     android:orientation="vertical"
     app:cardCornerRadius="10dp"
     app:contentPadding="5dp"
     app:cardUseCompatPadding="true"
-    app:cardElevation="3dp">
+    app:cardElevation="1dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,33 +40,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ABCD"
+                android:fontFamily="@font/montserrat_regular"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:id="@+id/luname"
-                android:textSize="@dimen/font_size_medium"/>
+                android:textSize="@dimen/font_size17"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Time"
+                android:fontFamily="@font/montserrat_light"
                 android:id="@+id/ltime"
-                android:textSize="15sp"/>
+                android:textSize="@dimen/font_size15"/>
 
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:text="SKILLS"
             android:textColor="@color/black"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:gravity="center"
             android:id="@+id/lskills"
-            android:textSize="@dimen/font_size_medium"
-            android:layout_below="@+id/luserpic"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/font_size17"
+            android:layout_below="@+id/luserpic" />
 
+
+        <View
+            android:layout_below="@id/lskills"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:background="@color/colorAccent"/>
 
 
 
@@ -82,10 +90,11 @@
                 android:layout_weight="1"
                 android:background="@color/cardview_shadow_end_color"
                 android:text="Accept"
+                android:fontFamily="@font/montserrat_regular"
                 android:drawablePadding="5dp"
                 android:textColor="@color/black"
                 android:id="@+id/AcceptBtn"
-                android:textSize="13dp"/>
+                android:textSize="@dimen/font_size15"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -93,10 +102,11 @@
                 android:layout_weight="1"
                 android:background="@color/cardview_shadow_end_color"
                 android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="DECLINE"
                 android:textColor="@color/black"
                 android:id="@+id/DeclineBtn"
-                android:textSize="13dp" />
+                android:textSize="@dimen/font_size15" />
 
 
         </LinearLayout>

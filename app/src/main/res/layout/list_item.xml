@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
     android:orientation="vertical"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="2dp"
     app:contentPadding="5dp"
     app:cardUseCompatPadding="true"
-    app:cardElevation="3dp">
+    app:cardElevation="1dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -41,13 +41,16 @@
             android:layout_height="wrap_content"
             android:text="ABCD"
             android:textStyle="bold"
+            android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/black"
             android:id="@+id/luname"
-            android:textSize="@dimen/font_size_medium"/>
+            android:textSize="17dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="time"
+            android:textSize="12dp"
+            android:fontFamily="@font/montserrat_light"
             android:id="@+id/ltime"
             android:textStyle="italic"/>
         </LinearLayout>
@@ -65,11 +68,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Project"
+            android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/black"
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:id="@+id/lproject_name"
-            android:textSize="@dimen/font_size_medium"
+            android:textSize="17dp"
             android:layout_below="@+id/luserpic"
             android:textStyle="bold"/>
 
@@ -89,19 +93,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Details"
-        android:textSize="@dimen/font_size_medium"
+        android:textSize="17dp"
         android:textColor="@color/black"
         android:layout_marginTop="20dp"
         android:id="@+id/ldeatils"
+        android:fontFamily="@font/montserrat_regular"
         android:layout_margin="5dp"
         android:layout_below="@+id/lprojectpic"
         android:layout_marginBottom="10dp"/>
+
+
+        <View
+            android:layout_below="@+id/ldeatils"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:background="@color/colorAccent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/ldeatils">
+
 
         <Button
             android:layout_width="wrap_content"
@@ -113,6 +126,7 @@
             android:drawablePadding="5dp"
             android:textColor="@color/black"
             android:id="@+id/likebtn"
+            android:fontFamily="@font/montserrat_regular"
             android:textSize="10dp"/>
 
         <Button
@@ -124,6 +138,7 @@
             android:drawablePadding="5dp"
             android:text="COMMENT"
             android:textColor="@color/black"
+            android:fontFamily="@font/montserrat_regular"
             android:id="@+id/commentbtn"
             android:textSize="10dp" />
 
@@ -132,6 +147,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_share"
             android:layout_weight="1"
+            android:fontFamily="@font/montserrat_regular"
             android:background="@color/cardview_shadow_end_color"
             android:text="SHARE"
             android:drawablePadding="5dp"

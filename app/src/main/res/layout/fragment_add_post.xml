@@ -27,9 +27,10 @@
                 android:layout_margin="10dp"
                 android:gravity="center_horizontal"
                 android:text="Add Project"
+                android:fontFamily="@font/montserrat_bold"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="@dimen/font_size20"
                 android:id="@+id/ftext"/>
 
             <ImageButton
@@ -66,6 +67,7 @@
                 android:drawableLeft="@drawable/ic_baseline_title_24"
                 android:drawablePadding="7dp"
                 android:hint="Project Name"
+                android:fontFamily="@font/montserrat_light"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black" />
 
@@ -88,6 +90,7 @@
                 android:layout_height="60dp"
                 android:drawableLeft="@drawable/ic_baseline_description_24"
                 android:drawablePadding="7dp"
+                android:fontFamily="@font/montserrat_light"
                 android:hint="Description"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black" />
@@ -101,8 +104,9 @@
                 android:text= "Type of Post :"
                 android:id="@+id/TExt_1"
                 style="@style/RegularMono"
-                android:textSize="@dimen/font_size_small"
+                android:textSize="@dimen/font_size15"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
             <RadioGroup
@@ -113,16 +117,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Project"
+                    android:fontFamily="@font/montserrat_regular"
                     android:id="@+id/project"/>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Part Time Jobs"
+                    android:fontFamily="@font/montserrat_regular"
                     android:id="@+id/part_time_job"/>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Internships"
+                    android:fontFamily="@font/montserrat_regular"
                     android:id="@+id/internship"/>
 
             </RadioGroup>
@@ -132,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/errortypeofproject"
                 android:textColor="@color/red"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Select Type of Post"
                 android:visibility="gone"/>
 
@@ -141,8 +149,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text= "Paid/Unpaid :"
-                style="@style/RegularMono"
-                android:textSize="@dimen/font_size_small"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="@dimen/font_size15"
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
                 android:textColor="@color/black"
@@ -154,12 +162,14 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
                     android:text="Paid"
                     android:id="@+id/paid" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Unpaid"
+                    android:fontFamily="@font/montserrat_regular"
                     android:id="@+id/unpaid" />
 
             </RadioGroup>
@@ -170,6 +180,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/errortypeofpayment"
                 android:text="Select Type of payment"
+                android:fontFamily="@font/montserrat_regular"
                 android:visibility="gone"
                 android:textColor="@color/red"/>
 
@@ -187,6 +198,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/errordomain"
                 android:text="Select Domain"
+                android:fontFamily="@font/montserrat_regular"
                 android:textColor="@color/red"
                 android:visibility="gone"/>
 
@@ -195,6 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_customs"
                 android:text="Upload Project"/>

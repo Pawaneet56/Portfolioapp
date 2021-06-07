@@ -7,6 +7,7 @@
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
+    android:background="@color/gray"
     app:contentPadding="3dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,8 +15,8 @@
         android:orientation="horizontal">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/avatar"
             android:id="@+id/notify_userpic"
             android:adjustViewBounds="true"
@@ -23,36 +24,44 @@
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/Circular"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="NAME"
                 android:id="@+id/user_name"
-                android:textSize="18sp"
+                android:textSize="@dimen/font_size15"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
-
             <TextView
-                android:layout_width="match_parent"
+                android:layout_below="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/font_size13"
                 android:layout_height="wrap_content"
-                android:text="Notification"
-                android:id="@+id/post_title"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Time"
                 android:id="@+id/post_time"
                 android:textColor="@color/black"/>
 
 
-        </LinearLayout>
+            <TextView
+                android:layout_below="@+id/post_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notification"
+                android:textSize="@dimen/font_size15"
+                android:fontFamily="@font/montserrat_regular"
+                android:id="@+id/post_title"
+                android:textColor="@color/black"/>
+
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 
