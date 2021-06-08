@@ -588,7 +588,10 @@ spinner.setSelection(value.getLong("college").intValue());
             @Override
             public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot documentSnapshot, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
                 data.clear();
-                assert documentSnapshot != null;
+
+                if(error!=null)
+                    return;
+
                 if(documentSnapshot.exists()){
                     exp=(ArrayList<String>)documentSnapshot.get("experience");
                     Skills.setText(documentSnapshot.getString("skills"));
