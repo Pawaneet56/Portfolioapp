@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white"
     app:cardUseCompatPadding="true"
-    app:cardCornerRadius="25dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="1dp"
     android:background="@color/gray"
     app:contentPadding="3dp">
     <LinearLayout
@@ -15,8 +15,8 @@
         android:orientation="horizontal">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/avatar"
             android:id="@+id/notify_userpic"
             android:adjustViewBounds="true"

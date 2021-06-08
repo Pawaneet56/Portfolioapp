@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/gray"
     app:cardUseCompatPadding="true"
-    app:cardCornerRadius="25dp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="1dp"
     app:contentPadding="3dp">
     <LinearLayout

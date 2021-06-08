@@ -6,9 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     android:scrollbars="none"
-    android:background="#add8e6"
     android:gravity="center"
-    android:padding="20dp"
+    android:padding="0dp"
     android:fitsSystemWindows="true">
 
 

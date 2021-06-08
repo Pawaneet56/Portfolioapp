@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.AllBidsFragment"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    android:background="#add8e6">
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
 
 

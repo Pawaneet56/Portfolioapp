@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#add8e6"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none">
@@ -15,9 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="3dp"
-        android:background="#add8e6"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         tools:context=".ProfileFragment"
         android:orientation="vertical">
 
@@ -159,7 +157,7 @@
                 android:hint="Full Name"
                 android:id="@+id/name1"
                 android:fontFamily="@font/montserrat_regular"
-                android:textSize="@dimen/font_size17"
+                android:textSize="@dimen/font_size15"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
@@ -211,7 +209,7 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/font_size17" />
+                android:textSize="@dimen/font_size15" />
         </LinearLayout>
 
         <LinearLayout
@@ -282,7 +280,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inputs"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:layout_margin="4dp"
                 android:drawablePadding="7dp"
                 android:fontFamily="@font/montserrat_regular"
@@ -325,7 +323,7 @@
                 android:background="@drawable/inputs"
                 android:hint="Bio"
                 android:fontFamily="@font/montserrat_regular"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/bio1"
@@ -339,7 +337,7 @@
                 android:background="@drawable/inputs"
                 android:hint="Bio"
                 android:fontFamily="@font/montserrat_regular"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/bio"
@@ -396,7 +394,7 @@
                 android:hint="Experiences"
                 android:fontFamily="@font/montserrat_regular"
                 android:id="@+id/experience1"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
@@ -460,7 +458,7 @@
                 android:hint="Skills"
                 android:id="@+id/skills1"
                 android:fontFamily="@font/montserrat_regular"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
@@ -526,7 +524,7 @@
                 android:hint="ExtraCurricular"
                 android:fontFamily="@font/montserrat_regular"
                 android:id="@+id/extraCurricular"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:drawablePadding="7dp"
                 android:paddingLeft="10dp"
                 android:layout_margin="4dp"
@@ -545,7 +543,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_customs"
             android:layout_marginTop="20dp"
-            android:textSize="20sp"
+            android:textSize="17sp"
             android:textColor="@color/white"
             android:fontFamily="@font/montserrat_regular"
             android:id="@+id/savebutton"/>
