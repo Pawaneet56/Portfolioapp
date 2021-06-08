@@ -155,7 +155,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
 
 
         }
-        else if(filter_type.equals("Apply")){
+        else if(filter_type.equals("Applied")){
             Bundle bundle2=new Bundle();
             bundle2.putString("apply","true");
 

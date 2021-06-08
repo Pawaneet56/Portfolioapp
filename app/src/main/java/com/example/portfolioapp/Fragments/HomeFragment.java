@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
 
          }
          if(apply.equals("true")){
-fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
     @Override
     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
         datalist.clear();
@@ -149,7 +149,7 @@ fstore.collection("Posts").get().addOnSuccessListener(new OnSuccessListener<Quer
         filterOptions.add(new Filters("Job Type"));
         filterOptions.add(new Filters("Paid/Unpaid"));
         filterOptions.add(new Filters("Domain"));
-        filterOptions.add(new Filters("Apply"));
+        filterOptions.add(new Filters("Applied"));
 
         filterrecycler.setAdapter(filterAdaptor);
         filterAdaptor.notifyDataSetChanged();
