@@ -68,7 +68,7 @@ public class CommentFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comment,container,false);
-        Objects.requireNonNull(getActivity()).setTitle("Comments");
+        requireActivity().setTitle("Comments");
 
         sendbtn = v.findViewById(R.id.comment_btn);
         comments = v.findViewById(R.id.Comments);

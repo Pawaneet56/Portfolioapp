@@ -55,7 +55,7 @@ public class AllBidsFragment extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_all_bids_page, container, false);
-        Objects.requireNonNull(getActivity()).setTitle("Who Applied");
+        requireActivity().setTitle("Who Applied");
         Applylist = new ArrayList<>();
         fstore = FirebaseFirestore.getInstance();
         bidsRecycle = v.findViewById(R.id.bidsRecycle);

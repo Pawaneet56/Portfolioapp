@@ -337,7 +337,7 @@ extracurricular1.setOnClickListener(new View.OnClickListener() {
                 FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment,fragment);
-                fragmentTransaction.addToBackStack(null).commit();
+                fragmentTransaction.commit();
             }
         });
 

@@ -46,6 +46,7 @@ private FirebaseFirestore fstore;
             public void onClick(View v){
                 startActivity(new Intent(Startactivity.this, Signupactivity.class));
 
+
             }
 
 
@@ -54,6 +55,7 @@ private FirebaseFirestore fstore;
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Startactivity.this, LoginActivity.class));
+
             }
         });
     }
@@ -70,7 +72,7 @@ private FirebaseFirestore fstore;
             fstore.collection("filter").document(user.getUid()).set(doc);
             fstore.collection("filter").document(user.getUid()).update("Id",user.getUid(),"paid_unpaid","noFilter","typeofpost","noFilter","domainitems",a);
             startActivity(new Intent(Startactivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
+            finish();
         }
     }
 }

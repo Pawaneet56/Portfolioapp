@@ -164,7 +164,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
             FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment,fragment);
-            fragmentTransaction.addToBackStack(null).commit();
+            fragmentTransaction.commit();
             bottomSheetListner.onButtonClicked(filter_type);
             dismiss();
 
@@ -225,7 +225,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
                     FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.fragment,fragment);
-                    fragmentTransaction.addToBackStack(null).commit();
+                    fragmentTransaction.commit();
 
                 }
                 else{
@@ -245,7 +245,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
                         FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.fragment,fragment);
-                        fragmentTransaction.addToBackStack(null).commit();
+                        fragmentTransaction.commit();
 
                     }
                     else if(unpaid){
@@ -258,7 +258,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
                         FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.fragment,fragment);
-                        fragmentTransaction.addToBackStack(null).commit();
+                        fragmentTransaction.commit();
 
                     }
                 }
@@ -271,7 +271,7 @@ public class BottomFilter extends BottomSheetDialogFragment {
                     FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.fragment,fragment);
-                    fragmentTransaction.addToBackStack(null).commit();
+                    fragmentTransaction.commit();
 
                 }
                 else{
@@ -285,7 +285,7 @@ if(project){
     FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.replace(R.id.fragment,fragment);
-    fragmentTransaction.addToBackStack(null).commit();
+    fragmentTransaction.commit();
 
 }
 else if(parttime){
@@ -298,7 +298,7 @@ else if(parttime){
     FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.replace(R.id.fragment,fragment);
-    fragmentTransaction.addToBackStack(null).commit();
+    fragmentTransaction.commit();
 
 }
 else if(internships){
@@ -311,7 +311,7 @@ else if(internships){
     FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.replace(R.id.fragment,fragment);
-    fragmentTransaction.addToBackStack(null).commit();
+    fragmentTransaction.commit();
 
 }
                 }
@@ -331,7 +331,7 @@ Apply.setOnClickListener(new View.OnClickListener() {
         FragmentManager fragmentManager = ((MainActivity)bottomSheetListner).getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment,fragment);
-        fragmentTransaction.addToBackStack(null).commit();
+        fragmentTransaction.commit();
         bottomSheetListner.onButtonClicked(filter_type);
         dismiss();
 

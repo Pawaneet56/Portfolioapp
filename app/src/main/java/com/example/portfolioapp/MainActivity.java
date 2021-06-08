@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,6 +43,8 @@ private FirebaseAuth f;
 private TextView fname,femail;
 private FirebaseFirestore fstore;
 private ImageView fimage;
+
+private boolean doublebackpressed=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,7 @@ private ImageView fimage;
         toggle.syncState();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
-                    new HomeFragment()).commit();// change to whichever id should be default
+                    new HomeFragment()).addToBackStack(null).commit();// change to whichever id should be default
         }
 
         fstore.collection("users").document(Objects.requireNonNull(f.getCurrentUser()).getUid())
@@ -112,19 +115,19 @@ private ImageView fimage;
             case R.id.home:
                 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
-                        new HomeFragment()).commit();
+                        new HomeFragment()).addToBackStack(null).commit();
                 break;
 
             case R.id.profile:
                 Toast.makeText(this, "YOUR PROFILE", Toast.LENGTH_SHORT).show();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
-                        new ProfileFragment()).commit();
+                        new ProfileFragment()).addToBackStack(null).commit();
                 break;
 
             case R.id.addpost:
                 Toast.makeText(this, "Add Project", Toast.LENGTH_SHORT).show();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
-                        new AddPostFragment()).commit();
+                        new AddPostFragment()).addToBackStack(null).commit();
                 break;
 
 
@@ -153,7 +156,7 @@ private ImageView fimage;
             case R.id.notification:
                 Toast.makeText(this, "Notifications", Toast.LENGTH_SHORT).show();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment,
-                        new NotificationsFragment()).commit();
+                        new NotificationsFragment()).addToBackStack(null).commit();
                 break;
 
         }
@@ -168,7 +171,31 @@ private ImageView fimage;
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else {
-            super.onBackPressed();
+
+            if(getSupportFragmentManager().getBackStackEntryCount()>1)
+            {
+                getSupportFragmentManager().popBackStack();
+            }
+            else if(!doublebackpressed)
+            {
+                this.doublebackpressed=true;
+
+                Toast.makeText(this,"Please click BACK again to exit.",Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doublebackpressed=false;
+                    }
+                },2000);
+            }
+            else
+            {
+                super.onBackPressed();
+                finish();
+            }
+
+
         }
     }
 

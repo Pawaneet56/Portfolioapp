@@ -420,7 +420,7 @@ public class PostDetailFragment extends Fragment {
                         FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.fragment,new HomeFragment());
-                        fragmentTransaction.addToBackStack(null).commit();
+                        fragmentTransaction.commit();
 
                     }
                 })

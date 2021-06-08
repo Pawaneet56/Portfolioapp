@@ -189,7 +189,7 @@ private TextInputLayout erroremail,errorpassword;
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this,Signupactivity.class));
-                finish();
+
             }
         });
 
@@ -208,6 +208,7 @@ private TextInputLayout erroremail,errorpassword;
                     pd.dismiss();
                     Toast.makeText(LoginActivity.this, " You are Logged in Succesfully", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
 
                 } else {
                     pd.dismiss();
