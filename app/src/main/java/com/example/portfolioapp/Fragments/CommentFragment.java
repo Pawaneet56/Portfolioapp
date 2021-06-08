@@ -214,6 +214,15 @@ public class CommentFragment extends Fragment {
                                 comment_list.add(obj);
                             }
 
+                            if(comment_list.isEmpty())
+                            {
+                                no_comment.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_comment.setVisibility(View.GONE);
+                            }
+
                             comment_rec.setAdapter(cadaptor);
                             cadaptor.notifyDataSetChanged();
                         }

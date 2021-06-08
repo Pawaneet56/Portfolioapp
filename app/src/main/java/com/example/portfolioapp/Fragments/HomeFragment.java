@@ -166,6 +166,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
         filterrecycler.setAdapter(filterAdaptor);
         filterAdaptor.notifyDataSetChanged();
 
+        if(datalist.isEmpty())
+        {
+            no_post.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            no_post.setVisibility(View.GONE);
+        }
+
 
 
         return v;

@@ -97,14 +97,20 @@ public class NotificationsFragment extends Fragment {
                                 notify.add(obj);
                             }
 
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
+
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
                         }
-                        else
-                        {
-                           // assert error != null;
-                           // Toast.makeText(mcontext,error.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 });
 
@@ -116,8 +122,13 @@ public class NotificationsFragment extends Fragment {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+
+                        if(error!=null)
+                            return;
+
                         if(value!=null)
                         {
+
                             List<DocumentSnapshot> list = value.getDocuments();
                             for(DocumentSnapshot d:list)
                             {
@@ -125,13 +136,20 @@ public class NotificationsFragment extends Fragment {
                                 notify.add(obj);
                             }
 
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
+
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
                         }
-                        else
-                        {
-                            //Toast.makeText(mcontext,error.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 });
 
@@ -142,8 +160,13 @@ public class NotificationsFragment extends Fragment {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                       if(error!=null)
+                           return;
+
+
                         if(value!=null)
                         {
+
                             List<DocumentSnapshot> list = value.getDocuments();
                             for(DocumentSnapshot d:list)
                             {
@@ -151,13 +174,20 @@ public class NotificationsFragment extends Fragment {
                                 notify.add(obj);
                             }
 
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
+
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
                         }
-                        else
-                        {
-                            //Toast.makeText(mcontext,error.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 });
 
@@ -172,6 +202,7 @@ public class NotificationsFragment extends Fragment {
                             return;
                         if(value!=null)
                         {
+
                             List<DocumentSnapshot> list = value.getDocuments();
 
                             for(DocumentSnapshot d:list)
@@ -179,6 +210,16 @@ public class NotificationsFragment extends Fragment {
                                 Notifications obj = d.toObject(Notifications.class);
                                 notify.add(obj);
                             }
+
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
 
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
@@ -206,6 +247,16 @@ public class NotificationsFragment extends Fragment {
                                 Notifications obj = d.toObject(Notifications.class);
                                 notify.add(obj);
                             }
+
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
 
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
