@@ -132,6 +132,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                    }
                    recyclerView.setAdapter(fadaptor);
                    fadaptor.notifyDataSetChanged();
+                   if(datalist.isEmpty())
+                   {
+                       no_post.setVisibility(View.VISIBLE);
+                   }
+                   else
+                   {
+                       no_post.setVisibility(View.GONE);
+                   }
+
                }
            });
         }
@@ -157,15 +166,6 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
         filterrecycler.setAdapter(filterAdaptor);
         filterAdaptor.notifyDataSetChanged();
 
-
-        if(datalist.isEmpty())
-        {
-            no_post.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            no_post.setVisibility(View.GONE);
-        }
 
 
         return v;
@@ -193,6 +193,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                             }
                             recyclerView.setAdapter(fadaptor);
                             fadaptor.notifyDataSetChanged();
+                            if(datalist.isEmpty())
+                            {
+                                no_post.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_post.setVisibility(View.GONE);
+                            }
+
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -214,6 +223,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                                 }
                                 recyclerView.setAdapter(fadaptor);
                                 fadaptor.notifyDataSetChanged();
+                                if(datalist.isEmpty())
+                                {
+                                    no_post.setVisibility(View.VISIBLE);
+                                }
+                                else
+                                {
+                                    no_post.setVisibility(View.GONE);
+                                }
+
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -235,6 +253,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                                 }
                                 recyclerView.setAdapter(fadaptor);
                                 fadaptor.notifyDataSetChanged();
+                                if(datalist.isEmpty())
+                                {
+                                    no_post.setVisibility(View.VISIBLE);
+                                }
+                                else
+                                {
+                                    no_post.setVisibility(View.GONE);
+                                }
+
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -256,6 +283,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                                 }
                                 recyclerView.setAdapter(fadaptor);
                                 fadaptor.notifyDataSetChanged();
+                                if(datalist.isEmpty())
+                                {
+                                    no_post.setVisibility(View.VISIBLE);
+                                }
+                                else
+                                {
+                                    no_post.setVisibility(View.GONE);
+                                }
+
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -277,6 +313,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                                 }
                                 recyclerView.setAdapter(fadaptor);
                                 fadaptor.notifyDataSetChanged();
+                                if(datalist.isEmpty())
+                                {
+                                    no_post.setVisibility(View.VISIBLE);
+                                }
+                                else
+                                {
+                                    no_post.setVisibility(View.GONE);
+                                }
+
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -298,6 +343,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                                 }
                                 recyclerView.setAdapter(fadaptor);
                                 fadaptor.notifyDataSetChanged();
+                                if(datalist.isEmpty())
+                                {
+                                    no_post.setVisibility(View.VISIBLE);
+                                }
+                                else
+                                {
+                                    no_post.setVisibility(View.GONE);
+                                }
+
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -319,6 +373,14 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                                 }
                                 recyclerView.setAdapter(fadaptor);
                                 fadaptor.notifyDataSetChanged();
+                                if(datalist.isEmpty())
+                                {
+                                    no_post.setVisibility(View.VISIBLE);
+                                }
+                                else
+                                {
+                                    no_post.setVisibility(View.GONE);
+                                }
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -337,7 +399,9 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
             }
         });
 
-}
+
+
+    }
     private void fetchdata() {
 
         if (bundle != null) {
@@ -359,6 +423,14 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                     }
                     recyclerView.setAdapter(fadaptor);
                     fadaptor.notifyDataSetChanged();
+                    if(datalist.isEmpty())
+                    {
+                        no_post.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        no_post.setVisibility(View.GONE);
+                    }
 
                 }
             });
@@ -376,6 +448,15 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
                     }
                     recyclerView.setAdapter(fadaptor);
                     fadaptor.notifyDataSetChanged();
+                    if(datalist.isEmpty())
+                    {
+                        no_post.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        no_post.setVisibility(View.GONE);
+                    }
+
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -400,6 +481,7 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
         });*/
 
         }
+
 
 
     }
@@ -438,6 +520,15 @@ getActivity().getMenuInflater().inflate(R.menu.main_menu,menu);
                             }
                             recyclerView.setAdapter(fadaptor);
                             fadaptor.notifyDataSetChanged();
+                            if(datalist.isEmpty())
+                            {
+                                no_post.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_post.setVisibility(View.GONE);
+                            }
+
                         }
                     });
 
@@ -456,6 +547,15 @@ getActivity().getMenuInflater().inflate(R.menu.main_menu,menu);
                             }
                             recyclerView.setAdapter(fadaptor);
                             fadaptor.notifyDataSetChanged();
+                            if(datalist.isEmpty())
+                            {
+                                no_post.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_post.setVisibility(View.GONE);
+                            }
+
                         }
                     });
             }            return false;
