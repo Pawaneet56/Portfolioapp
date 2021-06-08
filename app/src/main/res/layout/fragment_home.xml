@@ -13,13 +13,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/l1">
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/filterrecycler"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:layout_margin="0dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/filterrecycler"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:layout_margin="0dp"/>
 
         </LinearLayout>
 
@@ -29,8 +29,19 @@
             android:id="@+id/recview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/l1"
-            tools:listitem="@layout/list_item"/>
+            android:layout_below="@id/l1"/>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No Post"
+            android:textSize="45sp"
+            android:gravity="center"
+            android:textColor="#D3D3D3"
+            android:id="@+id/no_post"
+            android:visibility="gone"/>
 
 
 

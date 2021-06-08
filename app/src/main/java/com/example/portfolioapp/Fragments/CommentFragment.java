@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.portfolioapp.Adaptors.CommentAdaptor;
@@ -52,6 +53,8 @@ public class CommentFragment extends Fragment {
     FirebaseUser fuser;
     String userimage="noImage",username="noName";
     String puid;
+    TextView no_comment;
+
 
     RecyclerView comment_rec;
     CommentAdaptor cadaptor;
@@ -76,6 +79,7 @@ public class CommentFragment extends Fragment {
         fauth = FirebaseAuth.getInstance();
         fuser = fauth.getCurrentUser();
         comment_rec = v.findViewById(R.id.comment_rec);
+        no_comment = v.findViewById(R.id.no_comment);
         comment_list = new ArrayList<>();
         commenteruid = fuser.getUid();
 
@@ -101,7 +105,14 @@ public class CommentFragment extends Fragment {
         });
         loadcomment();
 
-
+        if(comment_list.isEmpty())
+        {
+            no_comment.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            no_comment.setVisibility(View.GONE);
+        }
 
         return v;
     }

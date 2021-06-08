@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.portfolioapp.Adaptors.NotificationAdaptor;
@@ -40,6 +41,7 @@ public class NotificationsFragment extends Fragment {
     private ArrayList<Notifications> notify;
     private Context mcontext;
     private NotificationAdaptor nadaptor;
+    private TextView no_notification;
 
 
     public NotificationsFragment()
@@ -61,6 +63,8 @@ public class NotificationsFragment extends Fragment {
         getActivity().setTitle("Notifications");
 
         notify_rec = v.findViewById(R.id.notification_recycler);
+        no_notification = v.findViewById(R.id.no_notification);
+
         fauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         notify = new ArrayList<>();
@@ -209,6 +213,15 @@ public class NotificationsFragment extends Fragment {
                     }
                 });
 
+
+        if(notify.isEmpty())
+        {
+            no_notification.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            no_notification.setVisibility(View.GONE);
+        }
 
 
 

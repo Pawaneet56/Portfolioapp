@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,7 +65,8 @@ public class HomeFragment extends Fragment {
     private FilterAdaptor filterAdaptor;
     private String apply="false";
     private ArrayList<Posts> searchList=new ArrayList<>();
-    private ArrayList  domains1;
+    private ArrayList<String>  domains1;
+    private TextView no_post;
     Bundle bundle;
 
     String token;
@@ -85,6 +87,7 @@ public class HomeFragment extends Fragment {
         fstore = FirebaseFirestore.getInstance();
         recyclerView = v.findViewById(R.id.recview);
         filterrecycler = v.findViewById(R.id.filterrecycler);
+        no_post = v.findViewById(R.id.no_post);
         fauth = FirebaseAuth.getInstance();
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
@@ -155,40 +158,20 @@ fstore.collection("Posts").orderBy("pTime").get().addOnSuccessListener(new OnSuc
         filterAdaptor.notifyDataSetChanged();
 
 
+        if(datalist.isEmpty())
+        {
+            no_post.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            no_post.setVisibility(View.GONE);
+        }
+
+
         return v;
     }
 
 
-    @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-        FirebaseInstallations.getInstance().getToken(true).addOnSuccessListener(new OnSuccessListener<InstallationTokenResult>() {
-            @Override
-            public void onSuccess(InstallationTokenResult installationTokenResult) {
-                token  = installationTokenResult.getToken();
-                Savetoken(token);
-            }
-        });
-    }
-
-    private void Savetoken(String token) {
-
-
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("Token",token);
-
-        fstore.collection("Tokens").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(map)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                    }
-                });
-
-
-    }
 
     private void fetchdata2(){
         fstore.collection("filter").document(fauth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
