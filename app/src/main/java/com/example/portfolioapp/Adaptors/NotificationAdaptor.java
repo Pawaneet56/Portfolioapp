@@ -96,13 +96,26 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                             holder.sname.setText(name);
                             holder.snotification.setText(notifications.get(position).getNotification());
 
-                            try{
+                            if(!image.equals("noImage"))
 
-                                Picasso.get().load(image).into(holder.simage);
+                            {
 
-                            } catch (Exception e) {
-                                Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8")
-                                        .into(holder.simage);
+                                try{
+
+                                    Picasso.get().load(image).into(holder.simage);
+
+                                } catch (Exception e) {
+                                }
+                            }
+                            else
+                            {
+
+                                try{
+
+                                    Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/portfolio-app-6f30e.appspot.com/o/Users%2Favatar.jpg?alt=media&token=f342a8f2-bae3-4e23-a87e-401d533bcee8").into(holder.simage);
+
+                                } catch (Exception e) {
+                                }
                             }
 
 
