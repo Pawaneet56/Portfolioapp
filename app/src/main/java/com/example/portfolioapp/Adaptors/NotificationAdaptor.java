@@ -150,15 +150,22 @@ public class NotificationAdaptor extends RecyclerView.Adapter<NotificationAdapto
                                 long plikes = (long) documentSnapshot.get("pLike");
 
                                 bundle.putLong("tot_likes",plikes);
+
+                                PostDetailFragment f = new PostDetailFragment();
+                                f.setArguments(bundle);
+                                FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment,f);
+                                fragmentTransaction.addToBackStack(null).commit();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull @NotNull Exception e) {
+                                Toast.makeText(context, "Post Dosent exist anymore", Toast.LENGTH_SHORT).show();
                             }
                         });
 
-                PostDetailFragment f = new PostDetailFragment();
-                f.setArguments(bundle);
-                FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment,f);
-                fragmentTransaction.addToBackStack(null).commit();
 
             }
         });

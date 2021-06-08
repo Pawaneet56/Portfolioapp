@@ -219,6 +219,7 @@ public class PostAdaptor extends RecyclerView.Adapter<PostAdaptor.myViewHolder> 
                 Bundle bundle = new Bundle();
                 bundle.putString("pid",pid);
                 bundle.putString("useruid",uid);
+                bundle.putString("puid",myuid);
                 CommentFragment fragment  = new CommentFragment();
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = ((MainActivity)mcontext).getSupportFragmentManager();

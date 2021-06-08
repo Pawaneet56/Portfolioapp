@@ -37,7 +37,7 @@
             android:fontFamily="@font/dakota_artha"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Connectify"
+            android:text="Connectly"
             android:textColor="@color/blue2"
             android:textSize="65sp" />
 

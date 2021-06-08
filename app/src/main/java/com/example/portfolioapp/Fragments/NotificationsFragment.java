@@ -81,43 +81,32 @@ public class NotificationsFragment extends Fragment {
         fstore.collection("Notifications")
                 .whereEqualTo("type","like").whereEqualTo("puid",current_user)
                 .orderBy("timestamp")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-
-                        if(error!=null)
-                            return;
-
-                        if(!value.isEmpty())
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(!queryDocumentSnapshots.isEmpty())
                         {
-                            List<DocumentSnapshot> list = value.getDocuments();
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                             for(DocumentSnapshot d:list)
                             {
                                 Notifications obj = d.toObject(Notifications.class);
                                 notify.add(obj);
                             }
 
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
-
-
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
 
+
+                        }
+
+                        if(notify.isEmpty())
+                        {
+                            no_notification.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            no_notification.setVisibility(View.GONE);
                         }
 
                     }
@@ -128,44 +117,32 @@ public class NotificationsFragment extends Fragment {
         fstore.collection("Notifications")
                 .whereEqualTo("type","post")
                 .whereNotEqualTo("puid",current_user)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-
-                        if(error!=null)
-                            return;
-
-                        if(value!=null)
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(!queryDocumentSnapshots.isEmpty())
                         {
-
-                            List<DocumentSnapshot> list = value.getDocuments();
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                             for(DocumentSnapshot d:list)
                             {
                                 Notifications obj = d.toObject(Notifications.class);
                                 notify.add(obj);
                             }
 
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
-
-
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
 
+
+                        }
+
+                        if(notify.isEmpty())
+                        {
+                            no_notification.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            no_notification.setVisibility(View.GONE);
                         }
 
                     }
@@ -175,44 +152,32 @@ public class NotificationsFragment extends Fragment {
         fstore.collection("Notifications")
                 .whereEqualTo("type","comment")
                 .whereEqualTo("puid",current_user)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-                       if(error!=null)
-                           return;
-
-
-                        if(value!=null)
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(!queryDocumentSnapshots.isEmpty())
                         {
-
-                            List<DocumentSnapshot> list = value.getDocuments();
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                             for(DocumentSnapshot d:list)
                             {
                                 Notifications obj = d.toObject(Notifications.class);
                                 notify.add(obj);
                             }
 
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
-
-
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
 
+
+                        }
+
+                        if(notify.isEmpty())
+                        {
+                            no_notification.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            no_notification.setVisibility(View.GONE);
                         }
 
                     }
@@ -222,92 +187,70 @@ public class NotificationsFragment extends Fragment {
         fstore.collection("Notifications")
                 .whereEqualTo("type","apply")
                 .whereEqualTo("puid",current_user)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-                        if(error!=null)
-                            return;
-                        if(value!=null)
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(!queryDocumentSnapshots.isEmpty())
                         {
-
-                            List<DocumentSnapshot> list = value.getDocuments();
-
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                             for(DocumentSnapshot d:list)
                             {
                                 Notifications obj = d.toObject(Notifications.class);
                                 notify.add(obj);
                             }
 
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
-
-
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
 
                         }
+
+                        if(notify.isEmpty())
+                        {
+                            no_notification.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            no_notification.setVisibility(View.GONE);
+                        }
+
+
                     }
                 });
 
 
         fstore.collection("Notifications").whereEqualTo("type","accept")
                 .whereEqualTo("suid",current_user)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-                        if(error!=null)
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(!queryDocumentSnapshots.isEmpty())
                         {
-                            return;
-                        }
-                        if(value!=null)
-                        {
-                            List<DocumentSnapshot> list = value.getDocuments();
-
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                             for(DocumentSnapshot d:list)
                             {
                                 Notifications obj = d.toObject(Notifications.class);
                                 notify.add(obj);
                             }
 
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
-
-
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
-                            if(notify.isEmpty())
-                            {
-                                no_notification.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                no_notification.setVisibility(View.GONE);
-                            }
 
                         }
+
+                        if(notify.isEmpty())
+                        {
+                            no_notification.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            no_notification.setVisibility(View.GONE);
+                        }
+
+
                     }
                 });
-
 
 
 

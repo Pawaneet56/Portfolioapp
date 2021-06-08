@@ -89,7 +89,7 @@
             <EditText
                 android:id="@+id/fprojectdetail"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="200dp"
                 android:drawableLeft="@drawable/ic_baseline_description_24"
                 android:drawablePadding="7dp"
                 android:fontFamily="@font/montserrat_light"

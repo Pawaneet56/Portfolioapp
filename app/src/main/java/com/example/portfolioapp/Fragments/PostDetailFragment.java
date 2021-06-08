@@ -281,6 +281,13 @@ public class PostDetailFragment extends Fragment {
         }
 
 
+        sharebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mcontext, "Not Available Now", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         return v;
     }

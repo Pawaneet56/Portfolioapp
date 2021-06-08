@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
@@ -47,6 +48,9 @@ public class CommentAdaptor extends RecyclerView.Adapter<CommentAdaptor.myViewHo
         this.comment_list = comment_list;
         fstore = FirebaseFirestore.getInstance();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
     }
 
     @NonNull
@@ -66,6 +70,8 @@ public class CommentAdaptor extends RecyclerView.Adapter<CommentAdaptor.myViewHo
         String pid = comment_list.get(position).getPid();
         String uid  = comment_list.get(position).getUid();
 
+
+
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         cal.setTimeInMillis(Long.parseLong(timestamp));
         String ptime = DateFormat.format("dd/MM/yyyy hh:mm:aa", cal).toString();
@@ -82,7 +88,7 @@ public class CommentAdaptor extends RecyclerView.Adapter<CommentAdaptor.myViewHo
             e.printStackTrace();
         }
 
-        if(fuser.getUid().equals(uid) || fuser.getUid().equals(fuser.getUid()))
+        if(fuser.getUid().equals(uid))
         {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

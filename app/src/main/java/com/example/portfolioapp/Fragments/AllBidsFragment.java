@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +35,7 @@ public class AllBidsFragment extends Fragment {
     private ArrayList<Apply> Applylist;
     private RecyclerView bidsRecycle;
     private ApplyAdaptor mAdapter;
+    TextView no_apply;
 
     String pid,applierid;
 
@@ -59,6 +61,7 @@ public class AllBidsFragment extends Fragment {
         Applylist = new ArrayList<>();
         fstore = FirebaseFirestore.getInstance();
         bidsRecycle = v.findViewById(R.id.bidsRecycle);
+        no_apply = v.findViewById(R.id.no_apply);
 //        fuser = fauth.getCurrentUser();
 //        applierid  = fuser.getUid();
 
@@ -96,8 +99,20 @@ public class AllBidsFragment extends Fragment {
                     Apply obj = d.toObject(Apply.class);
                     Applylist.add(obj);
                 }
+
+
+
                 bidsRecycle.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
+
+                if(Applylist.isEmpty())
+                {
+                    no_apply.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    no_apply.setVisibility(View.GONE);
+                }
             }
         });
 

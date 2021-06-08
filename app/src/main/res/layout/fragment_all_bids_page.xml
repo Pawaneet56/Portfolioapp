@@ -14,8 +14,24 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bidsRecycle"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/no_apply"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/all_bids_list"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center"
+        android:text="No One Apllied yet"
+        android:textColor="#D3D3D3"
+        android:textSize="45sp"
+        />
+
 
 
 
