@@ -28,7 +28,7 @@
         android:text="No Comment"
         android:textColor="#D3D3D3"
         android:textSize="45sp"
-        android:visibility="gone"/>
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

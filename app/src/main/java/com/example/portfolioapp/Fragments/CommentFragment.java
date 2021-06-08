@@ -105,14 +105,6 @@ public class CommentFragment extends Fragment {
         });
         loadcomment();
 
-        if(comment_list.isEmpty())
-        {
-            no_comment.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            no_comment.setVisibility(View.GONE);
-        }
 
         return v;
     }
@@ -225,6 +217,15 @@ public class CommentFragment extends Fragment {
 
                             comment_rec.setAdapter(cadaptor);
                             cadaptor.notifyDataSetChanged();
+                            if(comment_list.isEmpty())
+                            {
+                                no_comment.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_comment.setVisibility(View.GONE);
+                            }
+
                         }
                     }
                 });

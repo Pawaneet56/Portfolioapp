@@ -109,6 +109,15 @@ public class NotificationsFragment extends Fragment {
 
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
                         }
 
                     }
@@ -148,6 +157,15 @@ public class NotificationsFragment extends Fragment {
 
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
                         }
 
                     }
@@ -186,6 +204,15 @@ public class NotificationsFragment extends Fragment {
 
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
                         }
 
                     }
@@ -223,6 +250,14 @@ public class NotificationsFragment extends Fragment {
 
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
 
                         }
                     }
@@ -260,19 +295,20 @@ public class NotificationsFragment extends Fragment {
 
                             notify_rec.setAdapter(nadaptor);
                             nadaptor.notifyDataSetChanged();
+                            if(notify.isEmpty())
+                            {
+                                no_notification.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                no_notification.setVisibility(View.GONE);
+                            }
+
                         }
                     }
                 });
 
 
-        if(notify.isEmpty())
-        {
-            no_notification.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            no_notification.setVisibility(View.GONE);
-        }
 
 
 

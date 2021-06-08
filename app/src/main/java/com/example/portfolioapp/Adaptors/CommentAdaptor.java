@@ -82,7 +82,7 @@ public class CommentAdaptor extends RecyclerView.Adapter<CommentAdaptor.myViewHo
             e.printStackTrace();
         }
 
-        if(fuser.getUid().equals(uid))
+        if(fuser.getUid().equals(uid) || fuser.getUid().equals(fuser.getUid()))
         {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
