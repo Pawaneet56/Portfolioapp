@@ -196,6 +196,10 @@ public class CommentFragment extends Fragment {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+
+                        if(error!=null)
+                            return;
+
                         if(!value.isEmpty())
                         {
                             comment_list.clear();
