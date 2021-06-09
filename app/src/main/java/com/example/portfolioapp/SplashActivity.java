@@ -1,6 +1,7 @@
 package com.example.portfolioapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
 
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         animation=findViewById(R.id.lottie_anim);
         app_name=findViewById(R.id.App_Name);
         //SplashLayout=findViewById(R.id.Splash_layout);
